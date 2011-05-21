@@ -222,5 +222,9 @@ Module Generic
 
     End Function
 
+    Friend Function Hello()
+
+    End Function
+
 
 End Module
