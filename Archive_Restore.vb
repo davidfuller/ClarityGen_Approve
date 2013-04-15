@@ -201,7 +201,23 @@ Public Class Archive_Restore
     End Function
 
 
+    Friend Function Transfer_Files_From_Clarity(sFilenames As File_Details, sLocalFolder As String, ProgressBar1 As ProgressBar) As Boolean
+        Dim objFTP As MuVi2_FTP
+        Dim bConnected As Boolean
+
+        objFTP = New MuVi2_FTP(mm, ProgressBar1)
+        bConnected = objFTP.Connect()
+
+        objFTP.Transfer_File()
+
+        Return True
+
+
+
+    End Function
 End Class
+
+
 Public Class File_Details
 
     Public Filename As String

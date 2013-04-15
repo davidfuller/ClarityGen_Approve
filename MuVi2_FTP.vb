@@ -52,7 +52,65 @@ Public Class MuVi2_FTP
         mm.Add(String.Format("Connected to server at: {0}", e.ServerAddress))
 
     End Sub
+    Public Function Download_File(ByVal sSource As String, ByVal sWorking_Directory As String, ByVal sDestination As String) As Boolean
 
+
+        If ftp.IsConnected And Not (ftp.IsTransferring) Then
+            If ftp.ServerDirectory <> sWorking_Directory Then
+                If Not ftp.DirectoryExists(sWorking_Directory) Then
+                    mm.Add(String.Format("Could not find Clipostore folder: {0}", sWorking_Directory))
+                    Return False
+                End If
+            End If
+            ftp.ChangeWorkingDirectory(sWorking_Directory)
+        End If
+
+        bSuccess = True
+        bExists = False
+        sFiles = ftp.GetFiles()
+        For Each sFile In sFiles
+            If sFile.Equals(sDestination, StringComparison.CurrentCultureIgnoreCase) Then
+                bExists = True
+                Exit For
+            End If
+        Next
+
+        If bExists Then
+            Select Case UCase(objSettings.Overwrite_Mode(sSettings_File_Name))
+                Case "OVERWRITE"
+                    ftp.UploadFile(sSource, sDestination)
+
+                Case "SKIP"
+                    mm.Add(String.Format("{0} exists in the clipstore. It has not been re-transferred", sDestination))
+                    bSuccess = False
+                Case "ASK"
+                    Response = MessageBox.Show(String.Format("{0} exists in the clipstore. Do you wish to overwrite?", sDestination), "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+                    If Response = DialogResult.Yes Then
+                        ftp.UploadFile(sSource, sDestination)
+                    Else
+                        mm.Add(String.Format("{0} exists in the clipstore. It has not been re-transferred", sDestination))
+                        bSuccess = False
+                    End If
+                Case Else
+                    mm.Add(String.Format("{0} exists in the clipstore. It has not been re-transferred", sDestination))
+                    bSuccess = False
+            End Select
+        Else
+            ftp.UploadFile(sSource, sDestination)
+        End If
+        Return bSuccess
+        Else
+        Return False
+        End If
+
+    End Function
+
+
+
+        ftp.DownloadFile(
+
+
+    End Function
     Public Overloads Function Transfer_File(ByVal sSource As String, ByVal sWorking_Directory As String, ByVal sDestination As String) As Boolean
 
         Dim Response As DialogResult
@@ -128,7 +186,7 @@ Public Class MuVi2_FTP
 
     End Sub
 
-    
+
     Public Sub Disconnect()
 
         If ftp.IsConnected Then
