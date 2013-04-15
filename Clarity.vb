@@ -645,6 +645,20 @@ Public Class Clarity
 
     End Function
 
+    Friend Function Complete_Connect() As Boolean
+
+        If Connect(True) Then
+            If Connect_Feedback(True) Then
+                Return Send_Heartbeat(objSettings.Unpackage_Job_Load_Timeout(sSettings_File_Name))
+            Else
+                Return False
+            End If
+        Else
+            Return False
+        End If
+
+    End Function
+
     Friend Function Messages() As String()
 
         Dim sTemp() As String
@@ -664,6 +678,7 @@ Public Class Clarity
             mml.Add(sMessage)
         End If
     End Sub
+
 End Class
 Public Class Clarity_Event_Vars
     Public sPre_Message As String

@@ -37,7 +37,31 @@ Public Class Archive_Restore
         Return sFilenames
 
     End Function
+    Friend Function Clarity_Transfer_Filenames(dgv As DataGridView, bHD As Boolean) As File_Details()
 
+        Dim dr As DataGridViewRow
+
+        Dim sFilenames() As File_Details
+        Dim iNum As Integer
+
+        iNum = 0
+
+        ReDim Preserve sFilenames(0)
+
+        For Each dr In dgv.Rows
+            If (dr.Cells("Clarity").Value = True) Then
+                ReDim Preserve sFilenames(iNum)
+                sFilenames(iNum) = New File_Details
+                sFilenames(iNum).Filename = Get_Filename(dr, bHD)
+                sFilenames(iNum).ID = dr.Cells("ID").Value
+                sFilenames(iNum).Success = False
+                iNum += 1
+            End If
+        Next
+
+        Return sFilenames
+
+    End Function
     Friend Function Archive_Restore_Files(ByRef sFilenames() As File_Details, ByVal bArchive As Boolean, ByVal bHD As Boolean) As Boolean
 
 
@@ -129,6 +153,52 @@ Public Class Archive_Restore
         End Set
     End Property
 
+    Friend Function Transfer_Files_To_Clarity(ByRef sFilenames() As File_Details, ProgressBar1 As ProgressBar) As Boolean
+
+        Dim sFTP_Folder As String
+        Dim i As Integer
+        Dim sSource As String
+        Dim sDestination As String
+        Dim objFTP As MuVi2_FTP
+        Dim bConnected As Boolean
+
+        objFTP = New MuVi2_FTP(mm, ProgressBar1)
+        bConnected = objFTP.Connect()
+
+        bTotally_Successful = True
+
+        If bConnected Then
+            For i = 0 To sFilenames.GetUpperBound(0)
+                If Not sFilenames(i) Is Nothing Then
+                    If File_Type(sFilenames(i).Filename) = Media_Type.Clip Then
+                        sSource = String.Concat(objSettings.Emulated_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sFilenames(i).Filename))
+                        sDestination = Path.GetFileName(sSource)
+                        sFTP_Folder = Clipstore_Folder_From_PC_Filename(sSource)
+                        Try
+                            sFilenames(i).Success = objFTP.Transfer_File(sSource, sFTP_Folder, sDestination)
+                        Catch ex As Exception
+                            bTotally_Successful = False
+                            mm.Add(ex.Message)
+                        End Try
+                    Else
+                        mm.Add(String.Concat("Unable to transfer stills: ", sFilenames(i)))
+                        bTotally_Successful = False
+                    End If
+                Else
+                    bTotally_Successful = False
+                End If
+            Next
+
+            objFTP.Disconnect()
+            ProgressBar1.Value = ProgressBar1.Minimum
+
+            Return True
+        Else
+            Return False
+        End If
+
+
+    End Function
 
 
 End Class
