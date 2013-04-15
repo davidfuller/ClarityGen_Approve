@@ -201,17 +201,47 @@ Public Class Archive_Restore
     End Function
 
 
-    Friend Function Transfer_Files_From_Clarity(sFilenames As File_Details, sLocalFolder As String, ProgressBar1 As ProgressBar) As Boolean
+    Friend Function Transfer_Files_From_Clarity(sFilenames() As File_Details, sLocalFolder As String, ProgressBar1 As ProgressBar) As Boolean
         Dim objFTP As MuVi2_FTP
         Dim bConnected As Boolean
+        Dim sSource As String
+        Dim sDestination As String
+        Dim sFTP_Folder As String
 
         objFTP = New MuVi2_FTP(mm, ProgressBar1)
         bConnected = objFTP.Connect()
 
-        objFTP.Transfer_File()
+        bTotally_Successful = True
 
-        Return True
+        If bConnected Then
+            For i = 0 To sFilenames.GetUpperBound(0)
+                If Not sFilenames(i) Is Nothing Then
+                    If File_Type(sFilenames(i).Filename) = Media_Type.Clip Then
+                        sDestination = String.Concat(sLocalFolder, Clip_Base_Filename(sFilenames(i).Filename))
+                        sSource = Path.GetFileName(sDestination)
+                        sFTP_Folder = Clipstore_Folder_From_PC_Filename(sDestination)
+                        Try
+                            sFilenames(i).Success = objFTP.Download_File(sSource, sFTP_Folder, sDestination)
+                        Catch ex As Exception
+                            bTotally_Successful = False
+                            mm.Add(ex.Message)
+                        End Try
+                    Else
+                        mm.Add(String.Concat("Unable to package stills: ", sFilenames(i)))
+                        bTotally_Successful = False
+                    End If
+                Else
+                    bTotally_Successful = False
+                End If
+            Next
 
+            objFTP.Disconnect()
+            ProgressBar1.Value = ProgressBar1.Minimum
+
+            Return True
+        Else
+            Return False
+        End If
 
 
     End Function
