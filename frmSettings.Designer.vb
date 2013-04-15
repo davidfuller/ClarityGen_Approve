@@ -71,6 +71,9 @@ Partial Class frmSettings
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.cmdBrowse_Spreadsheet = New System.Windows.Forms.Button()
+        Me.txtSpreadsheet_Folder = New System.Windows.Forms.TextBox()
+        Me.Label39 = New System.Windows.Forms.Label()
         Me.cmdBrowse_SD_Archive = New System.Windows.Forms.Button()
         Me.txtSD_Archived_Clips = New System.Windows.Forms.TextBox()
         Me.Label38 = New System.Windows.Forms.Label()
@@ -144,9 +147,7 @@ Partial Class frmSettings
         Me.cmdSave_Profile = New System.Windows.Forms.Button()
         Me.cmdLoad_Profile = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.cmdBrowse_Spreadsheet = New System.Windows.Forms.Button()
-        Me.txtSpreadsheet_Folder = New System.Windows.Forms.TextBox()
-        Me.Label39 = New System.Windows.Forms.Label()
+        Me.chkShow_Clarity_Transfer = New System.Windows.Forms.CheckBox()
         Me.tabSettings.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.udStill_Field_Number, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -671,6 +672,32 @@ Partial Class frmSettings
         Me.TabPage6.Text = "Archiving"
         Me.TabPage6.UseVisualStyleBackColor = True
         '
+        'cmdBrowse_Spreadsheet
+        '
+        Me.cmdBrowse_Spreadsheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdBrowse_Spreadsheet.Location = New System.Drawing.Point(518, 64)
+        Me.cmdBrowse_Spreadsheet.Name = "cmdBrowse_Spreadsheet"
+        Me.cmdBrowse_Spreadsheet.Size = New System.Drawing.Size(75, 23)
+        Me.cmdBrowse_Spreadsheet.TabIndex = 13
+        Me.cmdBrowse_Spreadsheet.Text = "Browse..."
+        Me.cmdBrowse_Spreadsheet.UseVisualStyleBackColor = True
+        '
+        'txtSpreadsheet_Folder
+        '
+        Me.txtSpreadsheet_Folder.Location = New System.Drawing.Point(122, 66)
+        Me.txtSpreadsheet_Folder.Name = "txtSpreadsheet_Folder"
+        Me.txtSpreadsheet_Folder.Size = New System.Drawing.Size(390, 20)
+        Me.txtSpreadsheet_Folder.TabIndex = 12
+        '
+        'Label39
+        '
+        Me.Label39.AutoSize = True
+        Me.Label39.Location = New System.Drawing.Point(4, 69)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(92, 13)
+        Me.Label39.TabIndex = 11
+        Me.Label39.Text = "Spreadsheet Path"
+        '
         'cmdBrowse_SD_Archive
         '
         Me.cmdBrowse_SD_Archive.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -725,6 +752,7 @@ Partial Class frmSettings
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.chkShow_Clarity_Transfer)
         Me.TabPage2.Controls.Add(Me.chkGenerate_Receipt)
         Me.TabPage2.Controls.Add(Me.chkDelete_Temporary)
         Me.TabPage2.Controls.Add(Me.cmdReceipt_Path)
@@ -1379,31 +1407,17 @@ Partial Class frmSettings
         Me.cmdLoad_Profile.Text = "Load Profile"
         Me.cmdLoad_Profile.UseVisualStyleBackColor = True
         '
-        'cmdBrowse_Spreadsheet
+        'chkShow_Clarity_Transfer
         '
-        Me.cmdBrowse_Spreadsheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdBrowse_Spreadsheet.Location = New System.Drawing.Point(518, 64)
-        Me.cmdBrowse_Spreadsheet.Name = "cmdBrowse_Spreadsheet"
-        Me.cmdBrowse_Spreadsheet.Size = New System.Drawing.Size(75, 23)
-        Me.cmdBrowse_Spreadsheet.TabIndex = 13
-        Me.cmdBrowse_Spreadsheet.Text = "Browse..."
-        Me.cmdBrowse_Spreadsheet.UseVisualStyleBackColor = True
-        '
-        'txtSpreadsheet_Folder
-        '
-        Me.txtSpreadsheet_Folder.Location = New System.Drawing.Point(122, 66)
-        Me.txtSpreadsheet_Folder.Name = "txtSpreadsheet_Folder"
-        Me.txtSpreadsheet_Folder.Size = New System.Drawing.Size(390, 20)
-        Me.txtSpreadsheet_Folder.TabIndex = 12
-        '
-        'Label39
-        '
-        Me.Label39.AutoSize = True
-        Me.Label39.Location = New System.Drawing.Point(4, 69)
-        Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(92, 13)
-        Me.Label39.TabIndex = 11
-        Me.Label39.Text = "Spreadsheet Path"
+        Me.chkShow_Clarity_Transfer.AutoSize = True
+        Me.chkShow_Clarity_Transfer.Checked = True
+        Me.chkShow_Clarity_Transfer.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkShow_Clarity_Transfer.Location = New System.Drawing.Point(9, 266)
+        Me.chkShow_Clarity_Transfer.Name = "chkShow_Clarity_Transfer"
+        Me.chkShow_Clarity_Transfer.Size = New System.Drawing.Size(138, 17)
+        Me.chkShow_Clarity_Transfer.TabIndex = 12
+        Me.chkShow_Clarity_Transfer.Text = "Show Transfer to Clarity"
+        Me.chkShow_Clarity_Transfer.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
@@ -1567,5 +1581,6 @@ Partial Class frmSettings
     Friend WithEvents cmdBrowse_Spreadsheet As System.Windows.Forms.Button
     Friend WithEvents txtSpreadsheet_Folder As System.Windows.Forms.TextBox
     Friend WithEvents Label39 As System.Windows.Forms.Label
+    Friend WithEvents chkShow_Clarity_Transfer As System.Windows.Forms.CheckBox
 
 End Class

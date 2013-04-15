@@ -125,7 +125,26 @@ Module Generic
         Return sName.Substring(iFirstSlash)
 
     End Function
+    Public Function Clipstore_Folder_From_PC_Filename(sFilename As String) As String
 
+        'If C:\Clarity Clips\Auto\Five USA\Generic_HD\0904_US_01_PURPLE_CAR.ppv
+        'Returns /CLIPSTORE/Auto/Five USA/Generic_HD/
+
+        Dim iLast_Slash As Int32
+        Dim sTemp As String
+        Dim objSettings As Settings_MuVi2
+
+        objSettings = New Settings_MuVi2
+        sTemp = sFilename.Replace(objSettings.Emulated_Clips_Folder(sSettings_File_Name), "")
+        iLast_Slash = sTemp.LastIndexOf("\")
+        If iLast_Slash > -1 Then
+            sTemp = sTemp.Substring(0, iLast_Slash)
+            Return Fix_Folder_End(String.Concat("/", Un_Fix_Folder_End(objSettings.Clipstore_Name(sSettings_File_Name), Media_Type.Clip), sTemp.Replace("\", "/")), Media_Type.Clip)
+        Else
+            Return ""
+        End If
+
+    End Function
     Public Function Clip_Base_Filename(ByVal sFilename As String) As String
 
         'If VID:Clip/Auto/Five USA/Generic_HD/0904_US_01_PURPLE_CAR.ppv

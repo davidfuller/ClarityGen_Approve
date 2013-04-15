@@ -12,7 +12,7 @@
   <xs:element name="TheSettings" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="TheSettings" msprop:Generator_UserDSName="TheSettings">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Settings" msprop:Generator_TableClassName="SettingsDataTable" msprop:Generator_TableVarName="tableSettings" msprop:Generator_TablePropName="Settings" msprop:Generator_RowDeletingName="SettingsRowDeleting" msprop:Generator_UserTableName="Settings" msprop:Generator_RowChangingName="SettingsRowChanging" msprop:Generator_RowEvHandlerName="SettingsRowChangeEventHandler" msprop:Generator_RowDeletedName="SettingsRowDeleted" msprop:Generator_RowEvArgName="SettingsRowChangeEvent" msprop:Generator_RowChangedName="SettingsRowChanged" msprop:Generator_RowClassName="SettingsRow">
+        <xs:element name="Settings" msprop:Generator_TableClassName="SettingsDataTable" msprop:Generator_TableVarName="tableSettings" msprop:Generator_RowChangedName="SettingsRowChanged" msprop:Generator_TablePropName="Settings" msprop:Generator_RowDeletingName="SettingsRowDeleting" msprop:Generator_RowChangingName="SettingsRowChanging" msprop:Generator_RowEvHandlerName="SettingsRowChangeEventHandler" msprop:Generator_RowDeletedName="SettingsRowDeleted" msprop:Generator_RowClassName="SettingsRow" msprop:Generator_UserTableName="Settings" msprop:Generator_RowEvArgName="SettingsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Host_x0020_Name" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Host_Name" msprop:Generator_ColumnVarNameInTable="columnHost_Name" msprop:Generator_ColumnPropNameInTable="Host_NameColumn" msprop:Generator_UserColumnName="Host Name" type="xs:string" default="localhost" minOccurs="0" />
@@ -67,6 +67,7 @@
               <xs:element name="Archive_HD" msprop:Generator_ColumnVarNameInTable="columnArchive_HD" msprop:Generator_ColumnPropNameInRow="Archive_HD" msprop:Generator_ColumnPropNameInTable="Archive_HDColumn" msprop:Generator_UserColumnName="Archive_HD" type="xs:string" minOccurs="0" />
               <xs:element name="Archive_SD" msprop:Generator_ColumnVarNameInTable="columnArchive_SD" msprop:Generator_ColumnPropNameInRow="Archive_SD" msprop:Generator_ColumnPropNameInTable="Archive_SDColumn" msprop:Generator_UserColumnName="Archive_SD" type="xs:string" minOccurs="0" />
               <xs:element name="Delete_Spreadsheet_Folder" msprop:Generator_ColumnVarNameInTable="columnDelete_Spreadsheet_Folder" msprop:Generator_ColumnPropNameInRow="Delete_Spreadsheet_Folder" msprop:Generator_ColumnPropNameInTable="Delete_Spreadsheet_FolderColumn" msprop:Generator_UserColumnName="Delete_Spreadsheet_Folder" type="xs:string" minOccurs="0" />
+              <xs:element name="Show_Clarity_Transfer" msprop:Generator_ColumnVarNameInTable="columnShow_Clarity_Transfer" msprop:Generator_ColumnPropNameInRow="Show_Clarity_Transfer" msprop:Generator_ColumnPropNameInTable="Show_Clarity_TransferColumn" msprop:Generator_UserColumnName="Show_Clarity_Transfer" type="xs:boolean" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

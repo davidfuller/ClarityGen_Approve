@@ -7,6 +7,7 @@ Public Class Main
     Dim objClarity As Clarity
     Private dt As New mm_phase_5DataSet.Gemini_Media_LocationsDataTable
 
+
     Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
 
         Dim f As New frmSettings
@@ -42,8 +43,6 @@ Public Class Main
 
         objSettings = New Settings_MuVi2
 
-        
-
         bPackaging_Only = objSettings.Start_Unpackaging(sSettings_File_Name)
         If bPackaging_Only Then
             f = New Unpackage
@@ -55,17 +54,22 @@ Public Class Main
 
         sConnection = objSettings.Data_Connection_String(sSettings_File_Name)
         dbConnection = New OleDb.OleDbConnection(sConnection)
-
-        Me.Gemini_Media_LocationsTableAdapter.Connection = dbConnection
-        Me.Gemini_Media_LocationsTableAdapter.Fill(Me.Mm_phase_5DataSet.Gemini_Media_Locations)
-        Me.Gemini_MediaTableAdapter.Connection = dbConnection
-        Me.Gemini_MediaTableAdapter.Fill(Me.Mm_phase_5DataSet.Gemini_Media)
-        Me.Gemini_Media_LocationsTableAdapter.Fill(dt)
-        Me.Clip_HistoryTableAdapter.Connection = dbConnection
-        Me.Clip_HistoryTableAdapter.Fill(Me.Mm_phase_5DataSet.Clip_History)
-
         mm = New mMessage(Me.lstMessage, True)
         mm.Clear()
+        Try
+            Me.Gemini_Media_LocationsTableAdapter.Connection = dbConnection
+            Me.Gemini_Media_LocationsTableAdapter.Fill(Me.Mm_phase_5DataSet.Gemini_Media_Locations)
+            Me.Gemini_MediaTableAdapter.Connection = dbConnection
+            Me.Gemini_MediaTableAdapter.Fill(Me.Mm_phase_5DataSet.Gemini_Media)
+            Me.Gemini_Media_LocationsTableAdapter.Fill(dt)
+            Me.Clip_HistoryTableAdapter.Connection = dbConnection
+            Me.Clip_HistoryTableAdapter.Fill(Me.Mm_phase_5DataSet.Clip_History)
+        Catch ex As Exception
+            mm.Add("Problem connecting to media database")
+            MessageBox.Show("Problem connecting to media database", "Issue")
+        End Try
+
+        
         objClarity = New Clarity(mm)
 
         chkAll.Checked = False
@@ -109,11 +113,19 @@ Public Class Main
         Gemini_MediaDataGridView.Columns("Archived_Date_SD").Visible = Picture_Format.SD And Not bPackaging
         Gemini_MediaDataGridView.Columns("Restore_Date_SD").Visible = Picture_Format.SD And Not bPackaging
 
+        Gemini_MediaDataGridView.Columns("Ignore_HD").Visible = Picture_Format.HD
+        Gemini_MediaDataGridView.Columns("Ignore_SD").Visible = Picture_Format.SD
+
+        Gemini_MediaDataGridView.Columns("Clarity").Visible = bPackaging And objSettings.Show_Clarity_Transfer(sSettings_File_Name)
+
     End Sub
 
     Private Sub Set_Controls(bPackaging As Boolean, bHD As Boolean)
 
         cmdScan.Visible = True
+        cmdSend_Clarity.Visible = bPackaging
+        cmdSend_Clarity.Enabled = objSettings.Show_Clarity_Transfer(sSettings_File_Name)
+
         cmdArchive.Visible = Not bPackaging
         cmdRestore.Visible = Not bPackaging
         cmdPackage.Visible = bPackaging
@@ -222,14 +234,19 @@ Public Class Main
             sCriteria = String.Concat("Delivery_Date >= '", dtDelivery.Value.Date.ToString("dd/MM/yy"), "' AND Title LIKE '%", Escape_Like_Value(sSearch), "%' AND ", sFilter)
         End If
 
-        Me.Gemini_MediaTableAdapter.Fill(Me.Mm_phase_5DataSet.Gemini_Media)
+        Try
+            Me.Gemini_MediaTableAdapter.Fill(Me.Mm_phase_5DataSet.Gemini_Media)
 
-        dv = New DataView(Mm_phase_5DataSet.Tables("Gemini_Media"), sCriteria, "Delivery_Date", DataViewRowState.CurrentRows)
+            dv = New DataView(Mm_phase_5DataSet.Tables("Gemini_Media"), sCriteria, "Delivery_Date", DataViewRowState.CurrentRows)
 
-        Gemini_MediaDataGridView.DataSource = dv
+            Gemini_MediaDataGridView.DataSource = dv
 
-        dg = New Data_Grid_MuVi2(Gemini_MediaDataGridView)
-        dg.Set_Colour(Not (cmbHD.SelectedIndex = 1))
+            dg = New Data_Grid_MuVi2(Gemini_MediaDataGridView)
+            dg.Set_Colour(Not (cmbHD.SelectedIndex = 1))
+        Catch ex As Exception
+            mm.Add("Problem connecting to media database")
+        End Try
+        
 
 
     End Sub
@@ -275,6 +292,29 @@ Public Class Main
     Private Sub dtDelivery_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dtDelivery.ValueChanged
 
         ReQuery()
+
+    End Sub
+
+    Private Sub Gemini_MediaDataGridView_CellClick(sender As Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles Gemini_MediaDataGridView.CellClick
+
+        Dim c As DataGridViewCell
+        Dim iScroll As Int32
+
+        If e.RowIndex > -1 And e.ColumnIndex > -1 Then
+            c = Gemini_MediaDataGridView.Rows(e.RowIndex).Cells(e.ColumnIndex)
+            Select Case c.OwningColumn.Name
+                Case "Ignore_HD", "Ignore_SD"
+                    c.Value = Not c.Value
+                    iScroll = Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex
+                    Save_Data()
+                    ReQuery()
+                    c = Gemini_MediaDataGridView.Rows(e.RowIndex).Cells(e.ColumnIndex)
+                    c.OwningRow.Selected = True
+                    Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex = iScroll
+            End Select
+        End If
+
+
 
     End Sub
 
@@ -759,9 +799,82 @@ Public Class Main
         Return Formats
 
     End Function
+    Private Sub Scan()
 
+        Dim dr As DataGridViewRow
+        Dim lProgress As Long
+        Dim iLocation_ID As Int32
+        Dim sClip As String
+        Dim mmdb As mmdb_Data
+        Dim Folder_Stuff = New Folder_Details
+        Dim sClarity_Filename As String
+        Dim sReal_Filename As String
+        Dim sArchive_Filename As String
+        Dim bHD As Boolean
+        Dim Formats() As Boolean
+        Dim i As Int32
+        Dim iID As Int32
 
-    Private Sub cmdScan_Click(sender As System.Object, e As System.EventArgs) Handles cmdScan.Click
+        Dim dtMedia As mm_phase_5DataSet.Gemini_MediaDataTable
+        Dim drMedia() As mm_phase_5DataSet.Gemini_MediaRow
+
+        dtMedia = New mm_phase_5DataSet.Gemini_MediaDataTable
+        Gemini_MediaTableAdapter.Fill(dtMedia)
+
+        Deselect_All_Rows()
+        lProgress = 0
+        ProgressBar1.Minimum = 0
+        ProgressBar1.Maximum = Gemini_MediaDataGridView.Rows.Count
+        mmdb = New mmdb_Data(dt)
+
+        Formats = Get_Formats()
+
+        For Each dr In Gemini_MediaDataGridView.Rows
+            lProgress += 1
+            ProgressBar1.Value = lProgress
+
+            iLocation_ID = dr.Cells("Location_ID").Value
+            sClip = dr.Cells("Filename").Value
+            iID = dr.Cells("ID").Value
+            drMedia = dtMedia.Select(String.Concat("ID = ", iID.ToString))
+
+            If drMedia.Length > 0 Then
+                For i = 0 To Formats.GetUpperBound(0)
+                    bHD = Formats(i)
+
+                    Folder_Stuff = mmdb.Find(iLocation_ID, bHD)
+                    sClarity_Filename = String.Concat(Folder_Stuff.Clarity_Prefix, Folder_Stuff.Folder_Name, sClip)
+
+                    If File_Type(sClarity_Filename) = Media_Type.Clip Then
+                        sReal_Filename = String.Concat(objSettings.Emulated_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
+                    Else
+                        sReal_Filename = String.Concat(Remove_PIC(sClarity_Filename))
+                    End If
+
+                    If Not File.Exists(sReal_Filename) Then
+                        If bHD And File_Type(sClarity_Filename) = Media_Type.Clip Then
+                            sArchive_Filename = String.Concat(objSettings.HD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
+                            Update_Scan(drMedia(0), False, File.Exists(sArchive_Filename), bHD)
+                        ElseIf Not bHD And File_Type(sClarity_Filename) = Media_Type.Clip Then
+                            sArchive_Filename = String.Concat(objSettings.SD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
+                            Update_Scan(drMedia(0), False, File.Exists(sArchive_Filename), bHD)
+                        Else
+                            Update_Scan(drMedia(0), False, False, bHD)
+                        End If
+                    Else
+                        Update_Scan(drMedia(0), True, False, bHD)
+                    End If
+                Next
+            End If
+        Next
+
+        ProgressBar1.Value = 0
+        Gemini_MediaTableAdapter.Update(dtMedia)
+
+        ReQuery()
+
+    End Sub
+    Private Sub Scan_Old()
 
         Dim dr As DataGridViewRow
         Dim lProgress As Long
@@ -806,15 +919,15 @@ Public Class Main
                 If Not File.Exists(sReal_Filename) Then
                     If bHD And File_Type(sClarity_Filename) = Media_Type.Clip Then
                         sArchive_Filename = String.Concat(objSettings.HD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
-                        Update_Scan(False, File.Exists(sArchive_Filename), bHD, dr)
+                        Update_Scan_Old(False, File.Exists(sArchive_Filename), bHD, dr)
                     ElseIf Not bHD And File_Type(sClarity_Filename) = Media_Type.Clip Then
                         sArchive_Filename = String.Concat(objSettings.SD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
-                        Update_Scan(False, File.Exists(sArchive_Filename), bHD, dr)
+                        Update_Scan_Old(False, File.Exists(sArchive_Filename), bHD, dr)
                     Else
-                        Update_Scan(False, False, bHD, dr)
+                        Update_Scan_Old(False, False, bHD, dr)
                     End If
                 Else
-                    Update_Scan(True, False, bHD, dr)
+                    Update_Scan_Old(True, False, bHD, dr)
                 End If
                 Save_Data()
             Next
@@ -822,10 +935,56 @@ Public Class Main
 
         ProgressBar1.Value = 0
         Save_Data()
+    End Sub
+    Private Sub cmdScan_Click(sender As System.Object, e As System.EventArgs) Handles cmdScan.Click
+
+        Scan()
+
+    End Sub
+    Private Sub Update_Scan(ByRef drMedia As mm_phase_5DataSet.Gemini_MediaRow, bFound As Boolean, bArchived As Boolean, bHD As Boolean)
+
+        Dim bPrevious_Archived As Boolean
+        Dim bPrevious_Missing As Boolean
+        Dim sArchive_Column As String
+        Dim sMissing_Column As String
+
+        If bHD Then
+            sArchive_Column = "Archived"
+            sMissing_Column = "Missing"
+        Else
+            sArchive_Column = "Archived_SD"
+            sMissing_Column = "Missing_SD"
+        End If
+
+        bPrevious_Archived = drMedia(sArchive_Column)
+        bPrevious_Missing = drMedia(sMissing_Column)
+
+        drMedia.BeginEdit()
+        If bFound Then
+            drMedia(sArchive_Column) = False
+            drMedia(sMissing_Column) = False
+            If bPrevious_Archived Or bPrevious_Missing Then
+                Add_To_History(drMedia.ID, "File in current folder")
+            End If
+        ElseIf bArchived Then
+            drMedia(sArchive_Column) = True
+            drMedia(sMissing_Column) = False
+            If Not bPrevious_Archived Then
+                Add_To_History(drMedia.ID, "File moved to archive")
+            End If
+        Else
+            drMedia(sArchive_Column) = False
+            drMedia(sMissing_Column) = True
+            If Not bPrevious_Missing Then
+                Add_To_History(drMedia.ID, "File detected as missing")
+            End If
+        End If
+        drMedia.EndEdit()
+
 
 
     End Sub
-    Private Sub Update_Scan(bFound As Boolean, bArchived As Boolean, bHD As Boolean, dr As DataGridViewRow)
+    Private Sub Update_Scan_Old(bFound As Boolean, bArchived As Boolean, bHD As Boolean, dr As DataGridViewRow)
 
         Dim bPrevious_Archived As Boolean
         Dim bPrevious_Missing As Boolean
@@ -865,7 +1024,6 @@ Public Class Main
 
 
     End Sub
-
 
     Private Sub cmbView_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cmbView.SelectedIndexChanged
 
@@ -1134,7 +1292,7 @@ Public Class Main
 
 
         sFormatted_Date = String.Concat("'", Now.ToString("dd/MM/yy"), "'")
-        sFilter = String.Concat("Packaged = 'True' AND Last_Use >= ", sFormatted_Date, " AND First_Use <= ", sFormatted_Date)
+        sFilter = String.Concat("Ignore_HD = 'False' AND Packaged = 'True' AND Last_Use >= ", sFormatted_Date, " AND First_Use <= ", sFormatted_Date)
         dr = Mm_phase_5DataSet.Tables("Gemini_Media").Select(sFilter)
 
         Excel = New Excel_Save
@@ -1143,33 +1301,34 @@ Public Class Main
             Excel.Create_Available_Sheet(dr, dt, True, "Current Promo Clips HD", True)
 
             dr = Nothing
-            sFilter = String.Concat("Archived = True OR Missing = True")
+            sFilter = String.Concat("Ignore_HD = 'False' AND Archived = True OR Missing = True")
             dr = Mm_phase_5DataSet.Tables("Gemini_Media").Select(sFilter)
             Excel.Create_Archived_Sheet(dr, dt, "Archived Promo Clips HD", True)
 
             dr = Nothing
             sFormatted_Date = String.Concat("'", Now.AddMonths(-1).ToString("dd/MM/yy"), "'")
-            sFilter = String.Concat("Archived = True AND [Archived Date] >= ", sFormatted_Date)
+            sFilter = String.Concat("Ignore_HD = 'False' AND Archived = True AND [Archived Date] >= ", sFormatted_Date)
             'sFilter = String.Concat("Archived = True AND 'Archived Date' is NULL")
             dr = Mm_phase_5DataSet.Tables("Gemini_Media").Select(sFilter)
             Excel.Create_Archived_Sheet(dr, dt, "Archived HD last month", True)
 
             sFormatted_Date = String.Concat("'", Now.ToString("dd/MM/yy"), "'")
-            sFilter = String.Concat("Packaged_SD = 'True' AND Last_Use >= ", sFormatted_Date, " AND First_Use <= ", sFormatted_Date)
+            sFilter = String.Concat("Ignore_SD = 'False' AND Packaged_SD = 'True' AND Last_Use >= ", sFormatted_Date, " AND First_Use <= ", sFormatted_Date)
             dr = Mm_phase_5DataSet.Tables("Gemini_Media").Select(sFilter)
             Excel.Create_Available_Sheet(dr, dt, False, "Current Promo Clips SD", False)
 
 
             dr = Nothing
-            sFilter = String.Concat("Archived_SD = True OR Missing_SD = True")
+            sFilter = String.Concat("Ignore_SD = 'False' AND Archived_SD = True OR Missing_SD = True")
             dr = Mm_phase_5DataSet.Tables("Gemini_Media").Select(sFilter)
             Excel.Create_Archived_Sheet(dr, dt, "Archived Promo Clips SD", False)
 
             dr = Nothing
             sFormatted_Date = String.Concat("'", Now.AddMonths(-1).ToString("dd/MM/yy"), "'")
-            sFilter = String.Concat("Archived_SD = True AND Archived_Date_SD >= ", sFormatted_Date)
+            sFilter = String.Concat("Ignore_SD = 'False' AND Archived_SD = True AND Archived_Date_SD >= ", sFormatted_Date)
             dr = Mm_phase_5DataSet.Tables("Gemini_Media").Select(sFilter)
             Excel.Create_Archived_Sheet(dr, dt, "Archived SD last month", False)
+            Excel.Select_First_Sheet()
             Excel.Save()
             Excel.Close()
         End If
@@ -1189,5 +1348,62 @@ Public Class Main
 
     End Sub
 
-    
+    Private Sub cmdSend_Clarity_Click(sender As System.Object, e As System.EventArgs) Handles cmdSend_Clarity.Click
+
+        Send_To_Clarity()
+
+    End Sub
+
+    Private Sub Send_To_Clarity()
+
+        Dim objArchive As Archive_Restore
+        Dim bHD As Boolean
+        Dim sFilenames() As File_Details
+        Dim sMessage As String
+        Dim Formats() As Boolean
+        Dim i As Long
+
+        mm.Add(String.Format("ClarityGen Send to Clarity. Version: {0}", sVersionString))
+        mm.Add("=====================================")
+
+        Formats = Get_Formats()
+
+        Deselect_All_Rows()
+        objArchive = New Archive_Restore(dt)
+
+        For i = 0 To Formats.GetUpperBound(0)
+            bHD = Formats(i)
+            mm.Add(String.Concat("Starting Clarity Transfer"))
+
+            sFilenames = objArchive.Clarity_Transfer_Filenames(Gemini_MediaDataGridView, bHD)
+
+            If objArchive.Transfer_Files_To_Clarity(sFilenames, ProgressBar1) Then
+                If objArchive.Totally_Successful Then
+                    sMessage = "Clarity transfer complete"
+                Else
+                    sMessage = "Clarity transfer complete with some issues"
+                    MessageBox.Show("There were some issues with the transfer to the Clarity", "Issues", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+                mm.Add(sMessage)
+                Update_Clarity_Transferred_Files(sFilenames)
+            Else
+                mm.Add("Could not connect to the FTP Server/Clipstore on the Clarity.")
+                MessageBox.Show("Could not connect to the FTP Server/Clipstore on the Clarity. Is the Clarity switched on with the Clarity application running?", "There was a problem", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        Next
+
+    End Sub
+
+    Friend Sub Update_Clarity_Transferred_Files(sFilenames() As File_Details)
+
+        Dim i As Int32
+        For i = 0 To sFilenames.GetUpperBound(0)
+            If sFilenames(i).Success Then
+                Add_To_History(sFilenames(i), "Transferred to Clarity")
+            End If
+        Next
+
+        ReQuery()
+
+    End Sub
 End Class

@@ -116,9 +116,9 @@ Public Class Excel_Save
             r(iRow, 5) = dr(i).Last_Use
             r(iRow, 6) = Package_Date(dr(i), True)
             If bHD Then
-                r(iRow, 7) = dr(i).Package_Filename
+                r(iRow, 7) = Path.GetFileName(dr(i).Package_Filename)
             Else
-                r(iRow, 7) = dr(i).Package_Filename_SD
+                r(iRow, 7) = Path.GetFileName(dr(i).Package_Filename_SD)
             End If
         Next
 
@@ -204,7 +204,11 @@ Public Class Excel_Save
             End If
         End If
     End Function
+    Friend Sub Select_First_Sheet()
 
+        wb.Worksheets("Current Promo Clips HD").Select()
+
+    End Sub
     Friend Sub Save()
 
         XL.DisplayAlerts = False

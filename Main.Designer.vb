@@ -23,7 +23,7 @@ Partial Class Main
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -44,22 +44,8 @@ Partial Class Main
         Me.cmdStop = New System.Windows.Forms.Button()
         Me.cmdClear = New System.Windows.Forms.Button()
         Me.Gemini_MediaDataGridView = New System.Windows.Forms.DataGridView()
-        Me.Package = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Packaged = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Package_Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Package_Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Packaged_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Package_Date_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Package_Filename_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Archive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Restore_Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Missing = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Archive_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Archived_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Archived_Date_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Restore_Date_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Missing_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Use_USA_Menu_BG = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Gemini_MediaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Mm_phase_5DataSet = New CGA.mm_phase_5DataSet()
         Me.dtDelivery = New System.Windows.Forms.DateTimePicker()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cmdPackage = New System.Windows.Forms.Button()
@@ -78,6 +64,12 @@ Partial Class Main
         Me.cmdSearch = New System.Windows.Forms.Button()
         Me.cmbHD = New System.Windows.Forms.ComboBox()
         Me.cmbFilter = New System.Windows.Forms.ComboBox()
+        Me.Gemini_MediaTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_MediaTableAdapter()
+        Me.TableAdapterManager = New CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager()
+        Me.Clip_HistoryTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Clip_HistoryTableAdapter()
+        Me.Gemini_Media_LocationsTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_Media_LocationsTableAdapter()
+        Me.Gemini_Media_LocationsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.BindingSource_Clip_History = New System.Windows.Forms.BindingSource(Me.components)
         Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Title = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -99,8 +91,26 @@ Partial Class Main
         Me.DataGridViewTextBoxColumn12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Delivery_Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Ignore_HD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Ignore_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Clarity = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Package = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Packaged = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Package_Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Package_Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Packaged_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Package_Date_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Package_Filename_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Archive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Archived = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Archived_Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Restore_Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Missing = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Archive_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Archived_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Archived_Date_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Restore_Date_SD = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Missing_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -116,19 +126,13 @@ Partial Class Main
         Me.DataGridViewTextBoxColumn27 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewCheckBoxColumn8 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.DataGridViewTextBoxColumn28 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Gemini_MediaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Mm_phase_5DataSet = New CGA.mm_phase_5DataSet()
-        Me.Gemini_MediaTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_MediaTableAdapter()
-        Me.TableAdapterManager = New CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager()
-        Me.Gemini_Media_LocationsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Gemini_Media_LocationsTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_Media_LocationsTableAdapter()
-        Me.BindingSource_Clip_History = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Clip_HistoryTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Clip_HistoryTableAdapter()
+        Me.Use_USA_Menu_BG = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.cmdSend_Clarity = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.Gemini_MediaDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gemini_MediaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Mm_phase_5DataSet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gemini_Media_LocationsBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource_Clip_History, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -154,19 +158,19 @@ Partial Class Main
         'SaveToExcelToolStripMenuItem
         '
         Me.SaveToExcelToolStripMenuItem.Name = "SaveToExcelToolStripMenuItem"
-        Me.SaveToExcelToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SaveToExcelToolStripMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.SaveToExcelToolStripMenuItem.Text = "Save to Excel"
         '
         'SaveDataToolStripMenuItem
         '
         Me.SaveDataToolStripMenuItem.Name = "SaveDataToolStripMenuItem"
-        Me.SaveDataToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SaveDataToolStripMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.SaveDataToolStripMenuItem.Text = "Save Data"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'ToolsToolStripMenuItem
@@ -275,14 +279,14 @@ Partial Class Main
         '
         Me.Gemini_MediaDataGridView.AllowUserToAddRows = False
         Me.Gemini_MediaDataGridView.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
         Me.Gemini_MediaDataGridView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Gemini_MediaDataGridView.AutoGenerateColumns = False
         Me.Gemini_MediaDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.Gemini_MediaDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.DataGridViewTextBoxColumn2, Me.Title, Me.Filename, Me.Location_ID, Me.DataGridViewTextBoxColumn6, Me.DataGridViewCheckBoxColumn1, Me.DataGridViewCheckBoxColumn2, Me.DataGridViewCheckBoxColumn3, Me.DataGridViewCheckBoxColumn4, Me.DataGridViewCheckBoxColumn5, Me.DataGridViewCheckBoxColumn6, Me.First_Use, Me.DataGridViewTextBoxColumn8, Me.DataGridViewCheckBoxColumn7, Me.DataGridViewTextBoxColumn9, Me.DataGridViewTextBoxColumn10, Me.DataGridViewTextBoxColumn11, Me.DataGridViewTextBoxColumn12, Me.DataGridViewTextBoxColumn13, Me.Delivery_Date, Me.Package, Me.Packaged, Me.Package_Date, Me.Package_Filename, Me.Packaged_SD, Me.Package_Date_SD, Me.Package_Filename_SD, Me.Archive, Me.Archived, Me.Archived_Date, Me.Restore_Date, Me.Missing, Me.Archive_SD, Me.Archived_SD, Me.Archived_Date_SD, Me.Restore_Date_SD, Me.Missing_SD, Me.DataGridViewTextBoxColumn15, Me.DataGridViewTextBoxColumn16, Me.DataGridViewTextBoxColumn17, Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20, Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn23, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn25, Me.DataGridViewTextBoxColumn26, Me.DataGridViewTextBoxColumn27, Me.DataGridViewCheckBoxColumn8, Me.DataGridViewTextBoxColumn28, Me.Use_USA_Menu_BG})
+        Me.Gemini_MediaDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.DataGridViewTextBoxColumn2, Me.Title, Me.Filename, Me.Location_ID, Me.DataGridViewTextBoxColumn6, Me.DataGridViewCheckBoxColumn1, Me.DataGridViewCheckBoxColumn2, Me.DataGridViewCheckBoxColumn3, Me.DataGridViewCheckBoxColumn4, Me.DataGridViewCheckBoxColumn5, Me.DataGridViewCheckBoxColumn6, Me.First_Use, Me.DataGridViewTextBoxColumn8, Me.DataGridViewCheckBoxColumn7, Me.DataGridViewTextBoxColumn9, Me.DataGridViewTextBoxColumn10, Me.DataGridViewTextBoxColumn11, Me.DataGridViewTextBoxColumn12, Me.DataGridViewTextBoxColumn13, Me.Delivery_Date, Me.Ignore_HD, Me.Ignore_SD, Me.Clarity, Me.Package, Me.Packaged, Me.Package_Date, Me.Package_Filename, Me.Packaged_SD, Me.Package_Date_SD, Me.Package_Filename_SD, Me.Archive, Me.Archived, Me.Archived_Date, Me.Restore_Date, Me.Missing, Me.Archive_SD, Me.Archived_SD, Me.Archived_Date_SD, Me.Restore_Date_SD, Me.Missing_SD, Me.DataGridViewTextBoxColumn15, Me.DataGridViewTextBoxColumn16, Me.DataGridViewTextBoxColumn17, Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20, Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn23, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn25, Me.DataGridViewTextBoxColumn26, Me.DataGridViewTextBoxColumn27, Me.DataGridViewCheckBoxColumn8, Me.DataGridViewTextBoxColumn28, Me.Use_USA_Menu_BG})
         Me.Gemini_MediaDataGridView.DataSource = Me.Gemini_MediaBindingSource
         Me.Gemini_MediaDataGridView.Location = New System.Drawing.Point(12, 83)
         Me.Gemini_MediaDataGridView.MultiSelect = False
@@ -291,112 +295,15 @@ Partial Class Main
         Me.Gemini_MediaDataGridView.Size = New System.Drawing.Size(1100, 255)
         Me.Gemini_MediaDataGridView.TabIndex = 8
         '
-        'Package
+        'Gemini_MediaBindingSource
         '
-        Me.Package.HeaderText = "Package"
-        Me.Package.Name = "Package"
-        Me.Package.Width = 60
+        Me.Gemini_MediaBindingSource.DataMember = "Gemini_Media"
+        Me.Gemini_MediaBindingSource.DataSource = Me.Mm_phase_5DataSet
         '
-        'Packaged
+        'Mm_phase_5DataSet
         '
-        Me.Packaged.DataPropertyName = "Packaged"
-        Me.Packaged.HeaderText = "Packaged HD"
-        Me.Packaged.Name = "Packaged"
-        Me.Packaged.Width = 60
-        '
-        'Package_Date
-        '
-        Me.Package_Date.DataPropertyName = "Package_Date"
-        Me.Package_Date.HeaderText = "Package Date HD"
-        Me.Package_Date.Name = "Package_Date"
-        '
-        'Package_Filename
-        '
-        Me.Package_Filename.DataPropertyName = "Package_Filename"
-        Me.Package_Filename.HeaderText = "Package Filename HD"
-        Me.Package_Filename.Name = "Package_Filename"
-        Me.Package_Filename.Width = 250
-        '
-        'Packaged_SD
-        '
-        Me.Packaged_SD.DataPropertyName = "Packaged_SD"
-        Me.Packaged_SD.HeaderText = "Packaged SD"
-        Me.Packaged_SD.Name = "Packaged_SD"
-        Me.Packaged_SD.Width = 60
-        '
-        'Package_Date_SD
-        '
-        Me.Package_Date_SD.DataPropertyName = "Package_Date_SD"
-        Me.Package_Date_SD.HeaderText = "Package Date SD"
-        Me.Package_Date_SD.Name = "Package_Date_SD"
-        '
-        'Package_Filename_SD
-        '
-        Me.Package_Filename_SD.DataPropertyName = "Package_Filename_SD"
-        Me.Package_Filename_SD.HeaderText = "Package Filename SD"
-        Me.Package_Filename_SD.Name = "Package_Filename_SD"
-        Me.Package_Filename_SD.Width = 250
-        '
-        'Archive
-        '
-        Me.Archive.HeaderText = "Do Archive / Restore HD"
-        Me.Archive.Name = "Archive"
-        Me.Archive.Width = 80
-        '
-        'Restore_Date
-        '
-        Me.Restore_Date.DataPropertyName = "Unarchived Date"
-        Me.Restore_Date.HeaderText = "Restore Date HD"
-        Me.Restore_Date.Name = "Restore_Date"
-        '
-        'Missing
-        '
-        Me.Missing.DataPropertyName = "Missing"
-        Me.Missing.HeaderText = "Missing HD"
-        Me.Missing.Name = "Missing"
-        Me.Missing.Width = 80
-        '
-        'Archive_SD
-        '
-        Me.Archive_SD.HeaderText = "Do Archive / Restore SD"
-        Me.Archive_SD.Name = "Archive_SD"
-        Me.Archive_SD.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Archive_SD.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.Archive_SD.Width = 95
-        '
-        'Archived_SD
-        '
-        Me.Archived_SD.DataPropertyName = "Archived_SD"
-        Me.Archived_SD.HeaderText = "Archived SD"
-        Me.Archived_SD.Name = "Archived_SD"
-        Me.Archived_SD.Width = 70
-        '
-        'Archived_Date_SD
-        '
-        Me.Archived_Date_SD.DataPropertyName = "Archived_Date_SD"
-        Me.Archived_Date_SD.HeaderText = "Archived Date SD"
-        Me.Archived_Date_SD.Name = "Archived_Date_SD"
-        Me.Archived_Date_SD.Width = 120
-        '
-        'Restore_Date_SD
-        '
-        Me.Restore_Date_SD.DataPropertyName = "Unarchived_Date_SD"
-        Me.Restore_Date_SD.HeaderText = "Restore Date SD"
-        Me.Restore_Date_SD.Name = "Restore_Date_SD"
-        '
-        'Missing_SD
-        '
-        Me.Missing_SD.DataPropertyName = "Missing_SD"
-        Me.Missing_SD.HeaderText = "Missing SD"
-        Me.Missing_SD.Name = "Missing_SD"
-        Me.Missing_SD.Width = 70
-        '
-        'Use_USA_Menu_BG
-        '
-        Me.Use_USA_Menu_BG.DataPropertyName = "Use_USA_Menu_BG"
-        Me.Use_USA_Menu_BG.HeaderText = "Use_USA_Menu_BG"
-        Me.Use_USA_Menu_BG.Name = "Use_USA_Menu_BG"
-        Me.Use_USA_Menu_BG.Visible = False
+        Me.Mm_phase_5DataSet.DataSetName = "mm_phase_5DataSet"
+        Me.Mm_phase_5DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'dtDelivery
         '
@@ -466,7 +373,7 @@ Partial Class Main
         '
         'cmdScan
         '
-        Me.cmdScan.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdScan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdScan.Location = New System.Drawing.Point(875, 380)
         Me.cmdScan.Name = "cmdScan"
         Me.cmdScan.Size = New System.Drawing.Size(75, 23)
@@ -562,6 +469,36 @@ Partial Class Main
         Me.cmbFilter.Name = "cmbFilter"
         Me.cmbFilter.Size = New System.Drawing.Size(211, 21)
         Me.cmbFilter.TabIndex = 23
+        '
+        'Gemini_MediaTableAdapter
+        '
+        Me.Gemini_MediaTableAdapter.ClearBeforeFill = True
+        '
+        'TableAdapterManager
+        '
+        Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
+        Me.TableAdapterManager.Clip_HistoryTableAdapter = Me.Clip_HistoryTableAdapter
+        Me.TableAdapterManager.Gemini_Media_LocationsTableAdapter = Me.Gemini_Media_LocationsTableAdapter
+        Me.TableAdapterManager.Gemini_MediaTableAdapter = Me.Gemini_MediaTableAdapter
+        Me.TableAdapterManager.UpdateOrder = CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
+        '
+        'Clip_HistoryTableAdapter
+        '
+        Me.Clip_HistoryTableAdapter.ClearBeforeFill = True
+        '
+        'Gemini_Media_LocationsTableAdapter
+        '
+        Me.Gemini_Media_LocationsTableAdapter.ClearBeforeFill = True
+        '
+        'Gemini_Media_LocationsBindingSource
+        '
+        Me.Gemini_Media_LocationsBindingSource.DataMember = "Gemini_Media_Locations"
+        Me.Gemini_Media_LocationsBindingSource.DataSource = Me.Mm_phase_5DataSet
+        '
+        'BindingSource_Clip_History
+        '
+        Me.BindingSource_Clip_History.DataMember = "Clip_History"
+        Me.BindingSource_Clip_History.DataSource = Me.Mm_phase_5DataSet
         '
         'ID
         '
@@ -711,6 +648,78 @@ Partial Class Main
         Me.Delivery_Date.HeaderText = "Delivery_Date"
         Me.Delivery_Date.Name = "Delivery_Date"
         '
+        'Ignore_HD
+        '
+        Me.Ignore_HD.DataPropertyName = "Ignore_HD"
+        Me.Ignore_HD.HeaderText = "Ignore HD"
+        Me.Ignore_HD.Name = "Ignore_HD"
+        Me.Ignore_HD.Width = 60
+        '
+        'Ignore_SD
+        '
+        Me.Ignore_SD.DataPropertyName = "Ignore_SD"
+        Me.Ignore_SD.HeaderText = "Ignore SD"
+        Me.Ignore_SD.Name = "Ignore_SD"
+        Me.Ignore_SD.Width = 60
+        '
+        'Clarity
+        '
+        Me.Clarity.HeaderText = "Send to Clarity"
+        Me.Clarity.Name = "Clarity"
+        Me.Clarity.Width = 60
+        '
+        'Package
+        '
+        Me.Package.HeaderText = "Package"
+        Me.Package.Name = "Package"
+        Me.Package.Width = 60
+        '
+        'Packaged
+        '
+        Me.Packaged.DataPropertyName = "Packaged"
+        Me.Packaged.HeaderText = "Packaged HD"
+        Me.Packaged.Name = "Packaged"
+        Me.Packaged.Width = 60
+        '
+        'Package_Date
+        '
+        Me.Package_Date.DataPropertyName = "Package_Date"
+        Me.Package_Date.HeaderText = "Package Date HD"
+        Me.Package_Date.Name = "Package_Date"
+        '
+        'Package_Filename
+        '
+        Me.Package_Filename.DataPropertyName = "Package_Filename"
+        Me.Package_Filename.HeaderText = "Package Filename HD"
+        Me.Package_Filename.Name = "Package_Filename"
+        Me.Package_Filename.Width = 250
+        '
+        'Packaged_SD
+        '
+        Me.Packaged_SD.DataPropertyName = "Packaged_SD"
+        Me.Packaged_SD.HeaderText = "Packaged SD"
+        Me.Packaged_SD.Name = "Packaged_SD"
+        Me.Packaged_SD.Width = 60
+        '
+        'Package_Date_SD
+        '
+        Me.Package_Date_SD.DataPropertyName = "Package_Date_SD"
+        Me.Package_Date_SD.HeaderText = "Package Date SD"
+        Me.Package_Date_SD.Name = "Package_Date_SD"
+        '
+        'Package_Filename_SD
+        '
+        Me.Package_Filename_SD.DataPropertyName = "Package_Filename_SD"
+        Me.Package_Filename_SD.HeaderText = "Package Filename SD"
+        Me.Package_Filename_SD.Name = "Package_Filename_SD"
+        Me.Package_Filename_SD.Width = 250
+        '
+        'Archive
+        '
+        Me.Archive.HeaderText = "Do Archive / Restore HD"
+        Me.Archive.Name = "Archive"
+        Me.Archive.Width = 80
+        '
         'Archived
         '
         Me.Archived.DataPropertyName = "Archived"
@@ -724,6 +733,54 @@ Partial Class Main
         Me.Archived_Date.HeaderText = "Archived Date HD"
         Me.Archived_Date.Name = "Archived_Date"
         Me.Archived_Date.Width = 120
+        '
+        'Restore_Date
+        '
+        Me.Restore_Date.DataPropertyName = "Unarchived Date"
+        Me.Restore_Date.HeaderText = "Restore Date HD"
+        Me.Restore_Date.Name = "Restore_Date"
+        '
+        'Missing
+        '
+        Me.Missing.DataPropertyName = "Missing"
+        Me.Missing.HeaderText = "Missing HD"
+        Me.Missing.Name = "Missing"
+        Me.Missing.Width = 80
+        '
+        'Archive_SD
+        '
+        Me.Archive_SD.HeaderText = "Do Archive / Restore SD"
+        Me.Archive_SD.Name = "Archive_SD"
+        Me.Archive_SD.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Archive_SD.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.Archive_SD.Width = 95
+        '
+        'Archived_SD
+        '
+        Me.Archived_SD.DataPropertyName = "Archived_SD"
+        Me.Archived_SD.HeaderText = "Archived SD"
+        Me.Archived_SD.Name = "Archived_SD"
+        Me.Archived_SD.Width = 70
+        '
+        'Archived_Date_SD
+        '
+        Me.Archived_Date_SD.DataPropertyName = "Archived_Date_SD"
+        Me.Archived_Date_SD.HeaderText = "Archived Date SD"
+        Me.Archived_Date_SD.Name = "Archived_Date_SD"
+        Me.Archived_Date_SD.Width = 120
+        '
+        'Restore_Date_SD
+        '
+        Me.Restore_Date_SD.DataPropertyName = "Unarchived_Date_SD"
+        Me.Restore_Date_SD.HeaderText = "Restore Date SD"
+        Me.Restore_Date_SD.Name = "Restore_Date_SD"
+        '
+        'Missing_SD
+        '
+        Me.Missing_SD.DataPropertyName = "Missing_SD"
+        Me.Missing_SD.HeaderText = "Missing SD"
+        Me.Missing_SD.Name = "Missing_SD"
+        Me.Missing_SD.Width = 70
         '
         'DataGridViewTextBoxColumn15
         '
@@ -830,45 +887,22 @@ Partial Class Main
         Me.DataGridViewTextBoxColumn28.Name = "DataGridViewTextBoxColumn28"
         Me.DataGridViewTextBoxColumn28.Visible = False
         '
-        'Gemini_MediaBindingSource
+        'Use_USA_Menu_BG
         '
-        Me.Gemini_MediaBindingSource.DataMember = "Gemini_Media"
-        Me.Gemini_MediaBindingSource.DataSource = Me.Mm_phase_5DataSet
+        Me.Use_USA_Menu_BG.DataPropertyName = "Use_USA_Menu_BG"
+        Me.Use_USA_Menu_BG.HeaderText = "Use_USA_Menu_BG"
+        Me.Use_USA_Menu_BG.Name = "Use_USA_Menu_BG"
+        Me.Use_USA_Menu_BG.Visible = False
         '
-        'Mm_phase_5DataSet
+        'cmdSend_Clarity
         '
-        Me.Mm_phase_5DataSet.DataSetName = "mm_phase_5DataSet"
-        Me.Mm_phase_5DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'Gemini_MediaTableAdapter
-        '
-        Me.Gemini_MediaTableAdapter.ClearBeforeFill = True
-        '
-        'TableAdapterManager
-        '
-        Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
-        Me.TableAdapterManager.Clip_HistoryTableAdapter = Nothing
-        Me.TableAdapterManager.Gemini_Media_LocationsTableAdapter = Nothing
-        Me.TableAdapterManager.Gemini_MediaTableAdapter = Me.Gemini_MediaTableAdapter
-        Me.TableAdapterManager.UpdateOrder = CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
-        '
-        'Gemini_Media_LocationsBindingSource
-        '
-        Me.Gemini_Media_LocationsBindingSource.DataMember = "Gemini_Media_Locations"
-        Me.Gemini_Media_LocationsBindingSource.DataSource = Me.Mm_phase_5DataSet
-        '
-        'Gemini_Media_LocationsTableAdapter
-        '
-        Me.Gemini_Media_LocationsTableAdapter.ClearBeforeFill = True
-        '
-        'BindingSource_Clip_History
-        '
-        Me.BindingSource_Clip_History.DataMember = "Clip_History"
-        Me.BindingSource_Clip_History.DataSource = Me.Mm_phase_5DataSet
-        '
-        'Clip_HistoryTableAdapter
-        '
-        Me.Clip_HistoryTableAdapter.ClearBeforeFill = True
+        Me.cmdSend_Clarity.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdSend_Clarity.Location = New System.Drawing.Point(956, 380)
+        Me.cmdSend_Clarity.Name = "cmdSend_Clarity"
+        Me.cmdSend_Clarity.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSend_Clarity.TabIndex = 24
+        Me.cmdSend_Clarity.Text = "To Clarity"
+        Me.cmdSend_Clarity.UseVisualStyleBackColor = True
         '
         'Main
         '
@@ -876,6 +910,7 @@ Partial Class Main
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1132, 581)
+        Me.Controls.Add(Me.cmdSend_Clarity)
         Me.Controls.Add(Me.cmbFilter)
         Me.Controls.Add(Me.cmbHD)
         Me.Controls.Add(Me.cmdSearch)
@@ -907,9 +942,9 @@ Partial Class Main
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         CType(Me.Gemini_MediaDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gemini_MediaBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Mm_phase_5DataSet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gemini_Media_LocationsBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingSource_Clip_History, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -982,6 +1017,9 @@ Partial Class Main
     Friend WithEvents DataGridViewTextBoxColumn12 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn13 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Delivery_Date As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Ignore_HD As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents Ignore_SD As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents Clarity As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Package As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Packaged As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Package_Date As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -1015,5 +1053,6 @@ Partial Class Main
     Friend WithEvents DataGridViewCheckBoxColumn8 As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn28 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Use_USA_Menu_BG As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents cmdSend_Clarity As System.Windows.Forms.Button
 
 End Class

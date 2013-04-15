@@ -14,4 +14,16 @@
         Not_Known = 2903
     End Enum
 
+    Friend COLOUR_MISSING_LIGHT As Color = Color.FromArgb(255, 213, 213)
+    Friend COLOUR_MISSING_DARK As Color = Color.FromArgb(255, 193, 193)
+    Friend COLOUR_MISSING_HIGHLIGHT As Color = Color.FromArgb(255, 173, 173)
+
+    Friend COLOUR_LIGHT As Color = Color.FromArgb(255, 255, 255)
+    Friend COLOUR_DARK As Color = Color.FromArgb(240, 240, 240)
+    Friend COLOUR_HIGHLIGHT As Color = Color.FromArgb(173, 173, 255)
+
+    Friend COLOUR_HIDDEN_LIGHT As Color = Color.FromArgb(255, 255, 185)
+    Friend COLOUR_HIDDEN_DARK As Color = Color.FromArgb(255, 255, 165)
+    Friend COLOUR_HIDDEN_HIGHLIGHT As Color = Color.FromArgb(255, 255, 145)
+
 End Module

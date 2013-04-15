@@ -78,6 +78,7 @@
         dr.Archive_HD = f.txtHD_Archived_Clips.Text
         dr.Archive_SD = f.txtSD_Archived_Clips.Text
         dr.Delete_Spreadsheet_Folder = f.txtSpreadsheet_Folder.Text
+        dr.Show_Clarity_Transfer = f.chkShow_Clarity_Transfer.Checked
 
         dt.AddSettingsRow(dr)
         ds.WriteXml(sFilename)
@@ -596,6 +597,19 @@
             End Try
         End Get
         Set(ByVal value As Boolean)
+
+        End Set
+    End Property
+
+    Friend Property Show_Clarity_Transfer(sFilename As String) As Boolean
+        Get
+            Try
+                Return drZero(sFilename).Show_Clarity_Transfer
+            Catch ex As Exception
+                Return False
+            End Try
+        End Get
+        Set(value As Boolean)
 
         End Set
     End Property

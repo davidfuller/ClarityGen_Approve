@@ -63,6 +63,7 @@ Public Class frmSettings
         Me.txtHD_Archived_Clips.Text = ds.Archive_HD(sFilename)
         Me.txtSD_Archived_Clips.Text = ds.Archive_SD(sFilename)
         Me.txtSpreadsheet_Folder.Text = ds.Spreadsheet_Folder(sFilename)
+        Me.chkShow_Clarity_Transfer.Checked = ds.Show_Clarity_Transfer(sFilename)
 
         Me.txtExample.Text = String.Concat(ds.Package_Folder(sFilename), ds.Package_Base, ".zip")
 

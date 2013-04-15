@@ -133,15 +133,7 @@ Public Class Unpackage
             Me.ProgressBar1.Value = 0
 
             objClarity = New Clarity(mm)
-            If objClarity.Connect(True) Then
-                If objClarity.Connect_Feedback(True) Then
-                    bClarity_Success = objClarity.Send_Heartbeat(objSettings.Unpackage_Job_Load_Timeout(sSettings_File_Name))
-                Else
-                    bClarity_Success = False
-                End If
-            Else
-                bClarity_Success = False
-            End If
+            bClarity_Success = objClarity.Complete_Connect
             bDo_FTP = True
             If Not bClarity_Success Then
                 Response = MessageBox.Show("Clarity not connected. Continue anyway?", "Continue?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
