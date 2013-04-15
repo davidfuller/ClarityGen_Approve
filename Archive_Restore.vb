@@ -51,6 +51,7 @@ Public Class Archive_Restore
             sArchive_Folder = objSettings.HD_Archived_Clips_Folder(sSettings_File_Name)
         Else
             sArchive_Folder = objSettings.SD_Archived_Clips_Folder(sSettings_File_Name)
+            'Here's Johnny
         End If
 
         If sArchive_Folder <> "" Then
