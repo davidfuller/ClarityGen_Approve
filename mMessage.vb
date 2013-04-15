@@ -23,6 +23,8 @@ Public Class mMessage
 
     End Sub
 
+
+
     Friend Sub Add(ByVal sMessage As String)
 
         If bLog_File Then
@@ -35,7 +37,8 @@ Public Class mMessage
 
         lb.Items.Add(sMessage)
         MoveScroll()
-        lb.Parent.Update()
+        lb.Update()
+        lb.Parent.Refresh()
 
     End Sub
 

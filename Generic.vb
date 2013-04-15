@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Text
 
 Module Generic
 
@@ -77,16 +78,22 @@ Module Generic
     Public Function Page_Delay(ByVal sFilename As String) As String
 
         Dim objSettings As New Settings_MuVi2
+        Dim mType As Media_Type
 
-        If sFilename.StartsWith("PIC:") Then
-            Return objSettings.Still_Delay(sSettings_File_Name)
-        ElseIf sFilename.StartsWith("VID:") Then
-            Return objSettings.Clip_Delay(sSettings_File_Name)
-        Else
-            Return ("00:00")
-        End If
+        mType = File_Type(sFilename)
+
+        Select mType
+            Case Media_Type.Still
+                Return objSettings.Still_Delay(sSettings_File_Name)
+            Case Media_Type.Clip
+                Return objSettings.Clip_Delay(sSettings_File_Name)
+            Case Else
+                Return ("00:00")
+        End Select
+
 
     End Function
+    
     Public Function Remove_Drive_From_Folder(ByVal sFolder As String) As String
 
         ' If C:\Five Clarity returns \Five Clarity\
@@ -214,6 +221,7 @@ Module Generic
 
         Return String.Concat(Fix_Folder_End(objSettings.Un_Package_Root_Folder(sSettings_File_Name), Media_Type.Still), sFilename.Replace("/", "\"))
 
+        
     End Function
 
     Friend Function sVersionString() As String
@@ -222,9 +230,59 @@ Module Generic
 
     End Function
 
-    Friend Function Hello()
+    Friend Function Convert_PC_to_Clip_Filename(sFilename As String) As String
+
+        Dim sResult As String
+
+        sResult = Remove_PPV(Remove_Drive(sFilename).Replace("\", "/"))
+        If sResult.Substring(0, 1) = "/" Then
+            sResult = sResult.Substring(1)
+        End If
+        Return sResult
 
     End Function
 
+    Friend Function Create_Folder_If_Not_Present(ByVal sFolder As String) As Boolean
+
+        Try
+            Dim di = New DirectoryInfo(sFolder)
+            If Not di.Exists Then
+                di.Create()
+            End If
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+        
+
+    End Function
+
+    Friend Function Escape_Like_Value(sWithoutWildcards As String) As String
+
+        Dim sb As StringBuilder
+        Dim c As Char
+
+        sb = New StringBuilder
+        For i = 0 To sWithoutWildcards.Length - 1
+            c = sWithoutWildcards(i)
+            Select Case c
+                Case "*", "%", "[", "]"
+                    sb.Append("[").Append(c).Append("]")
+                Case "'"
+                    sb.Append("''")
+                Case Else
+                    sb.Append(c)
+            End Select
+        Next
+
+        Return (sb.ToString)
+
+    End Function
 
 End Module
+Public Class Format_Details
+
+    Friend HD As Boolean
+    Friend SD As Boolean
+
+End Class

@@ -171,7 +171,7 @@
         XTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriXeW/h/sYH6AdFD6UeVjxS
         fNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2dmnafvvF05dOJZ+nPFmYKf5X+
         tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/MF72Rf3P4LeNt37vwd5MLWe+x7ys/
-        6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALEgAACxIB0t1+/AAAL/hJREFUeF51egecXFXd
+        6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALEAAACxABrSO9dQAAL/hJREFUeF51egecXFXd
         9uxO77N9d3rvvc+21G3Te93dVAjNF6TXDwVUlPKhL01FQZrCCwQQKUlIgQSBgECQIiJITegtbOh+z7kn
         may+v+/+biZn7px7zv885/nXsyz/snUy87TSnXOEm97onCPYMDgLSnvGMjxnijfdiZbWk9X78s5E0x6r
         W8JVW7SmcqXRsEdqBn9xyDFjCVfwq9qVNgaK+NUcKvtGZk3+ojlYxqfekzN4896ROfTXu3L6UFUbqCrd
@@ -379,6 +379,9 @@
         QilSloJtYTaHjgNhmL8BoQEYYQbVLTSohv0/RPKE0g8XOZYAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="tmClarityEventMessage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>289, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAwAAAAQAAEABACIWgAAxgAAADAwEAABAAQAaAYAAE5bAAAgIBAAAQAEAOgCAAC2YQAAEBAQAAEA

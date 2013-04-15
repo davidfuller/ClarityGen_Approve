@@ -50,6 +50,19 @@ Public Class frmSettings
         Me.chkOpen_After_Unpackage.Checked = ds.Open_Job_After_Unpackage(sFilename)
         Me.txtUnpackage_Package_Path.Text = ds.Unpackage_Package_Folder(sFilename)
         Me.chkUse_V7.Checked = ds.Use_V7_Commands(sFilename)
+        Me.chkLog_Clarity_Events.Checked = ds.Log_Clarity_Events(sFilename)
+        Me.chkStart_Unpackaging.Checked = ds.Start_Unpackaging(sFilename)
+        Me.chkJob_Temp_Folder.Checked = ds.Put_Unpackaged_Job_In_Temp_Folder(sFilename)
+        Me.txtEmptyJob.Text = ds.Empty_V7_Job(sFilename)
+        Me.chkGenerate_Receipt.Checked = ds.Generate_Receipt(sFilename)
+        Me.txtReceipt_Path.Text = ds.Receipt_Folder(sFilename)
+        Me.chkAlpha.Checked = ds.Alpha_Enabled_Job(sFilename)
+        Me.udStill_Field_Number.Value = ds.Still_Field_Number(sFilename)
+        Me.txtEmptyClip.Text = ds.Empty_Clip(sFilename)
+        Me.txtEmptyStill.Text = ds.Empty_Still(sFilename)
+        Me.txtHD_Archived_Clips.Text = ds.Archive_HD(sFilename)
+        Me.txtSD_Archived_Clips.Text = ds.Archive_SD(sFilename)
+        Me.txtSpreadsheet_Folder.Text = ds.Spreadsheet_Folder(sFilename)
 
         Me.txtExample.Text = String.Concat(ds.Package_Folder(sFilename), ds.Package_Base, ".zip")
 
@@ -68,7 +81,6 @@ Public Class frmSettings
 
     End Sub
     Private Sub cmdClarityJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClarityJob.Click
-
         Me.OpenFileDialog1.CheckFileExists = True
         Me.OpenFileDialog1.Filter = "Pixel Power Files(*.ppj;*.pjz)|*.ppj;*.pjz;|All files (*.*)|*.*"
         Me.OpenFileDialog1.FilterIndex = 1
@@ -81,6 +93,19 @@ Public Class frmSettings
 
     End Sub
 
+    Private Sub cmdEmptyJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdEmptyJob.Click
+
+        Me.OpenFileDialog1.CheckFileExists = True
+        Me.OpenFileDialog1.Filter = "Pixel Power Files(*.ppj;*.pjz)|*.ppj;*.pjz;|All files (*.*)|*.*"
+        Me.OpenFileDialog1.FilterIndex = 1
+        Me.OpenFileDialog1.InitialDirectory = "C:\"
+        Me.OpenFileDialog1.FileName = ""
+
+        If Me.OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Me.txtEmptyJob.Text = Me.OpenFileDialog1.FileName
+        End If
+
+    End Sub
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
 
         Dim objClarity As New Clarity(mm)
@@ -112,8 +137,17 @@ Public Class frmSettings
 
     End Sub
 
+    Private Sub cmdReceiptPath_Browse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdReceipt_Path.Click
+
+        Dim sFolder As String
+        sFolder = Choose_Folder("Receipt Folder")
+        If sFolder <> "" Then
+            Me.txtReceipt_Path.Text = sFolder
+        End If
+
+    End Sub
     Private Sub txtPackage_Prefix_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtPackage_Prefix.TextChanged, txtDate_Format.TextChanged, _
-                                                                                                                        txtPackage_Suffix.TextChanged, txtPackage_Path.TextChanged, txtJob_Clips.TextChanged
+                                                                                                                        txtPackage_Suffix.TextChanged, txtPackage_Path.TextChanged, txtJob_Clips.TextChanged, txtReceipt_Path.TextChanged
 
         Me.txtExample.Text = String.Concat(Me.txtPackage_Path.Text, ds.Package_Base(Me.txtPackage_Prefix.Text, Me.txtDate_Format.Text, Me.txtPackage_Suffix.Text))
 
@@ -157,8 +191,10 @@ Public Class frmSettings
 
     Private Sub cmdTest_Unpack_Clarity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTest_Unpack_Clarity.Click
 
-        Dim objClarity As New Clarity(mm)
+        Dim myMessage As New mMessage(Me.ListBox1, False, False)
+        Dim objClarity As New Clarity(myMessage)
 
+        Me.ListBox1.Visible = True
         If objClarity.Connect(True) Then
             MessageBox.Show("Connected")
             If objClarity.Disconnect Then
@@ -212,6 +248,104 @@ Public Class frmSettings
         sFolder = Choose_Folder("Unpackaging Package Folder")
         If sFolder <> "" Then
             Me.txtUnpackage_Package_Path.Text = sFolder
+        End If
+
+    End Sub
+
+    Private Sub Show_Tabs(ByVal bUnpackage_Only As Boolean)
+
+        If bUnpackage_Only Then
+            tabSettings.TabPages.Remove(TabPage1)
+            tabSettings.TabPages.Remove(TabPage2)
+            tabSettings.TabPages.Remove(TabPage3)
+        Else
+            If Not tabSettings.TabPages.Contains(TabPage1) Then tabSettings.TabPages.Insert(0, TabPage1)
+            If Not tabSettings.TabPages.Contains(TabPage2) Then tabSettings.TabPages.Insert(1, TabPage2)
+            If Not tabSettings.TabPages.Contains(TabPage3) Then tabSettings.TabPages.Insert(2, TabPage3)
+        End If
+        tabSettings.SelectTab(0)
+
+    End Sub
+
+    
+    Private Sub chkStart_Unpackaging_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkStart_Unpackaging.CheckedChanged
+
+        Show_Tabs(chkStart_Unpackaging.Checked)
+
+    End Sub
+
+    Private Sub chkAlpha_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkAlpha.CheckedChanged
+
+        If chkAlpha.Checked Then
+            Me.lblClipField.Text = "Clip Field Number"
+        Else
+            Me.lblClipField.Text = "Field Number"
+        End If
+
+        Me.lblStillField.Enabled = chkAlpha.Checked
+        Me.udStill_Field_Number.Enabled = chkAlpha.Checked
+        Me.txtEmptyStill.Enabled = chkAlpha.Checked
+        Me.txtEmptyClip.Enabled = chkAlpha.Checked
+        Me.cmdBrowseEmptyClip.Enabled = chkAlpha.Checked
+        Me.cmdBrowseEmptyStill.Enabled = chkAlpha.Checked
+
+    End Sub
+
+    
+    Private Sub cmdBrowseEmptyClip_Click(sender As System.Object, e As System.EventArgs) Handles cmdBrowseEmptyClip.Click
+
+        Me.OpenFileDialog1.CheckFileExists = True
+        Me.OpenFileDialog1.Filter = "Pixel Power Video Files(*.ppv)|*.ppv;|All files (*.*)|*.*"
+        Me.OpenFileDialog1.FilterIndex = 1
+        Me.OpenFileDialog1.InitialDirectory = Me.txtEmulated_Clip_Path.Text
+        Me.OpenFileDialog1.FileName = ""
+
+        If Me.OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Me.txtEmptyClip.Text = Convert_PC_to_Clip_Filename(Me.OpenFileDialog1.FileName)
+        End If
+
+    End Sub
+
+    Private Sub cmdBrowseEmptyStill_Click(sender As System.Object, e As System.EventArgs) Handles cmdBrowseEmptyStill.Click
+
+        Me.OpenFileDialog1.CheckFileExists = True
+        Me.OpenFileDialog1.Filter = "Targa Files(*.tga)|*.tga;|All files (*.*)|*.*"
+        Me.OpenFileDialog1.FilterIndex = 1
+        Me.OpenFileDialog1.InitialDirectory = "C:\"
+        Me.OpenFileDialog1.FileName = ""
+
+        If Me.OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Me.txtEmptyStill.Text = Me.OpenFileDialog1.FileName
+        End If
+    End Sub
+
+   
+    Private Sub cmdBrowse_HD_Archive_Click(sender As System.Object, e As System.EventArgs) Handles cmdBrowse_HD_Archive.Click
+
+        Dim sFolder As String
+        sFolder = Choose_Folder("HD Archived Clip Folder")
+        If sFolder <> "" Then
+            Me.txtHD_Archived_Clips.Text = sFolder
+        End If
+
+    End Sub
+
+    Private Sub cmdBrowse_SD_Archive_Click(sender As System.Object, e As System.EventArgs) Handles cmdBrowse_SD_Archive.Click
+
+        Dim sFolder As String
+        sFolder = Choose_Folder("SD Archived Clip Folder")
+        If sFolder <> "" Then
+            Me.txtSD_Archived_Clips.Text = sFolder
+        End If
+
+    End Sub
+
+    Private Sub cmdBrowse_Spreadsheet_Click(sender As System.Object, e As System.EventArgs) Handles cmdBrowse_Spreadsheet.Click
+
+        Dim sFolder As String
+        sFolder = Choose_Folder("Spreadsheet Folder")
+        If sFolder <> "" Then
+            Me.txtSpreadsheet_Folder.Text = sFolder
         End If
 
     End Sub

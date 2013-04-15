@@ -12,6 +12,7 @@ Public Class Clarity
     Private iUpdated_Page_Number As Integer
     Private cStatus As ChannelStatus
     Private mml As mMessage
+    Private sMessages() As String
 
 
     Public Sub New(ByVal mMess As mMessage)
@@ -55,9 +56,9 @@ Public Class Clarity
         iReturn = objClarity.Connect()
 
         If iReturn = 0 Then
-            mml.Add(String.Concat("Clarity Connected at hostname: ", objClarity.Hostname.ToString, " - Port: ", objClarity.PortNumber.ToString))
+            Message_Add(String.Concat("Clarity Connected at hostname: ", objClarity.Hostname.ToString, " - Port: ", objClarity.PortNumber.ToString))
         Else
-            mml.Add(String.Concat("Cannot connect to Clarity at hostname: ", objClarity.Hostname.ToString, " - Port: ", objClarity.PortNumber.ToString))
+            Message_Add(String.Concat("Cannot connect to Clarity at hostname: ", objClarity.Hostname.ToString, " - Port: ", objClarity.PortNumber.ToString))
         End If
 
         Return iReturn = 0
@@ -93,6 +94,7 @@ Public Class Clarity
             iReturn = objFeedback.Connect()
 
             If iReturn = 0 Then
+                sMessages = Nothing
                 bFeedback_Connected = objFeedback.Connected
                 If bFeedback_Connected Then
                     objFeedback.AddAllFeedbackTypeSelection(0)
@@ -116,6 +118,7 @@ Public Class Clarity
 
         Dim iReturn_Feedback As Integer
 
+        Message_Add("Disconnecting")
         If objClarity.Connected Then
             iReturn = objClarity.Disconnect()
         End If
@@ -125,7 +128,7 @@ Public Class Clarity
         End If
 
         If iReturn = 0 And iReturn_Feedback = 0 Then
-            mml.Add("Clarity Disconnected")
+            Message_Add("Clarity Disconnected")
             Reset_Event_Fields()
         End If
 
@@ -133,9 +136,8 @@ Public Class Clarity
 
     End Function
 
-    Friend Function Is_Job_Loaded() As Boolean
+    Friend Overloads Function Is_Job_Loaded(ByVal sFilename As String) As Boolean
 
-        Dim sFilename As String
         Dim sPath As String
         Dim sName As String
         Dim iNum As Integer
@@ -143,7 +145,7 @@ Public Class Clarity
         Dim bConnected As Boolean
         Dim sCurrent As String
 
-        sFilename = objSettings.Clarity_Job_Filename(sSettings_File_Name)
+
         sPath = ""
         sName = ""
         iNum = 0
@@ -173,6 +175,15 @@ Public Class Clarity
             mml.Add(String.Concat("Issue getting job information from Clarity. Error number: ", iReturn))
             Return False
         End If
+
+    End Function
+
+    Friend Overloads Function Is_Job_Loaded() As Boolean
+        Dim sFilename As String
+
+        sFilename = objSettings.Clarity_Job_Filename(sSettings_File_Name)
+
+        Return Is_Job_Loaded(sFilename)
 
     End Function
 
@@ -212,9 +223,27 @@ Public Class Clarity
 
         If ChannelNum = Integer.Parse(objSettings.Channel_Number(sSettings_File_Name)) Then
             cStatus = ChannelStatus
+            Debug.Print(String.Format("Clarity Event: {0}", cStatus.ToString))
+            Add_Message(String.Format("Clarity Event: {0}", cStatus.ToString))
         End If
 
     End Sub
+    Private Sub Add_Message(ByVal sText As String)
+
+        Dim lNum As Long
+
+        If sMessages Is Nothing Then
+            lNum = 0
+        Else
+            lNum = sMessages.Length
+        End If
+
+
+        ReDim Preserve sMessages(lNum)
+        sMessages(lNum) = sText
+
+    End Sub
+
 
     Private Sub objFeedback_FieldUpdates(ByVal PageNum As Integer, ByRef FieldIDs As System.Array, ByRef FieldStatusInfo As System.Array) Handles objFeedback.FieldUpdates
 
@@ -259,30 +288,91 @@ Public Class Clarity
     Friend Overloads Function Update_Page(ByVal sContent As String) As Boolean
 
         Dim iPageNo As Integer
+        
 
         iPageNo = objSettings.Page_Number(sSettings_File_Name)
+        
         Return Update_Page(iPageNo, sContent)
 
 
     End Function
 
-    Friend Overloads Function Update_Page(ByVal iPageNo As Integer, ByVal sContent As String) As Boolean
+
+
+
+    Friend Overloads Function Update_Page(iPageNo As Integer, ByVal sContent As String) As Boolean
+
+        Dim iFieldNo() As Integer
+        Dim sField_Data() As String
+        Dim iNum As Integer
+
+
+
+        If objSettings.Alpha_Enabled_Job(sSettings_File_Name) Then
+            iNum = 2
+            ReDim iFieldNo(1)
+            ReDim sField_Data(1)
+            iFieldNo(0) = objSettings.Field_Number(sSettings_File_Name)
+            iFieldNo(1) = objSettings.Still_Field_Number(sSettings_File_Name)
+            Select Case File_Type(sContent)
+                Case Media_Type.Still
+                    sField_Data(0) = objSettings.Empty_Clip(sSettings_File_Name)
+                    sField_Data(1) = Clip_Filename(sContent)
+                Case Else
+                    sField_Data(0) = Clip_Filename(sContent)
+                    sField_Data(1) = objSettings.Empty_Still(sSettings_File_Name)
+            End Select
+        Else
+            ReDim iFieldNo(0)
+            ReDim sField_Data(0)
+            iNum = 1
+            iFieldNo(0) = objSettings.Field_Number(sSettings_File_Name)
+            sField_Data(0) = sContent
+
+        End If
+
+        Return Update_Page(iPageNo, sField_Data, iFieldNo, iNum)
+
+
+    End Function
+    Private Function Clip_Filename(sFilename As String) As String
+
+        If objSettings.Alpha_Enabled_Job(sSettings_File_Name) Then
+            Return sFilename.Replace("VID:", "").Replace("PIC:", "")
+        Else
+            Return sFilename
+        End If
+
+    End Function
+    Friend Overloads Function Update_Page(ByVal iPageNo As Integer, ByVal sContent() As String, iFieldNo() As Integer, iNum As Integer) As Boolean
 
         Dim objFields As New ClarityFields10
+        Dim i As Integer
+        Dim sMessage As String
+        Dim bDo_Message As Boolean
 
         bFields_Updated = False
         objFields.DeleteAllFields()
-        objFields.Add(objSettings.Field_Number(sSettings_File_Name), Replace_Clipstore_with_Emul(sContent))
+        For i = 0 To iNum - 1
+            objFields.Add(iFieldNo(i), Replace_Clipstore_with_Emul(sContent(i)))
+        Next
 
         iReturn = objClarity.UpdateField(iPageNo, objFields, True)
 
-        If iReturn = 0 Then
-            mml.Add(String.Concat("Page: ", iPageNo, " Field: ", objSettings.Field_Number(sSettings_File_Name).ToString, " updated with: ", sContent))
-        Else
-            mml.Add(String.Concat("Issue updating page: ", iPageNo, " Field: ", objSettings.Field_Number(sSettings_File_Name).ToString, " with: ", sContent))
-            MessageBox.Show(String.Concat("Cannot find: ", sContent))
+        bDo_Message = False
+        sMessage = String.Concat("Possible issue with:", Environment.NewLine)
+        For i = 0 To iNum - 1
+            If iReturn = 0 Then
+                mml.Add(String.Concat("Page: ", iPageNo, " Field: ", iFieldNo(i), " updated with: ", sContent(i)))
+            Else
+                bDo_Message = True
+                mml.Add(String.Concat("Issue updating page: ", iPageNo, " Field: ", iFieldNo(i), " with: ", sContent(i)))
+                sMessage = String.Concat(sMessage, "Page: ", iPageNo, " Field: ", iFieldNo(i), " with: ", sContent(i), Environment.NewLine)
+            End If
+        Next
+        If bDo_Message Then
+            MessageBox.Show(sMessage)
         End If
-
         Return iReturn = 0
 
     End Function
@@ -319,14 +409,24 @@ Public Class Clarity
 
     End Function
 
+    Friend Function Output_Black() As Boolean
+
+
+        iReturn = objClarity.OutputBlack(objSettings.Channel_Number(sSettings_File_Name))
+
+        If iReturn = 0 Then
+            mml.Add(String.Concat("Black output on channel: ", objSettings.Channel_Number(sSettings_File_Name)))
+        Else
+            mml.Add(String.Concat("Issue with black output on channel: ", objSettings.Channel_Number(sSettings_File_Name)))
+        End If
+
+        Return iReturn = 0
+
+    End Function
     Friend Function Stop_Playout() As Boolean
 
         iReturn = objClarity.StopPage(objSettings.Channel_Number(sSettings_File_Name))
-        If objSettings.Use_V7_Commands(sSettings_File_Name) Then
-            objClarity.OutputBlack(objSettings.Channel_Number(sSettings_File_Name))
-        End If
-
-
+       
         If iReturn = 0 Then
             mml.Add(String.Concat("Playout stopped on channel: ", objSettings.Channel_Number(sSettings_File_Name)))
         Else
@@ -447,7 +547,11 @@ Public Class Clarity
         Return cStatus = ChannelStatus.Idle
 
     End Function
+    Friend Function Is_Status_Offline() As Boolean
 
+        Return cStatus = ChannelStatus.Offline
+
+    End Function
 
     Private Sub Reset_Event_Fields()
 
@@ -540,6 +644,26 @@ Public Class Clarity
         End If
 
     End Function
+
+    Friend Function Messages() As String()
+
+        Dim sTemp() As String
+
+        sTemp = sMessages
+        sMessages = Nothing
+
+        Return sTemp
+
+    End Function
+
+    Friend Sub Message_Add(sMessage As String)
+
+        If IsNothing(mml) Then
+            MessageBox.Show(sMessage)
+        Else
+            mml.Add(sMessage)
+        End If
+    End Sub
 End Class
 Public Class Clarity_Event_Vars
     Public sPre_Message As String
