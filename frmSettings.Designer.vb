@@ -22,6 +22,7 @@ Partial Class frmSettings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cmdSave = New System.Windows.Forms.Button()
@@ -81,6 +82,7 @@ Partial Class frmSettings
         Me.txtHD_Archived_Clips = New System.Windows.Forms.TextBox()
         Me.Label37 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.chkShow_Clarity_Transfer = New System.Windows.Forms.CheckBox()
         Me.chkGenerate_Receipt = New System.Windows.Forms.CheckBox()
         Me.chkDelete_Temporary = New System.Windows.Forms.CheckBox()
         Me.cmdReceipt_Path = New System.Windows.Forms.Button()
@@ -147,7 +149,8 @@ Partial Class frmSettings
         Me.cmdSave_Profile = New System.Windows.Forms.Button()
         Me.cmdLoad_Profile = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.chkShow_Clarity_Transfer = New System.Windows.Forms.CheckBox()
+        Me.chkPackage_From_Clipstore = New System.Windows.Forms.CheckBox()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.tabSettings.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.udStill_Field_Number, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -752,6 +755,7 @@ Partial Class frmSettings
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.chkPackage_From_Clipstore)
         Me.TabPage2.Controls.Add(Me.chkShow_Clarity_Transfer)
         Me.TabPage2.Controls.Add(Me.chkGenerate_Receipt)
         Me.TabPage2.Controls.Add(Me.chkDelete_Temporary)
@@ -780,6 +784,18 @@ Partial Class frmSettings
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Packaging"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'chkShow_Clarity_Transfer
+        '
+        Me.chkShow_Clarity_Transfer.AutoSize = True
+        Me.chkShow_Clarity_Transfer.Checked = True
+        Me.chkShow_Clarity_Transfer.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkShow_Clarity_Transfer.Location = New System.Drawing.Point(9, 266)
+        Me.chkShow_Clarity_Transfer.Name = "chkShow_Clarity_Transfer"
+        Me.chkShow_Clarity_Transfer.Size = New System.Drawing.Size(138, 17)
+        Me.chkShow_Clarity_Transfer.TabIndex = 12
+        Me.chkShow_Clarity_Transfer.Text = "Show Transfer to Clarity"
+        Me.chkShow_Clarity_Transfer.UseVisualStyleBackColor = True
         '
         'chkGenerate_Receipt
         '
@@ -1407,17 +1423,18 @@ Partial Class frmSettings
         Me.cmdLoad_Profile.Text = "Load Profile"
         Me.cmdLoad_Profile.UseVisualStyleBackColor = True
         '
-        'chkShow_Clarity_Transfer
+        'chkPackage_From_Clipstore
         '
-        Me.chkShow_Clarity_Transfer.AutoSize = True
-        Me.chkShow_Clarity_Transfer.Checked = True
-        Me.chkShow_Clarity_Transfer.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkShow_Clarity_Transfer.Location = New System.Drawing.Point(9, 266)
-        Me.chkShow_Clarity_Transfer.Name = "chkShow_Clarity_Transfer"
-        Me.chkShow_Clarity_Transfer.Size = New System.Drawing.Size(138, 17)
-        Me.chkShow_Clarity_Transfer.TabIndex = 12
-        Me.chkShow_Clarity_Transfer.Text = "Show Transfer to Clarity"
-        Me.chkShow_Clarity_Transfer.UseVisualStyleBackColor = True
+        Me.chkPackage_From_Clipstore.AutoSize = True
+        Me.chkPackage_From_Clipstore.Checked = True
+        Me.chkPackage_From_Clipstore.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkPackage_From_Clipstore.Location = New System.Drawing.Point(9, 289)
+        Me.chkPackage_From_Clipstore.Name = "chkPackage_From_Clipstore"
+        Me.chkPackage_From_Clipstore.Size = New System.Drawing.Size(195, 17)
+        Me.chkPackage_From_Clipstore.TabIndex = 13
+        Me.chkPackage_From_Clipstore.Text = "Package from FTP Clipstore (Clarity)"
+        Me.ToolTip1.SetToolTip(Me.chkPackage_From_Clipstore, "If unchecked will use Emulated Clipstore (Prep)")
+        Me.chkPackage_From_Clipstore.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
@@ -1582,5 +1599,7 @@ Partial Class frmSettings
     Friend WithEvents txtSpreadsheet_Folder As System.Windows.Forms.TextBox
     Friend WithEvents Label39 As System.Windows.Forms.Label
     Friend WithEvents chkShow_Clarity_Transfer As System.Windows.Forms.CheckBox
+    Friend WithEvents chkPackage_From_Clipstore As System.Windows.Forms.CheckBox
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 
 End Class

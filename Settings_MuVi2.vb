@@ -79,6 +79,7 @@
         dr.Archive_SD = f.txtSD_Archived_Clips.Text
         dr.Delete_Spreadsheet_Folder = f.txtSpreadsheet_Folder.Text
         dr.Show_Clarity_Transfer = f.chkShow_Clarity_Transfer.Checked
+        dr.Package_From_Clipstore = f.chkPackage_From_Clipstore.Checked
 
         dt.AddSettingsRow(dr)
         ds.WriteXml(sFilename)
@@ -613,7 +614,18 @@
 
         End Set
     End Property
+    Friend Property Package_From_Clipstore(sFilename As String) As Boolean
+        Get
+            Try
+                Return drZero(sFilename).Package_From_Clipstore
+            Catch ex As Exception
+                Return False
+            End Try
+        End Get
+        Set(value As Boolean)
 
+        End Set
+    End Property
     Friend Property Still_Field_Number(ByVal sFilename As String) As Integer
         Get
             Try
