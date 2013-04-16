@@ -65,6 +65,10 @@ Public Class frmSettings
         Me.txtSpreadsheet_Folder.Text = ds.Spreadsheet_Folder(sFilename)
         Me.chkShow_Clarity_Transfer.Checked = ds.Show_Clarity_Transfer(sFilename)
         Me.chkPackage_From_Clipstore.Checked = ds.Package_From_Clipstore(sFilename)
+        Me.chkMove_Packaged_Job.Checked = ds.Move_Packaged_Job(sFilename)
+        Me.txtPackaged_Jobs_Archive_Folder.Text = ds.Archived_Pacakged_Jobs_Folder(sFilename)
+        Me.txtLocal_Job_Folder.Text = ds.Local_Job_Folder(sSettings_File_Name)
+        Me.txtNetwork_Job_Folder.Text = ds.Network_Job_Folder(sSettings_File_Name)
 
         Me.txtExample.Text = String.Concat(ds.Package_Folder(sFilename), ds.Package_Base, ".zip")
 
@@ -348,6 +352,36 @@ Public Class frmSettings
         sFolder = Choose_Folder("Spreadsheet Folder")
         If sFolder <> "" Then
             Me.txtSpreadsheet_Folder.Text = sFolder
+        End If
+
+    End Sub
+
+    Private Sub cmdArchived_Jobs_Path_Click(sender As System.Object, e As System.EventArgs) Handles cmdArchived_Jobs_Path.Click
+
+        Dim sFolder As String
+        sFolder = Choose_Folder("Archived Package Jobs Folder")
+        If sFolder <> "" Then
+            Me.txtPackaged_Jobs_Archive_Folder.Text = sFolder
+        End If
+
+    End Sub
+
+    Private Sub cmdBrowse_Local_Job_Click(sender As System.Object, e As System.EventArgs) Handles cmdBrowse_Local_Job.Click
+
+        Dim sFolder As String
+        sFolder = Choose_Folder("Local Job Folder")
+        If sFolder <> "" Then
+            Me.txtLocal_Job_Folder.Text = sFolder
+        End If
+
+    End Sub
+
+    Private Sub cmdBrowse_Network_Job_Click(sender As System.Object, e As System.EventArgs) Handles cmdBrowse_Network_Job.Click
+
+        Dim sFolder As String
+        sFolder = Choose_Folder("Network Job Folder")
+        If sFolder <> "" Then
+            Me.txtNetwork_Job_Folder.Text = sFolder
         End If
 
     End Sub

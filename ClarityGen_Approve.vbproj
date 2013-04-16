@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Generic.vb" />
     <Compile Include="Globals.vb" />
+    <Compile Include="History.vb" />
     <Compile Include="Main.Designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
     </Compile>

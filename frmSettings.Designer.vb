@@ -149,8 +149,19 @@ Partial Class frmSettings
         Me.cmdSave_Profile = New System.Windows.Forms.Button()
         Me.cmdLoad_Profile = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.chkPackage_From_Clipstore = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.chkMove_Packaged_Job = New System.Windows.Forms.CheckBox()
+        Me.cmdArchived_Jobs_Path = New System.Windows.Forms.Button()
+        Me.txtPackaged_Jobs_Archive_Folder = New System.Windows.Forms.TextBox()
+        Me.Label40 = New System.Windows.Forms.Label()
+        Me.chkPackage_From_Clipstore = New System.Windows.Forms.CheckBox()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.txtNetwork_Job_Folder = New System.Windows.Forms.TextBox()
+        Me.Label42 = New System.Windows.Forms.Label()
+        Me.txtLocal_Job_Folder = New System.Windows.Forms.TextBox()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.cmdBrowse_Local_Job = New System.Windows.Forms.Button()
+        Me.cmdBrowse_Network_Job = New System.Windows.Forms.Button()
         Me.tabSettings.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.udStill_Field_Number, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -755,7 +766,10 @@ Partial Class frmSettings
         '
         'TabPage2
         '
-        Me.TabPage2.Controls.Add(Me.chkPackage_From_Clipstore)
+        Me.TabPage2.Controls.Add(Me.chkMove_Packaged_Job)
+        Me.TabPage2.Controls.Add(Me.cmdArchived_Jobs_Path)
+        Me.TabPage2.Controls.Add(Me.txtPackaged_Jobs_Archive_Folder)
+        Me.TabPage2.Controls.Add(Me.Label40)
         Me.TabPage2.Controls.Add(Me.chkShow_Clarity_Transfer)
         Me.TabPage2.Controls.Add(Me.chkGenerate_Receipt)
         Me.TabPage2.Controls.Add(Me.chkDelete_Temporary)
@@ -1283,6 +1297,14 @@ Partial Class frmSettings
         '
         'TabPage4
         '
+        Me.TabPage4.Controls.Add(Me.cmdBrowse_Network_Job)
+        Me.TabPage4.Controls.Add(Me.cmdBrowse_Local_Job)
+        Me.TabPage4.Controls.Add(Me.txtNetwork_Job_Folder)
+        Me.TabPage4.Controls.Add(Me.Label42)
+        Me.TabPage4.Controls.Add(Me.txtLocal_Job_Folder)
+        Me.TabPage4.Controls.Add(Me.Label43)
+        Me.TabPage4.Controls.Add(Me.Label41)
+        Me.TabPage4.Controls.Add(Me.chkPackage_From_Clipstore)
         Me.TabPage4.Controls.Add(Me.txtPassword)
         Me.TabPage4.Controls.Add(Me.txtTimeout)
         Me.TabPage4.Controls.Add(Me.txtFTP_Port)
@@ -1423,18 +1445,125 @@ Partial Class frmSettings
         Me.cmdLoad_Profile.Text = "Load Profile"
         Me.cmdLoad_Profile.UseVisualStyleBackColor = True
         '
+        'chkMove_Packaged_Job
+        '
+        Me.chkMove_Packaged_Job.AutoSize = True
+        Me.chkMove_Packaged_Job.Checked = True
+        Me.chkMove_Packaged_Job.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkMove_Packaged_Job.Location = New System.Drawing.Point(9, 310)
+        Me.chkMove_Packaged_Job.Name = "chkMove_Packaged_Job"
+        Me.chkMove_Packaged_Job.Size = New System.Drawing.Size(196, 17)
+        Me.chkMove_Packaged_Job.TabIndex = 17
+        Me.chkMove_Packaged_Job.Text = "Move packaged job when complete"
+        Me.chkMove_Packaged_Job.UseVisualStyleBackColor = True
+        '
+        'cmdArchived_Jobs_Path
+        '
+        Me.cmdArchived_Jobs_Path.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdArchived_Jobs_Path.Location = New System.Drawing.Point(430, 325)
+        Me.cmdArchived_Jobs_Path.Name = "cmdArchived_Jobs_Path"
+        Me.cmdArchived_Jobs_Path.Size = New System.Drawing.Size(75, 23)
+        Me.cmdArchived_Jobs_Path.TabIndex = 15
+        Me.cmdArchived_Jobs_Path.Text = "Browse..."
+        Me.cmdArchived_Jobs_Path.UseVisualStyleBackColor = True
+        '
+        'txtPackaged_Jobs_Archive_Folder
+        '
+        Me.txtPackaged_Jobs_Archive_Folder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtPackaged_Jobs_Archive_Folder.Location = New System.Drawing.Point(109, 327)
+        Me.txtPackaged_Jobs_Archive_Folder.Name = "txtPackaged_Jobs_Archive_Folder"
+        Me.txtPackaged_Jobs_Archive_Folder.Size = New System.Drawing.Size(308, 20)
+        Me.txtPackaged_Jobs_Archive_Folder.TabIndex = 14
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Location = New System.Drawing.Point(6, 330)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(77, 13)
+        Me.Label40.TabIndex = 16
+        Me.Label40.Text = "Move jobs to..."
+        '
         'chkPackage_From_Clipstore
         '
         Me.chkPackage_From_Clipstore.AutoSize = True
         Me.chkPackage_From_Clipstore.Checked = True
         Me.chkPackage_From_Clipstore.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkPackage_From_Clipstore.Location = New System.Drawing.Point(9, 289)
+        Me.chkPackage_From_Clipstore.Location = New System.Drawing.Point(10, 171)
         Me.chkPackage_From_Clipstore.Name = "chkPackage_From_Clipstore"
         Me.chkPackage_From_Clipstore.Size = New System.Drawing.Size(195, 17)
-        Me.chkPackage_From_Clipstore.TabIndex = 13
+        Me.chkPackage_From_Clipstore.TabIndex = 14
         Me.chkPackage_From_Clipstore.Text = "Package from FTP Clipstore (Clarity)"
         Me.ToolTip1.SetToolTip(Me.chkPackage_From_Clipstore, "If unchecked will use Emulated Clipstore (Prep)")
         Me.chkPackage_From_Clipstore.UseVisualStyleBackColor = True
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Location = New System.Drawing.Point(7, 191)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(99, 13)
+        Me.Label41.TabIndex = 15
+        Me.Label41.Text = "Clarity Job Mapping"
+        '
+        'txtNetwork_Job_Folder
+        '
+        Me.txtNetwork_Job_Folder.Location = New System.Drawing.Point(112, 233)
+        Me.txtNetwork_Job_Folder.Name = "txtNetwork_Job_Folder"
+        Me.txtNetwork_Job_Folder.Size = New System.Drawing.Size(410, 20)
+        Me.txtNetwork_Job_Folder.TabIndex = 17
+        Me.ToolTip1.SetToolTip(Me.txtNetwork_Job_Folder, "The full network path to the folder on the Clarity that matches the job path on t" & _
+        "he Prep. Only used on Preps")
+        '
+        'Label42
+        '
+        Me.Label42.AutoSize = True
+        Me.Label42.Location = New System.Drawing.Point(7, 236)
+        Me.Label42.Name = "Label42"
+        Me.Label42.Size = New System.Drawing.Size(99, 13)
+        Me.Label42.TabIndex = 19
+        Me.Label42.Text = "Network Job Folder"
+        Me.ToolTip1.SetToolTip(Me.Label42, "The full network path to the folder on the Clarity that matches the job path on t" & _
+        "he Prep. Only used on Preps")
+        '
+        'txtLocal_Job_Folder
+        '
+        Me.txtLocal_Job_Folder.Location = New System.Drawing.Point(112, 207)
+        Me.txtLocal_Job_Folder.Name = "txtLocal_Job_Folder"
+        Me.txtLocal_Job_Folder.Size = New System.Drawing.Size(410, 20)
+        Me.txtLocal_Job_Folder.TabIndex = 16
+        Me.ToolTip1.SetToolTip(Me.txtLocal_Job_Folder, "The path to the job folder on the Prep. Only used on Preps")
+        '
+        'Label43
+        '
+        Me.Label43.AutoSize = True
+        Me.Label43.Location = New System.Drawing.Point(6, 210)
+        Me.Label43.Name = "Label43"
+        Me.Label43.Size = New System.Drawing.Size(79, 13)
+        Me.Label43.TabIndex = 18
+        Me.Label43.Text = "Local job folder"
+        Me.ToolTip1.SetToolTip(Me.Label43, "The path to the job folder on the Prep. Only used on Preps")
+        '
+        'cmdBrowse_Local_Job
+        '
+        Me.cmdBrowse_Local_Job.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdBrowse_Local_Job.Location = New System.Drawing.Point(528, 205)
+        Me.cmdBrowse_Local_Job.Name = "cmdBrowse_Local_Job"
+        Me.cmdBrowse_Local_Job.Size = New System.Drawing.Size(75, 23)
+        Me.cmdBrowse_Local_Job.TabIndex = 20
+        Me.cmdBrowse_Local_Job.Text = "Browse..."
+        Me.cmdBrowse_Local_Job.UseVisualStyleBackColor = True
+        '
+        'cmdBrowse_Network_Job
+        '
+        Me.cmdBrowse_Network_Job.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdBrowse_Network_Job.Location = New System.Drawing.Point(528, 231)
+        Me.cmdBrowse_Network_Job.Name = "cmdBrowse_Network_Job"
+        Me.cmdBrowse_Network_Job.Size = New System.Drawing.Size(75, 23)
+        Me.cmdBrowse_Network_Job.TabIndex = 21
+        Me.cmdBrowse_Network_Job.Text = "Browse..."
+        Me.cmdBrowse_Network_Job.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
@@ -1599,7 +1728,18 @@ Partial Class frmSettings
     Friend WithEvents txtSpreadsheet_Folder As System.Windows.Forms.TextBox
     Friend WithEvents Label39 As System.Windows.Forms.Label
     Friend WithEvents chkShow_Clarity_Transfer As System.Windows.Forms.CheckBox
-    Friend WithEvents chkPackage_From_Clipstore As System.Windows.Forms.CheckBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents chkMove_Packaged_Job As System.Windows.Forms.CheckBox
+    Friend WithEvents cmdArchived_Jobs_Path As System.Windows.Forms.Button
+    Friend WithEvents txtPackaged_Jobs_Archive_Folder As System.Windows.Forms.TextBox
+    Friend WithEvents Label40 As System.Windows.Forms.Label
+    Friend WithEvents cmdBrowse_Network_Job As System.Windows.Forms.Button
+    Friend WithEvents cmdBrowse_Local_Job As System.Windows.Forms.Button
+    Friend WithEvents txtNetwork_Job_Folder As System.Windows.Forms.TextBox
+    Friend WithEvents Label42 As System.Windows.Forms.Label
+    Friend WithEvents txtLocal_Job_Folder As System.Windows.Forms.TextBox
+    Friend WithEvents Label43 As System.Windows.Forms.Label
+    Friend WithEvents Label41 As System.Windows.Forms.Label
+    Friend WithEvents chkPackage_From_Clipstore As System.Windows.Forms.CheckBox
 
 End Class

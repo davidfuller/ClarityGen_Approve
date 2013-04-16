@@ -391,6 +391,14 @@ Partial Public Class TheSettings
         
         Private columnPackage_From_Clipstore As Global.System.Data.DataColumn
         
+        Private columnMove_Package_Job As Global.System.Data.DataColumn
+        
+        Private columnPackaged_Job_Archived_Folder As Global.System.Data.DataColumn
+        
+        Private columnLocal_Job_Path As Global.System.Data.DataColumn
+        
+        Private columnNetwork_Job_Path As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -859,6 +867,38 @@ Partial Public Class TheSettings
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Move_Package_JobColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnMove_Package_Job
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Packaged_Job_Archived_FolderColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnPackaged_Job_Archived_Folder
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Local_Job_PathColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLocal_Job_Path
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Network_Job_PathColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnNetwork_Job_Path
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -949,9 +989,13 @@ Partial Public Class TheSettings
                     ByVal Archive_SD As String,  _
                     ByVal Delete_Spreadsheet_Folder As String,  _
                     ByVal Show_Clarity_Transfer As Boolean,  _
-                    ByVal Package_From_Clipstore As Boolean) As SettingsRow
+                    ByVal Package_From_Clipstore As Boolean,  _
+                    ByVal Move_Package_Job As Boolean,  _
+                    ByVal Packaged_Job_Archived_Folder As String,  _
+                    ByVal Local_Job_Path As String,  _
+                    ByVal Network_Job_Path As String) As SettingsRow
             Dim rowSettingsRow As SettingsRow = CType(Me.NewRow,SettingsRow)
-            Dim columnValuesArray() As Object = New Object() {Host_Name, Command_Port, Use_Feedback, Feedback_Port, Clarity_Job_Filename, Page_Number, Channel_Number, Field_Number, Job_Load_Timeout, HD, HD_Folder_Suffix, Clip_Page_Delay, Still_Page_Delay, Package_Start_Page, Package_Folder, Package_Prefix, Package_Data_Format, Package_Suffix, Data_Connection_String, ftp_server_address, ftp_user_name, ftp_password, Clipstore_Name, ftp_port_no, ftp_timeout, Delete_Temporary_Files, Unpackage_Root_Folder, Overwrite, Emulated_Clips_Folder, Job_Clip_Subfolder, Delete_Temporary_Clarity_Clips, Unpackage_Host_Name, Unpackage_Command_Port, Unpackage_Use_Feedback, Unpackage_Feedback_Port, Unpackage_Job_Load_Timeout, Open_Job_After_Unpackage, Un_Package_Package_Path, Use_V7_Commands, Log_Clarity_Events, Start_Unpackaging, Use_Temp_Folder_For_Unpackaged_Job, V7_Empty_Job, Generate_Receipt, Receipt_Folder, Use_Alpha_Enabled_Job, Still_Field_Number, Empty_Clip, Empty_Still, Archive_HD, Archive_SD, Delete_Spreadsheet_Folder, Show_Clarity_Transfer, Package_From_Clipstore}
+            Dim columnValuesArray() As Object = New Object() {Host_Name, Command_Port, Use_Feedback, Feedback_Port, Clarity_Job_Filename, Page_Number, Channel_Number, Field_Number, Job_Load_Timeout, HD, HD_Folder_Suffix, Clip_Page_Delay, Still_Page_Delay, Package_Start_Page, Package_Folder, Package_Prefix, Package_Data_Format, Package_Suffix, Data_Connection_String, ftp_server_address, ftp_user_name, ftp_password, Clipstore_Name, ftp_port_no, ftp_timeout, Delete_Temporary_Files, Unpackage_Root_Folder, Overwrite, Emulated_Clips_Folder, Job_Clip_Subfolder, Delete_Temporary_Clarity_Clips, Unpackage_Host_Name, Unpackage_Command_Port, Unpackage_Use_Feedback, Unpackage_Feedback_Port, Unpackage_Job_Load_Timeout, Open_Job_After_Unpackage, Un_Package_Package_Path, Use_V7_Commands, Log_Clarity_Events, Start_Unpackaging, Use_Temp_Folder_For_Unpackaged_Job, V7_Empty_Job, Generate_Receipt, Receipt_Folder, Use_Alpha_Enabled_Job, Still_Field_Number, Empty_Clip, Empty_Still, Archive_HD, Archive_SD, Delete_Spreadsheet_Folder, Show_Clarity_Transfer, Package_From_Clipstore, Move_Package_Job, Packaged_Job_Archived_Folder, Local_Job_Path, Network_Job_Path}
             rowSettingsRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowSettingsRow)
             Return rowSettingsRow
@@ -1028,6 +1072,10 @@ Partial Public Class TheSettings
             Me.columnDelete_Spreadsheet_Folder = MyBase.Columns("Delete_Spreadsheet_Folder")
             Me.columnShow_Clarity_Transfer = MyBase.Columns("Show_Clarity_Transfer")
             Me.columnPackage_From_Clipstore = MyBase.Columns("Package_From_Clipstore")
+            Me.columnMove_Package_Job = MyBase.Columns("Move_Package_Job")
+            Me.columnPackaged_Job_Archived_Folder = MyBase.Columns("Packaged_Job_Archived_Folder")
+            Me.columnLocal_Job_Path = MyBase.Columns("Local_Job_Path")
+            Me.columnNetwork_Job_Path = MyBase.Columns("Network_Job_Path")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -1141,6 +1189,14 @@ Partial Public Class TheSettings
             MyBase.Columns.Add(Me.columnShow_Clarity_Transfer)
             Me.columnPackage_From_Clipstore = New Global.System.Data.DataColumn("Package_From_Clipstore", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnPackage_From_Clipstore)
+            Me.columnMove_Package_Job = New Global.System.Data.DataColumn("Move_Package_Job", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnMove_Package_Job)
+            Me.columnPackaged_Job_Archived_Folder = New Global.System.Data.DataColumn("Packaged_Job_Archived_Folder", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnPackaged_Job_Archived_Folder)
+            Me.columnLocal_Job_Path = New Global.System.Data.DataColumn("Local_Job_Path", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLocal_Job_Path)
+            Me.columnNetwork_Job_Path = New Global.System.Data.DataColumn("Network_Job_Path", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnNetwork_Job_Path)
             Me.columnHost_Name.DefaultValue = CType("localhost",String)
             Me.columnCommand_Port.DefaultValue = CType("10220",String)
             Me.columnUse_Feedback.DefaultValue = CType(true,Boolean)
@@ -2140,6 +2196,67 @@ Partial Public Class TheSettings
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Move_Package_Job() As Boolean
+            Get
+                Try 
+                    Return CType(Me(Me.tableSettings.Move_Package_JobColumn),Boolean)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Move_Package_Job' in table 'Settings' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableSettings.Move_Package_JobColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Packaged_Job_Archived_Folder() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableSettings.Packaged_Job_Archived_FolderColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Packaged_Job_Archived_Folder' in table 'Settings' is DBNull"& _ 
+                            ".", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableSettings.Packaged_Job_Archived_FolderColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Local_Job_Path() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableSettings.Local_Job_PathColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Local_Job_Path' in table 'Settings' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableSettings.Local_Job_PathColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Network_Job_Path() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableSettings.Network_Job_PathColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Network_Job_Path' in table 'Settings' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableSettings.Network_Job_PathColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsHost_NameNull() As Boolean
             Return Me.IsNull(Me.tableSettings.Host_NameColumn)
         End Function
@@ -2784,6 +2901,54 @@ Partial Public Class TheSettings
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetPackage_From_ClipstoreNull()
             Me(Me.tableSettings.Package_From_ClipstoreColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsMove_Package_JobNull() As Boolean
+            Return Me.IsNull(Me.tableSettings.Move_Package_JobColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetMove_Package_JobNull()
+            Me(Me.tableSettings.Move_Package_JobColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsPackaged_Job_Archived_FolderNull() As Boolean
+            Return Me.IsNull(Me.tableSettings.Packaged_Job_Archived_FolderColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetPackaged_Job_Archived_FolderNull()
+            Me(Me.tableSettings.Packaged_Job_Archived_FolderColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsLocal_Job_PathNull() As Boolean
+            Return Me.IsNull(Me.tableSettings.Local_Job_PathColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetLocal_Job_PathNull()
+            Me(Me.tableSettings.Local_Job_PathColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsNetwork_Job_PathNull() As Boolean
+            Return Me.IsNull(Me.tableSettings.Network_Job_PathColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetNetwork_Job_PathNull()
+            Me(Me.tableSettings.Network_Job_PathColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     

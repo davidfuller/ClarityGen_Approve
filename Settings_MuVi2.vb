@@ -80,6 +80,10 @@
         dr.Delete_Spreadsheet_Folder = f.txtSpreadsheet_Folder.Text
         dr.Show_Clarity_Transfer = f.chkShow_Clarity_Transfer.Checked
         dr.Package_From_Clipstore = f.chkPackage_From_Clipstore.Checked
+        dr.Move_Package_Job = f.chkMove_Packaged_Job.Checked
+        dr.Packaged_Job_Archived_Folder = f.txtPackaged_Jobs_Archive_Folder.Text
+        dr.Local_Job_Path = f.txtLocal_Job_Folder.Text
+        dr.Network_Job_Path = f.txtNetwork_Job_Folder.Text
 
         dt.AddSettingsRow(dr)
         ds.WriteXml(sFilename)
@@ -704,4 +708,59 @@
 
         End Set
     End Property
+
+    Friend Property Archived_Pacakged_Jobs_Folder(ByVal sFilename As String) As String
+        Get
+            Try
+                Return drZero(sFilename).Packaged_Job_Archived_Folder
+            Catch ex As Exception
+                Return ""
+            End Try
+
+        End Get
+        Set(ByVal value As String)
+
+        End Set
+    End Property
+
+    Friend Property Move_Packaged_Job(sFilename As String) As Boolean
+        Get
+            Try
+                Return drZero(sFilename).Move_Package_Job
+            Catch ex As Exception
+                Return False
+            End Try
+        End Get
+        Set(value As Boolean)
+
+        End Set
+    End Property
+    Friend Property Local_Job_Folder(ByVal sFilename As String) As String
+        Get
+            Try
+                Return drZero(sFilename).Local_Job_Path
+            Catch ex As Exception
+                Return ""
+            End Try
+
+        End Get
+        Set(ByVal value As String)
+
+        End Set
+    End Property
+    Friend Property Network_Job_Folder(ByVal sFilename As String) As String
+        Get
+            Try
+                Return drZero(sFilename).Network_Job_Path
+            Catch ex As Exception
+                Return ""
+            End Try
+
+        End Get
+        Set(ByVal value As String)
+
+        End Set
+
+    End Property
+
 End Class

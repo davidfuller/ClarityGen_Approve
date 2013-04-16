@@ -6,6 +6,7 @@ Public Class Main
     Private objSettings As Settings_MuVi2
     Dim objClarity As Clarity
     Private dt As New mm_phase_5DataSet.Gemini_Media_LocationsDataTable
+    Private objHistory As History
 
 
     Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
@@ -42,6 +43,7 @@ Public Class Main
 
 
         objSettings = New Settings_MuVi2
+        objHistory = New History(Clip_HistoryTableAdapter)
 
         bPackaging_Only = objSettings.Start_Unpackaging(sSettings_File_Name)
         If bPackaging_Only Then
@@ -372,7 +374,6 @@ Public Class Main
         Dim Folder_Stuff = New Folder_Details
         Dim sFilename As String
         Dim sFilenames() As File_Details
-        Dim dtFirst_Use() As Date
         Dim iNum As Integer
         Dim sClip As String
         Dim sBasename As String
@@ -390,7 +391,6 @@ Public Class Main
         mmdb = New mmdb_Data(dt)
 
         ReDim Preserve sFilenames(0)
-        ReDim Preserve dtFirst_Use(0)
 
         If Not objClarity.Is_Job_Loaded() Then
             If objClarity.Load_Job() Then
@@ -404,16 +404,12 @@ Public Class Main
                             If objClarity.Create_Page(iDestination_Page) Then
                                 objClarity.Update_Page(iDestination_Page, Remove_PPV(sFilename))
                                 iDestination_Page += 1
-
                                 ReDim Preserve sFilenames(iNum)
+                                sFilenames(iNum) = New File_Details
                                 sFilenames(iNum).Filename = sFilename
                                 sFilenames(iNum).ID = dr.Cells("ID").Value
                                 sFilenames(iNum).Success = False
-
-                                ReDim Preserve dtFirst_Use(iNum)
-                                dtFirst_Use(iNum) = dr.Cells("First_Use").Value
-
-
+                                sFilenames(iNum).First_Use = dr.Cells("First_Use").Value
                                 iNum += 1
                             End If
                         End If
@@ -436,9 +432,7 @@ Public Class Main
                         sFilenames(iNum).Filename = sFilename
                         sFilenames(iNum).ID = dr.Cells("ID").Value
                         sFilenames(iNum).Success = False
-
-                        ReDim Preserve dtFirst_Use(iNum)
-                        dtFirst_Use(iNum) = dr.Cells("First_Use").Value
+                        sFilenames(iNum).First_Use = dr.Cells("First_Use").Value
                         iNum += 1
                     End If
                 End If
@@ -449,22 +443,20 @@ Public Class Main
         objClarity.Save_Job(objSettings.Package_Job_Filename(sBasename))
         objClarity.Disconnect()
 
-        Copy_Files(sBasename, sFilenames, dtFirst_Use, bHD)
+        Copy_Files(sBasename, sFilenames, bHD)
 
     End Sub
 
-    Private Sub Copy_Files(ByVal sBaseName As String, ByVal sFilenames() As File_Details, ByVal dtFirst_Use() As Date, bHD As Boolean)
+    Private Sub Copy_Files(ByVal sBaseName As String, ByVal sFilenames() As File_Details, bHD As Boolean)
 
         Dim sSourceJob As String
         Dim fi As FileInfo
         Dim sFolder As String
-        Dim sClip_Folder As String
         Dim sDestination As String
-        Dim i As Integer
-        Dim sSource As String
-        Dim sDest As String
         Dim objReceipt As Receipt
+        Dim objCopy As Archive_Restore
         Dim sMessage As String
+        Dim bSuccess As Boolean
 
         objReceipt = New Receipt(objSettings.Zip_File_Name(sBaseName), mm)
 
@@ -491,43 +483,14 @@ Public Class Main
         If Create_Folder_If_Not_Present(sFolder) Then
             fi.CopyTo(sDestination, True)
             mm.Add(String.Concat("Copying job: ", sSourceJob))
-            sClip_Folder = String.Concat(Fix_Folder_End(sFolder, Media_Type.Still), objSettings.Job_Clips_Subfolder(sSettings_File_Name))
+            objCopy = New Archive_Restore()
+            If objSettings.Package_From_Clipstore(sSettings_File_Name) Then
+                bSuccess = objCopy.Copy_Clipstore_Clips_To_Package(sFilenames, sFolder, sBaseName, objReceipt, ProgressBar1)
+            Else
+                bSuccess = objCopy.Copy_Emulated_Clips_To_Package(sFilenames, sFolder, sBaseName, objReceipt)
+            End If
 
-            If Create_Folder_If_Not_Present(sClip_Folder) Then
-                For i = 0 To sFilenames.GetUpperBound(0)
-                    If Not sFilenames(i) Is Nothing Then
-                        If File_Type(sFilenames(i).Filename) = Media_Type.Clip Then
-                            sSource = String.Concat(objSettings.Emulated_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sFilenames(i).Filename))
-                            sDest = String.Concat(sClip_Folder, Clip_Base_Filename(sFilenames(i).Filename))
-                        Else
-                            sSource = String.Concat(Remove_PIC(sFilenames(i).Filename))
-                            sDest = String.Concat(Still_Dest_Filename(sFilenames(i).Filename, sBaseName))
-                        End If
-
-                        fi = New FileInfo(sDest)
-                        If Create_Folder_If_Not_Present(fi.DirectoryName) Then
-                            fi = New FileInfo(sSource)
-                            If fi.Exists Then
-                                Try
-                                    fi.CopyTo(sDest, True)
-                                    mm.Add(String.Concat("Copying clip: ", sSource))
-                                    objReceipt.Add(String.Format("Media filename: {0} First Use: {1}", sFilenames(i).Filename, dtFirst_Use(i).ToShortDateString))
-                                    sFilenames(i).Success = True
-                                Catch ex As Exception
-                                    mm.Add(String.Concat("Could not copy clip: ", sSource, " Error: ", ex.ToString))
-                                    sFilenames(i).Success = False
-                                End Try
-                            Else
-                                mm.Add(String.Concat("Unable to find: ", sSource))
-                                sFilenames(i).Success = False
-                            End If
-                        Else
-                            mm.Add(String.Concat("Failed to create folder for: ", sDest))
-                            sFilenames(i).Success = False
-                        End If
-                    End If
-                Next
-
+            If bSuccess Then
                 Create_Zip(sBaseName)
                 If objSettings.Delete_Temporary_Files(sSettings_File_Name) Then
                     Delete_Folder(objSettings.Folder_To_Zip(sBaseName))
@@ -545,9 +508,7 @@ Public Class Main
                 If MessageBox.Show(sMessage, "Complete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     Update_Packaged_Files(sFilenames, objSettings.Zip_File_Name(sBaseName), bHD)
                 End If
-            Else
-                mm.Add(String.Concat("Failed to create folder: ", sClip_Folder))
-                MessageBox.Show(String.Concat("Failed to create folder: ", sClip_Folder), "Folder Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                objCopy.Archive_Packaged_Job(sSourceJob)
             End If
         Else
             mm.Add(String.Concat("Failed to create folder: ", sFolder))
@@ -575,14 +536,14 @@ Public Class Main
                         drMedia(0).Package_Date = Now
                         drMedia(0).Package_Filename = sPackage_Filename
                         drMedia(0).EndEdit()
-                        Add_To_History(sFilenames(i), String.Concat("Packaged HD Clip/Still in file: ", sPackage_Filename))
+                        objHistory.Add_To_History(sFilenames(i), String.Concat("Packaged HD Clip/Still in file: ", sPackage_Filename))
                     Else
                         drMedia(0).BeginEdit()
                         drMedia(0).Packaged_SD = True
                         drMedia(0).Package_Date_SD = Now
                         drMedia(0).Package_Filename_SD = sPackage_Filename
                         drMedia(0).EndEdit()
-                        Add_To_History(sFilenames(i), String.Concat("Packaged HD Clip/Still in file: ", sPackage_Filename))
+                        objHistory.Add_To_History(sFilenames(i), String.Concat("Packaged HD Clip/Still in file: ", sPackage_Filename))
                     End If
                 End If
             End If
@@ -615,12 +576,12 @@ Public Class Main
                         dr.Cells("Packaged").Value = True
                         dr.Cells("Package_Date").Value = Now
                         dr.Cells("Package_Filename").Value = sPackage_Filename
-                        Add_To_History(sFilenames(iItem), String.Concat("Packaged HD Clip/Still in file: ", sPackage_Filename))
+                        objHistory.Add_To_History(sFilenames(iItem), String.Concat("Packaged HD Clip/Still in file: ", sPackage_Filename))
                     Else
                         dr.Cells("Packaged_SD").Value = True
                         dr.Cells("Package_Date_SD").Value = Now
                         dr.Cells("Package_Filename_SD").Value = sPackage_Filename
-                        Add_To_History(sFilenames(iItem), String.Concat("Packaged SD Clip/Still in file: ", sPackage_Filename))
+                        objHistory.Add_To_History(sFilenames(iItem), String.Concat("Packaged SD Clip/Still in file: ", sPackage_Filename))
                     End If
                 End If
             End If
@@ -964,19 +925,19 @@ Public Class Main
             drMedia(sArchive_Column) = False
             drMedia(sMissing_Column) = False
             If bPrevious_Archived Or bPrevious_Missing Then
-                Add_To_History(drMedia.ID, "File in current folder")
+                objHistory.Add_To_History(drMedia.ID, "File in current folder")
             End If
         ElseIf bArchived Then
             drMedia(sArchive_Column) = True
             drMedia(sMissing_Column) = False
             If Not bPrevious_Archived Then
-                Add_To_History(drMedia.ID, "File moved to archive")
+                objHistory.Add_To_History(drMedia.ID, "File moved to archive")
             End If
         Else
             drMedia(sArchive_Column) = False
             drMedia(sMissing_Column) = True
             If Not bPrevious_Missing Then
-                Add_To_History(drMedia.ID, "File detected as missing")
+                objHistory.Add_To_History(drMedia.ID, "File detected as missing")
             End If
         End If
         drMedia.EndEdit()
@@ -1006,19 +967,19 @@ Public Class Main
             dr.Cells(sArchive_Column).Value = False
             dr.Cells(sMissing_Column).Value = False
             If bPrevious_Archived Or bPrevious_Missing Then
-                Add_To_History(dr.Cells("ID").Value, "File in current folder")
+                objHistory.Add_To_History(dr.Cells("ID").Value, "File in current folder")
             End If
         ElseIf bArchived Then
             dr.Cells(sArchive_Column).Value = True
             dr.Cells(sMissing_Column).Value = False
             If Not bPrevious_Archived Then
-                Add_To_History(dr.Cells("ID").Value, "File moved to archive")
+                objHistory.Add_To_History(dr.Cells("ID").Value, "File moved to archive")
             End If
         Else
             dr.Cells(sArchive_Column).Value = False
             dr.Cells(sMissing_Column).Value = True
             If Not bPrevious_Missing Then
-                Add_To_History(dr.Cells("ID").Value, "File detected as missing")
+                objHistory.Add_To_History(dr.Cells("ID").Value, "File detected as missing")
             End If
         End If
 
@@ -1070,12 +1031,12 @@ Public Class Main
                             dr.Cells("Archive").Value = False
                             dr.Cells("Archived_Date").Value = Now
                             dr.Cells("Archived").Value = True
-                            Add_To_History(sFilenames(iItem), "Archived HD Clip")
+                            objHistory.Add_To_History(sFilenames(iItem), "Archived HD Clip")
                         Else
                             dr.Cells("Archive_SD").Value = False
                             dr.Cells("Archived_Date_SD").Value = Now
                             dr.Cells("Archived_SD").Value = True
-                            Add_To_History(sFilenames(iItem), "Archived SD Clip")
+                            objHistory.Add_To_History(sFilenames(iItem), "Archived SD Clip")
                         End If
                     Else
                         If bHD Then
@@ -1116,13 +1077,13 @@ Public Class Main
                             drMedia(0).Archived_Date = Now
                             drMedia(0).Archived = True
                             drMedia(0).EndEdit()
-                            Add_To_History(sFilenames(i), "Archived HD Clip")
+                            objHistory.Add_To_History(sFilenames(i), "Archived HD Clip")
                         Else
                             drMedia(0).BeginEdit()
                             drMedia(0).Archived_Date_SD = Now
                             drMedia(0).Archived_SD = True
                             drMedia(0).EndEdit()
-                            Add_To_History(sFilenames(i), "Archived SD Clip")
+                            objHistory.Add_To_History(sFilenames(i), "Archived SD Clip")
                         End If
                     Else
                         If bHD Then
@@ -1130,13 +1091,13 @@ Public Class Main
                             drMedia(0).Unarchived_Date = Now
                             drMedia(0).Archived = False
                             drMedia(0).EndEdit()
-                            Add_To_History(sFilenames(i), "Restored HD Clip")
+                            objHistory.Add_To_History(sFilenames(i), "Restored HD Clip")
                         Else
                             drMedia(0).BeginEdit()
                             drMedia(0).Unarchived_Date_SD = Now
                             drMedia(0).Archived_SD = False
                             drMedia(0).EndEdit()
-                            Add_To_History(sFilenames(i), "Restored SD Clip")
+                            objHistory.Add_To_History(sFilenames(i), "Restored SD Clip")
                         End If
                     End If
                 End If
@@ -1150,31 +1111,6 @@ Public Class Main
 
     End Sub
 
-
-
-    Public Sub Add_To_History(sFilename As File_Details, sMessage As String)
-
-        Add_To_History(sFilename.ID, sMessage)
-
-    End Sub
-
-    Public Sub Add_To_History(iFile_ID As Int32, sMessage As String)
-
-        Dim dtHistory As mm_phase_5DataSet.Clip_HistoryDataTable
-        Dim dr As mm_phase_5DataSet.Clip_HistoryRow
-
-        dtHistory = New mm_phase_5DataSet.Clip_HistoryDataTable
-        Clip_HistoryTableAdapter.Fill(dtHistory)
-
-        dr = dtHistory.NewClip_HistoryRow
-        dr.Media_ID = iFile_ID
-        dr.Added = Now
-        dr.Message = sMessage
-        dtHistory.AddClip_HistoryRow(dr)
-
-        Clip_HistoryTableAdapter.Update(dtHistory)
-
-    End Sub
 
 
     Private Sub chkAll_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkAll.CheckedChanged
@@ -1211,13 +1147,13 @@ Public Class Main
         Formats = Get_Formats()
 
         Deselect_All_Rows()
-        objArchive = New Archive_Restore(dt)
+        objArchive = New Archive_Restore()
 
         For i = 0 To Formats.GetUpperBound(0)
             bHD = Formats(i)
             mm.Add(String.Concat("Starting ", Archive_Restore_Display(bArchive, bHD)))
 
-            sFilenames = objArchive.Archive_Restore_Filenames(Gemini_MediaDataGridView, bHD)
+            sFilenames = objArchive.Archive_Restore_Filenames(Gemini_MediaDataGridView, dt, bHD)
 
             If objArchive.Archive_Restore_Files(sFilenames, bArchive, bHD) Then
                 If objArchive.Totally_Successful Then
@@ -1369,13 +1305,13 @@ Public Class Main
         Formats = Get_Formats()
 
         Deselect_All_Rows()
-        objArchive = New Archive_Restore(dt)
+        objArchive = New Archive_Restore()
 
         For i = 0 To Formats.GetUpperBound(0)
             bHD = Formats(i)
             mm.Add(String.Concat("Starting Clarity Transfer"))
 
-            sFilenames = objArchive.Clarity_Transfer_Filenames(Gemini_MediaDataGridView, bHD)
+            sFilenames = objArchive.Clarity_Transfer_Filenames(Gemini_MediaDataGridView, dt, bHD)
 
             If objArchive.Transfer_Files_To_Clarity(sFilenames, ProgressBar1) Then
                 If objArchive.Totally_Successful Then
@@ -1399,7 +1335,7 @@ Public Class Main
         Dim i As Int32
         For i = 0 To sFilenames.GetUpperBound(0)
             If sFilenames(i).Success Then
-                Add_To_History(sFilenames(i), "Transferred to Clarity")
+                objHistory.Add_To_History(sFilenames(i), "Transferred to Clarity")
             End If
         Next
 
