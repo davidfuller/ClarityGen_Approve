@@ -136,6 +136,7 @@ Partial Class frmSettings
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.chkClipstore_Scan = New System.Windows.Forms.CheckBox()
         Me.cmdBrowse_Network_Job = New System.Windows.Forms.Button()
         Me.cmdBrowse_Local_Job = New System.Windows.Forms.Button()
         Me.txtNetwork_Job_Folder = New System.Windows.Forms.TextBox()
@@ -162,7 +163,7 @@ Partial Class frmSettings
         Me.cmdLoad_Profile = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkClipstore_Scan = New System.Windows.Forms.CheckBox()
+        Me.chkClarity_Packaging_View = New System.Windows.Forms.CheckBox()
         Me.tabSettings.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.udStill_Field_Number, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -767,6 +768,7 @@ Partial Class frmSettings
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.chkClarity_Packaging_View)
         Me.TabPage2.Controls.Add(Me.chkMove_Packaged_Job)
         Me.TabPage2.Controls.Add(Me.cmdArchived_Jobs_Path)
         Me.TabPage2.Controls.Add(Me.txtPackaged_Jobs_Archive_Folder)
@@ -1367,6 +1369,20 @@ Partial Class frmSettings
         Me.TabPage4.Text = "Clipstore FTP"
         Me.TabPage4.UseVisualStyleBackColor = True
         '
+        'chkClipstore_Scan
+        '
+        Me.chkClipstore_Scan.AutoSize = True
+        Me.chkClipstore_Scan.Checked = True
+        Me.chkClipstore_Scan.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkClipstore_Scan.Location = New System.Drawing.Point(10, 259)
+        Me.chkClipstore_Scan.Name = "chkClipstore_Scan"
+        Me.chkClipstore_Scan.Size = New System.Drawing.Size(125, 17)
+        Me.chkClipstore_Scan.TabIndex = 22
+        Me.chkClipstore_Scan.Text = "Scan Clarity Clipstore"
+        Me.ToolTip1.SetToolTip(Me.chkClipstore_Scan, "If checked the Scan with scan the Clarity clipstore/stills folder and will colour" & _
+        " code the results appropriately")
+        Me.chkClipstore_Scan.UseVisualStyleBackColor = True
+        '
         'cmdBrowse_Network_Job
         '
         Me.cmdBrowse_Network_Job.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1567,19 +1583,17 @@ Partial Class frmSettings
         Me.cmdLoad_Profile.Text = "Load Profile"
         Me.cmdLoad_Profile.UseVisualStyleBackColor = True
         '
-        'chkClipstore_Scan
+        'chkClarity_Packaging_View
         '
-        Me.chkClipstore_Scan.AutoSize = True
-        Me.chkClipstore_Scan.Checked = True
-        Me.chkClipstore_Scan.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkClipstore_Scan.Location = New System.Drawing.Point(10, 259)
-        Me.chkClipstore_Scan.Name = "chkClipstore_Scan"
-        Me.chkClipstore_Scan.Size = New System.Drawing.Size(125, 17)
-        Me.chkClipstore_Scan.TabIndex = 22
-        Me.chkClipstore_Scan.Text = "Scan Clarity Clipstore"
-        Me.ToolTip1.SetToolTip(Me.chkClipstore_Scan, "If checked the Scan with scan the Clarity clipstore/stills folder and will colour" & _
-        " code the results appropriately")
-        Me.chkClipstore_Scan.UseVisualStyleBackColor = True
+        Me.chkClarity_Packaging_View.AutoSize = True
+        Me.chkClarity_Packaging_View.Checked = True
+        Me.chkClarity_Packaging_View.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkClarity_Packaging_View.Location = New System.Drawing.Point(9, 289)
+        Me.chkClarity_Packaging_View.Name = "chkClarity_Packaging_View"
+        Me.chkClarity_Packaging_View.Size = New System.Drawing.Size(134, 17)
+        Me.chkClarity_Packaging_View.TabIndex = 18
+        Me.chkClarity_Packaging_View.Text = "Clarity Packaging View"
+        Me.chkClarity_Packaging_View.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
@@ -1758,5 +1772,6 @@ Partial Class frmSettings
     Friend WithEvents Label41 As System.Windows.Forms.Label
     Friend WithEvents chkPackage_From_Clipstore As System.Windows.Forms.CheckBox
     Friend WithEvents chkClipstore_Scan As System.Windows.Forms.CheckBox
+    Friend WithEvents chkClarity_Packaging_View As System.Windows.Forms.CheckBox
 
 End Class

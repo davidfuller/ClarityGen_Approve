@@ -119,13 +119,20 @@ Public Class Main
         Gemini_MediaDataGridView.Columns("Ignore_SD").Visible = Picture_Format.SD
 
         Gemini_MediaDataGridView.Columns("Clarity").Visible = bPackaging And objSettings.Show_Clarity_Transfer(sSettings_File_Name)
+        Gemini_MediaDataGridView.Columns("On_Clarity_Clipstore").Visible = False
 
     End Sub
 
     Private Sub Set_Controls(bPackaging As Boolean, bHD As Boolean)
 
+        Dim bClarity_View As Boolean
+        Dim iWidth As Int32
+        Dim iLeft As Int32
+
+        bClarity_View = objSettings.Clarity_Packaging_View(sSettings_File_Name)
+
         cmdScan.Visible = True
-        cmdSend_Clarity.Visible = bPackaging
+        cmdSend_Clarity.Visible = bPackaging And Not bClarity_View
         cmdSend_Clarity.Enabled = objSettings.Show_Clarity_Transfer(sSettings_File_Name)
 
         cmdArchive.Visible = Not bPackaging
@@ -133,6 +140,8 @@ Public Class Main
         cmdPackage.Visible = bPackaging
         cmbHD.Visible = Not bPackaging
         cmbFilter.Visible = cmbHD.SelectedIndex <= 1
+
+        cmbView.Enabled = Not bClarity_View
 
         If bPackaging Then
             If bHD Then
@@ -143,6 +152,21 @@ Public Class Main
         ElseIf cmbHD.SelectedIndex > 1 Then
             cmbFilter.SelectedIndex = 0
         End If
+
+        If bClarity_View Then
+            ProgressBar1.Width = txtClip_Filename.Width
+            cmdScan.Left = cmdShow.Left
+        Else
+            iWidth = txtClip_Filename.Width - 81
+            If iWidth > 0 Then
+                ProgressBar1.Width = iWidth
+            End If
+            iLeft = cmdShow.Left - 81
+            If iLeft > 0 Then
+                cmdScan.Left = iLeft
+            End If
+        End If
+
 
     End Sub
 
@@ -301,18 +325,36 @@ Public Class Main
 
         Dim c As DataGridViewCell
         Dim iScroll As Int32
+        Dim iID As Int32
+        Dim sMessage As String
 
         If e.RowIndex > -1 And e.ColumnIndex > -1 Then
             c = Gemini_MediaDataGridView.Rows(e.RowIndex).Cells(e.ColumnIndex)
             Select Case c.OwningColumn.Name
                 Case "Ignore_HD", "Ignore_SD"
+                    iID = Gemini_MediaDataGridView.Rows(e.RowIndex).Cells("ID").Value
                     c.Value = Not c.Value
+                    If c.OwningColumn.Name = "Ignore_HD" Then
+                        If c.Value Then
+                            sMessage = "Media ignored for HD"
+                        Else
+                            sMessage = "Media un-ignored for HD"
+                        End If
+                    Else
+                        If c.Value Then
+                            sMessage = "Media ignored for SD"
+                        Else
+                            sMessage = "Media un-ignored for SD"
+                        End If
+                    End If
+
                     iScroll = Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex
                     Save_Data()
                     ReQuery()
                     c = Gemini_MediaDataGridView.Rows(e.RowIndex).Cells(e.ColumnIndex)
                     c.OwningRow.Selected = True
                     Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex = iScroll
+                    objHistory.Add_To_History(iID, sMessage)
             End Select
         End If
 
@@ -522,6 +564,7 @@ Public Class Main
         Dim dtMedia As mm_phase_5DataSet.Gemini_MediaDataTable
         Dim drMedia() As mm_phase_5DataSet.Gemini_MediaRow
         Dim i As Int32
+        Dim iScroll As Int32
 
         dtMedia = New mm_phase_5DataSet.Gemini_MediaDataTable
         Gemini_MediaTableAdapter.Fill(dtMedia)
@@ -551,8 +594,9 @@ Public Class Main
 
         Gemini_MediaTableAdapter.Update(dtMedia)
 
+        iScroll = Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex
         ReQuery()
-       
+        Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex = iScroll
 
     End Sub
     Friend Sub Update_Packaged_Files_Old(sFilenames() As File_Details, sPackage_Filename As String, bHD As Boolean)
@@ -780,6 +824,7 @@ Public Class Main
         Dim sFTP_Folder As String
         Dim bExists As Boolean
         Dim objFTP As MuVi2_FTP
+        Dim iScroll As Int32
 
         Dim dtMedia As mm_phase_5DataSet.Gemini_MediaDataTable
         Dim drMedia() As mm_phase_5DataSet.Gemini_MediaRow
@@ -852,7 +897,9 @@ Public Class Main
         ProgressBar1.Value = 0
         Gemini_MediaTableAdapter.Update(dtMedia)
 
+        iScroll = Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex
         ReQuery()
+        Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex = iScroll
 
     End Sub
     Private Sub Scan_Old()
@@ -1084,6 +1131,7 @@ Public Class Main
         Dim dtMedia As mm_phase_5DataSet.Gemini_MediaDataTable
         Dim drMedia() As mm_phase_5DataSet.Gemini_MediaRow
         Dim i As Int32
+        Dim iScroll As Int32
 
 
         dtMedia = New mm_phase_5DataSet.Gemini_MediaDataTable
@@ -1129,7 +1177,10 @@ Public Class Main
 
         Gemini_MediaTableAdapter.Update(dtMedia)
 
+        iScroll = Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex
         ReQuery()
+        Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex = iScroll
+
 
     End Sub
 
@@ -1355,13 +1406,16 @@ Public Class Main
     Friend Sub Update_Clarity_Transferred_Files(sFilenames() As File_Details)
 
         Dim i As Int32
+        Dim iScroll As Int32
+
         For i = 0 To sFilenames.GetUpperBound(0)
             If sFilenames(i).Success Then
                 objHistory.Add_To_History(sFilenames(i), "Transferred to Clarity")
             End If
         Next
 
+        iScroll = Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex
         ReQuery()
-
+        Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex = iScroll
     End Sub
 End Class

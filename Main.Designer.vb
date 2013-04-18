@@ -23,7 +23,7 @@ Partial Class Main
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -33,7 +33,6 @@ Partial Class Main
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CustomizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ArchivingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.lstMessage = New System.Windows.Forms.ListBox()
@@ -44,33 +43,6 @@ Partial Class Main
         Me.cmdStop = New System.Windows.Forms.Button()
         Me.cmdClear = New System.Windows.Forms.Button()
         Me.Gemini_MediaDataGridView = New System.Windows.Forms.DataGridView()
-        Me.Gemini_MediaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Mm_phase_5DataSet = New CGA.mm_phase_5DataSet()
-        Me.dtDelivery = New System.Windows.Forms.DateTimePicker()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.cmdPackage = New System.Windows.Forms.Button()
-        Me.FtpConnection1 = New EnterpriseDT.Net.Ftp.FTPConnection(Me.components)
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.cmdUnpackage = New System.Windows.Forms.Button()
-        Me.tmClarityEventMessage = New System.Windows.Forms.Timer(Me.components)
-        Me.cmdScan = New System.Windows.Forms.Button()
-        Me.cmbView = New System.Windows.Forms.ComboBox()
-        Me.cmdArchive = New System.Windows.Forms.Button()
-        Me.chkAll = New System.Windows.Forms.CheckBox()
-        Me.cmdRestore = New System.Windows.Forms.Button()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.cmdSearch = New System.Windows.Forms.Button()
-        Me.cmbHD = New System.Windows.Forms.ComboBox()
-        Me.cmbFilter = New System.Windows.Forms.ComboBox()
-        Me.Gemini_MediaTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_MediaTableAdapter()
-        Me.TableAdapterManager = New CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager()
-        Me.Clip_HistoryTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Clip_HistoryTableAdapter()
-        Me.Gemini_Media_LocationsTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_Media_LocationsTableAdapter()
-        Me.Gemini_Media_LocationsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.BindingSource_Clip_History = New System.Windows.Forms.BindingSource(Me.components)
-        Me.cmdSend_Clarity = New System.Windows.Forms.Button()
         Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Title = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -129,6 +101,32 @@ Partial Class Main
         Me.DataGridViewCheckBoxColumn8 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.DataGridViewTextBoxColumn28 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Use_USA_Menu_BG = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Gemini_MediaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Mm_phase_5DataSet = New CGA.mm_phase_5DataSet()
+        Me.dtDelivery = New System.Windows.Forms.DateTimePicker()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.cmdPackage = New System.Windows.Forms.Button()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.cmdUnpackage = New System.Windows.Forms.Button()
+        Me.tmClarityEventMessage = New System.Windows.Forms.Timer(Me.components)
+        Me.cmdScan = New System.Windows.Forms.Button()
+        Me.cmbView = New System.Windows.Forms.ComboBox()
+        Me.cmdArchive = New System.Windows.Forms.Button()
+        Me.chkAll = New System.Windows.Forms.CheckBox()
+        Me.cmdRestore = New System.Windows.Forms.Button()
+        Me.txtSearch = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.cmdSearch = New System.Windows.Forms.Button()
+        Me.cmbHD = New System.Windows.Forms.ComboBox()
+        Me.cmbFilter = New System.Windows.Forms.ComboBox()
+        Me.Gemini_MediaTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_MediaTableAdapter()
+        Me.TableAdapterManager = New CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager()
+        Me.Clip_HistoryTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Clip_HistoryTableAdapter()
+        Me.Gemini_Media_LocationsTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_Media_LocationsTableAdapter()
+        Me.Gemini_Media_LocationsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.BindingSource_Clip_History = New System.Windows.Forms.BindingSource(Me.components)
+        Me.cmdSend_Clarity = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.Gemini_MediaDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gemini_MediaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -176,7 +174,7 @@ Partial Class Main
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CustomizeToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.ArchivingToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CustomizeToolStripMenuItem, Me.OptionsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "&Tools"
@@ -192,12 +190,6 @@ Partial Class Main
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.OptionsToolStripMenuItem.Text = "&Settings"
-        '
-        'ArchivingToolStripMenuItem
-        '
-        Me.ArchivingToolStripMenuItem.Name = "ArchivingToolStripMenuItem"
-        Me.ArchivingToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
-        Me.ArchivingToolStripMenuItem.Text = "Archiving"
         '
         'HelpToolStripMenuItem
         '
@@ -280,8 +272,8 @@ Partial Class Main
         '
         Me.Gemini_MediaDataGridView.AllowUserToAddRows = False
         Me.Gemini_MediaDataGridView.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
         Me.Gemini_MediaDataGridView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -295,221 +287,6 @@ Partial Class Main
         Me.Gemini_MediaDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.Gemini_MediaDataGridView.Size = New System.Drawing.Size(1100, 255)
         Me.Gemini_MediaDataGridView.TabIndex = 8
-        '
-        'Gemini_MediaBindingSource
-        '
-        Me.Gemini_MediaBindingSource.DataMember = "Gemini_Media"
-        Me.Gemini_MediaBindingSource.DataSource = Me.Mm_phase_5DataSet
-        '
-        'Mm_phase_5DataSet
-        '
-        Me.Mm_phase_5DataSet.DataSetName = "mm_phase_5DataSet"
-        Me.Mm_phase_5DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'dtDelivery
-        '
-        Me.dtDelivery.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.dtDelivery.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtDelivery.Location = New System.Drawing.Point(924, 53)
-        Me.dtDelivery.Name = "dtDelivery"
-        Me.dtDelivery.Size = New System.Drawing.Size(84, 20)
-        Me.dtDelivery.TabIndex = 9
-        '
-        'Label1
-        '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(847, 57)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(71, 13)
-        Me.Label1.TabIndex = 10
-        Me.Label1.Text = "Delivery Date"
-        '
-        'cmdPackage
-        '
-        Me.cmdPackage.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdPackage.Location = New System.Drawing.Point(1037, 381)
-        Me.cmdPackage.Name = "cmdPackage"
-        Me.cmdPackage.Size = New System.Drawing.Size(75, 23)
-        Me.cmdPackage.TabIndex = 11
-        Me.cmdPackage.Text = "Package"
-        Me.cmdPackage.UseVisualStyleBackColor = True
-        '
-        'FtpConnection1
-        '
-        Me.FtpConnection1.ParentControl = Me
-        Me.FtpConnection1.TransferNotifyInterval = CType(4096, Long)
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 27)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(100, 50)
-        Me.PictureBox1.TabIndex = 12
-        Me.PictureBox1.TabStop = False
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(118, 29)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(307, 31)
-        Me.Label2.TabIndex = 13
-        Me.Label2.Text = "Approval and Packaging"
-        '
-        'cmdUnpackage
-        '
-        Me.cmdUnpackage.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdUnpackage.Location = New System.Drawing.Point(995, 27)
-        Me.cmdUnpackage.Name = "cmdUnpackage"
-        Me.cmdUnpackage.Size = New System.Drawing.Size(117, 23)
-        Me.cmdUnpackage.TabIndex = 11
-        Me.cmdUnpackage.Text = "Un Package Screen"
-        Me.cmdUnpackage.UseVisualStyleBackColor = True
-        '
-        'tmClarityEventMessage
-        '
-        '
-        'cmdScan
-        '
-        Me.cmdScan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdScan.Location = New System.Drawing.Point(875, 380)
-        Me.cmdScan.Name = "cmdScan"
-        Me.cmdScan.Size = New System.Drawing.Size(75, 23)
-        Me.cmdScan.TabIndex = 14
-        Me.cmdScan.Text = "Scan"
-        Me.cmdScan.UseVisualStyleBackColor = True
-        '
-        'cmbView
-        '
-        Me.cmbView.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmbView.FormattingEnabled = True
-        Me.cmbView.Items.AddRange(New Object() {"Packaging View", "Archiving View"})
-        Me.cmbView.Location = New System.Drawing.Point(850, 29)
-        Me.cmbView.Name = "cmbView"
-        Me.cmbView.Size = New System.Drawing.Size(139, 21)
-        Me.cmbView.TabIndex = 15
-        '
-        'cmdArchive
-        '
-        Me.cmdArchive.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdArchive.Location = New System.Drawing.Point(956, 380)
-        Me.cmdArchive.Name = "cmdArchive"
-        Me.cmdArchive.Size = New System.Drawing.Size(75, 23)
-        Me.cmdArchive.TabIndex = 16
-        Me.cmdArchive.Text = "Archive"
-        Me.cmdArchive.UseVisualStyleBackColor = True
-        '
-        'chkAll
-        '
-        Me.chkAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkAll.AutoSize = True
-        Me.chkAll.Location = New System.Drawing.Point(1014, 56)
-        Me.chkAll.Name = "chkAll"
-        Me.chkAll.Size = New System.Drawing.Size(98, 17)
-        Me.chkAll.TabIndex = 17
-        Me.chkAll.Text = "Show All Dates"
-        Me.chkAll.UseVisualStyleBackColor = True
-        '
-        'cmdRestore
-        '
-        Me.cmdRestore.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdRestore.Location = New System.Drawing.Point(1037, 380)
-        Me.cmdRestore.Name = "cmdRestore"
-        Me.cmdRestore.Size = New System.Drawing.Size(75, 23)
-        Me.cmdRestore.TabIndex = 18
-        Me.cmdRestore.Text = "Restore"
-        Me.cmdRestore.UseVisualStyleBackColor = True
-        '
-        'txtSearch
-        '
-        Me.txtSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtSearch.Location = New System.Drawing.Point(549, 54)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(211, 20)
-        Me.txtSearch.TabIndex = 19
-        '
-        'Label3
-        '
-        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(479, 59)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(64, 13)
-        Me.Label3.TabIndex = 20
-        Me.Label3.Text = "Search Title"
-        '
-        'cmdSearch
-        '
-        Me.cmdSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdSearch.Location = New System.Drawing.Point(766, 52)
-        Me.cmdSearch.Name = "cmdSearch"
-        Me.cmdSearch.Size = New System.Drawing.Size(75, 23)
-        Me.cmdSearch.TabIndex = 21
-        Me.cmdSearch.Text = "Search"
-        Me.cmdSearch.UseVisualStyleBackColor = True
-        '
-        'cmbHD
-        '
-        Me.cmbHD.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmbHD.FormattingEnabled = True
-        Me.cmbHD.Items.AddRange(New Object() {"HD Only", "SD Only", "HD + SD"})
-        Me.cmbHD.Location = New System.Drawing.Point(766, 29)
-        Me.cmbHD.Name = "cmbHD"
-        Me.cmbHD.Size = New System.Drawing.Size(75, 21)
-        Me.cmbHD.TabIndex = 22
-        '
-        'cmbFilter
-        '
-        Me.cmbFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmbFilter.FormattingEnabled = True
-        Me.cmbFilter.Items.AddRange(New Object() {"All", "Missing but current", "Archived but current", "Current but past last use", "Valid use date but not packaged"})
-        Me.cmbFilter.Location = New System.Drawing.Point(549, 27)
-        Me.cmbFilter.Name = "cmbFilter"
-        Me.cmbFilter.Size = New System.Drawing.Size(211, 21)
-        Me.cmbFilter.TabIndex = 23
-        '
-        'Gemini_MediaTableAdapter
-        '
-        Me.Gemini_MediaTableAdapter.ClearBeforeFill = True
-        '
-        'TableAdapterManager
-        '
-        Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
-        Me.TableAdapterManager.Clip_HistoryTableAdapter = Me.Clip_HistoryTableAdapter
-        Me.TableAdapterManager.Gemini_Media_LocationsTableAdapter = Me.Gemini_Media_LocationsTableAdapter
-        Me.TableAdapterManager.Gemini_MediaTableAdapter = Me.Gemini_MediaTableAdapter
-        Me.TableAdapterManager.UpdateOrder = CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
-        '
-        'Clip_HistoryTableAdapter
-        '
-        Me.Clip_HistoryTableAdapter.ClearBeforeFill = True
-        '
-        'Gemini_Media_LocationsTableAdapter
-        '
-        Me.Gemini_Media_LocationsTableAdapter.ClearBeforeFill = True
-        '
-        'Gemini_Media_LocationsBindingSource
-        '
-        Me.Gemini_Media_LocationsBindingSource.DataMember = "Gemini_Media_Locations"
-        Me.Gemini_Media_LocationsBindingSource.DataSource = Me.Mm_phase_5DataSet
-        '
-        'BindingSource_Clip_History
-        '
-        Me.BindingSource_Clip_History.DataMember = "Clip_History"
-        Me.BindingSource_Clip_History.DataSource = Me.Mm_phase_5DataSet
-        '
-        'cmdSend_Clarity
-        '
-        Me.cmdSend_Clarity.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdSend_Clarity.Location = New System.Drawing.Point(956, 380)
-        Me.cmdSend_Clarity.Name = "cmdSend_Clarity"
-        Me.cmdSend_Clarity.Size = New System.Drawing.Size(75, 23)
-        Me.cmdSend_Clarity.TabIndex = 24
-        Me.cmdSend_Clarity.Text = "To Clarity"
-        Me.cmdSend_Clarity.UseVisualStyleBackColor = True
         '
         'ID
         '
@@ -911,6 +688,216 @@ Partial Class Main
         Me.Use_USA_Menu_BG.Name = "Use_USA_Menu_BG"
         Me.Use_USA_Menu_BG.Visible = False
         '
+        'Gemini_MediaBindingSource
+        '
+        Me.Gemini_MediaBindingSource.DataMember = "Gemini_Media"
+        Me.Gemini_MediaBindingSource.DataSource = Me.Mm_phase_5DataSet
+        '
+        'Mm_phase_5DataSet
+        '
+        Me.Mm_phase_5DataSet.DataSetName = "mm_phase_5DataSet"
+        Me.Mm_phase_5DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        '
+        'dtDelivery
+        '
+        Me.dtDelivery.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dtDelivery.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtDelivery.Location = New System.Drawing.Point(924, 53)
+        Me.dtDelivery.Name = "dtDelivery"
+        Me.dtDelivery.Size = New System.Drawing.Size(84, 20)
+        Me.dtDelivery.TabIndex = 9
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(847, 57)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(71, 13)
+        Me.Label1.TabIndex = 10
+        Me.Label1.Text = "Delivery Date"
+        '
+        'cmdPackage
+        '
+        Me.cmdPackage.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdPackage.Location = New System.Drawing.Point(1037, 381)
+        Me.cmdPackage.Name = "cmdPackage"
+        Me.cmdPackage.Size = New System.Drawing.Size(75, 23)
+        Me.cmdPackage.TabIndex = 11
+        Me.cmdPackage.Text = "Package"
+        Me.cmdPackage.UseVisualStyleBackColor = True
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(12, 27)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(100, 50)
+        Me.PictureBox1.TabIndex = 12
+        Me.PictureBox1.TabStop = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(118, 29)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(307, 31)
+        Me.Label2.TabIndex = 13
+        Me.Label2.Text = "Approval and Packaging"
+        '
+        'cmdUnpackage
+        '
+        Me.cmdUnpackage.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdUnpackage.Location = New System.Drawing.Point(995, 27)
+        Me.cmdUnpackage.Name = "cmdUnpackage"
+        Me.cmdUnpackage.Size = New System.Drawing.Size(117, 23)
+        Me.cmdUnpackage.TabIndex = 11
+        Me.cmdUnpackage.Text = "Un Package Screen"
+        Me.cmdUnpackage.UseVisualStyleBackColor = True
+        '
+        'tmClarityEventMessage
+        '
+        '
+        'cmdScan
+        '
+        Me.cmdScan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdScan.Location = New System.Drawing.Point(875, 380)
+        Me.cmdScan.Name = "cmdScan"
+        Me.cmdScan.Size = New System.Drawing.Size(75, 23)
+        Me.cmdScan.TabIndex = 14
+        Me.cmdScan.Text = "Scan"
+        Me.cmdScan.UseVisualStyleBackColor = True
+        '
+        'cmbView
+        '
+        Me.cmbView.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmbView.FormattingEnabled = True
+        Me.cmbView.Items.AddRange(New Object() {"Packaging View", "Archiving View"})
+        Me.cmbView.Location = New System.Drawing.Point(850, 29)
+        Me.cmbView.Name = "cmbView"
+        Me.cmbView.Size = New System.Drawing.Size(139, 21)
+        Me.cmbView.TabIndex = 15
+        '
+        'cmdArchive
+        '
+        Me.cmdArchive.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdArchive.Location = New System.Drawing.Point(956, 380)
+        Me.cmdArchive.Name = "cmdArchive"
+        Me.cmdArchive.Size = New System.Drawing.Size(75, 23)
+        Me.cmdArchive.TabIndex = 16
+        Me.cmdArchive.Text = "Archive"
+        Me.cmdArchive.UseVisualStyleBackColor = True
+        '
+        'chkAll
+        '
+        Me.chkAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkAll.AutoSize = True
+        Me.chkAll.Location = New System.Drawing.Point(1014, 56)
+        Me.chkAll.Name = "chkAll"
+        Me.chkAll.Size = New System.Drawing.Size(98, 17)
+        Me.chkAll.TabIndex = 17
+        Me.chkAll.Text = "Show All Dates"
+        Me.chkAll.UseVisualStyleBackColor = True
+        '
+        'cmdRestore
+        '
+        Me.cmdRestore.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdRestore.Location = New System.Drawing.Point(1037, 380)
+        Me.cmdRestore.Name = "cmdRestore"
+        Me.cmdRestore.Size = New System.Drawing.Size(75, 23)
+        Me.cmdRestore.TabIndex = 18
+        Me.cmdRestore.Text = "Restore"
+        Me.cmdRestore.UseVisualStyleBackColor = True
+        '
+        'txtSearch
+        '
+        Me.txtSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtSearch.Location = New System.Drawing.Point(549, 54)
+        Me.txtSearch.Name = "txtSearch"
+        Me.txtSearch.Size = New System.Drawing.Size(211, 20)
+        Me.txtSearch.TabIndex = 19
+        '
+        'Label3
+        '
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(479, 59)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(64, 13)
+        Me.Label3.TabIndex = 20
+        Me.Label3.Text = "Search Title"
+        '
+        'cmdSearch
+        '
+        Me.cmdSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdSearch.Location = New System.Drawing.Point(766, 52)
+        Me.cmdSearch.Name = "cmdSearch"
+        Me.cmdSearch.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSearch.TabIndex = 21
+        Me.cmdSearch.Text = "Search"
+        Me.cmdSearch.UseVisualStyleBackColor = True
+        '
+        'cmbHD
+        '
+        Me.cmbHD.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmbHD.FormattingEnabled = True
+        Me.cmbHD.Items.AddRange(New Object() {"HD Only", "SD Only", "HD + SD"})
+        Me.cmbHD.Location = New System.Drawing.Point(766, 29)
+        Me.cmbHD.Name = "cmbHD"
+        Me.cmbHD.Size = New System.Drawing.Size(75, 21)
+        Me.cmbHD.TabIndex = 22
+        '
+        'cmbFilter
+        '
+        Me.cmbFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmbFilter.FormattingEnabled = True
+        Me.cmbFilter.Items.AddRange(New Object() {"All", "Missing but current", "Archived but current", "Current but past last use", "Valid use date but not packaged"})
+        Me.cmbFilter.Location = New System.Drawing.Point(549, 27)
+        Me.cmbFilter.Name = "cmbFilter"
+        Me.cmbFilter.Size = New System.Drawing.Size(211, 21)
+        Me.cmbFilter.TabIndex = 23
+        '
+        'Gemini_MediaTableAdapter
+        '
+        Me.Gemini_MediaTableAdapter.ClearBeforeFill = True
+        '
+        'TableAdapterManager
+        '
+        Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
+        Me.TableAdapterManager.Clip_HistoryTableAdapter = Me.Clip_HistoryTableAdapter
+        Me.TableAdapterManager.Gemini_Media_LocationsTableAdapter = Me.Gemini_Media_LocationsTableAdapter
+        Me.TableAdapterManager.Gemini_MediaTableAdapter = Me.Gemini_MediaTableAdapter
+        Me.TableAdapterManager.UpdateOrder = CGA.mm_phase_5DataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
+        '
+        'Clip_HistoryTableAdapter
+        '
+        Me.Clip_HistoryTableAdapter.ClearBeforeFill = True
+        '
+        'Gemini_Media_LocationsTableAdapter
+        '
+        Me.Gemini_Media_LocationsTableAdapter.ClearBeforeFill = True
+        '
+        'Gemini_Media_LocationsBindingSource
+        '
+        Me.Gemini_Media_LocationsBindingSource.DataMember = "Gemini_Media_Locations"
+        Me.Gemini_Media_LocationsBindingSource.DataSource = Me.Mm_phase_5DataSet
+        '
+        'BindingSource_Clip_History
+        '
+        Me.BindingSource_Clip_History.DataMember = "Clip_History"
+        Me.BindingSource_Clip_History.DataSource = Me.Mm_phase_5DataSet
+        '
+        'cmdSend_Clarity
+        '
+        Me.cmdSend_Clarity.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdSend_Clarity.Location = New System.Drawing.Point(956, 380)
+        Me.cmdSend_Clarity.Name = "cmdSend_Clarity"
+        Me.cmdSend_Clarity.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSend_Clarity.TabIndex = 24
+        Me.cmdSend_Clarity.Text = "To Clarity"
+        Me.cmdSend_Clarity.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AcceptButton = Me.cmdSearch
@@ -983,13 +970,11 @@ Partial Class Main
     Friend WithEvents Gemini_Media_LocationsBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents Gemini_Media_LocationsTableAdapter As CGA.mm_phase_5DataSetTableAdapters.Gemini_Media_LocationsTableAdapter
     Friend WithEvents cmdPackage As System.Windows.Forms.Button
-    Friend WithEvents FtpConnection1 As EnterpriseDT.Net.Ftp.FTPConnection
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents cmdUnpackage As System.Windows.Forms.Button
     Friend WithEvents tmClarityEventMessage As System.Windows.Forms.Timer
     Friend WithEvents SaveDataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ArchivingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents cmdScan As System.Windows.Forms.Button
     Friend WithEvents cmbView As System.Windows.Forms.ComboBox
     Friend WithEvents cmdArchive As System.Windows.Forms.Button

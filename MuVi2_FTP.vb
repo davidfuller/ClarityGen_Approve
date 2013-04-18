@@ -9,16 +9,17 @@ Public Class MuVi2_FTP
 
     Public Sub New(ByVal mMess As mMessage, ByVal progress As ProgressBar)
 
-        ftp = New FTPConnection
+
         objSettings = New Settings_MuVi2
-        ftp.ConnectMode = FTPConnectMode.ACTIVE
+        ftp = New FTPConnection
         AddHandler ftp.BytesTransferred, New BytesTransferredHandler(AddressOf Transferring)
-        AddHandler ftp.Uploading, New FTPFileTransferEventHandler(AddressOf Starting_Upload)
         AddHandler ftp.Connected, New FTPConnectionEventHandler(AddressOf Connected)
-        AddHandler ftp.Downloading, New FTPFileTransferEventHandler(AddressOf Starting_Download)
+        AddHandler ftp.Uploading, New FTPFileTransferEventHandler(AddressOf Starting_Upload)
 
         mm = mMess
         pbar = progress
+
+
 
     End Sub
 
@@ -33,6 +34,7 @@ Public Class MuVi2_FTP
         ftp.Timeout = objSettings.FTP_Timeout_ms(sSettings_File_Name)
         ftp.ServerPort = objSettings.FTP_Port_Number(sSettings_File_Name)
         ftp.TransferType = FTPTransferType.BINARY
+
 
         bMessage_Supress = bSuppress_Message
 
@@ -56,7 +58,11 @@ Public Class MuVi2_FTP
         If Not bMessage_Supress Then mm.Add(String.Format("Connected to server at: {0}", e.ServerAddress))
 
     End Sub
-    Public Function Download_File(ByVal sSource As String, ByVal sWorking_Directory As String, ByVal sDestination As String) As Boolean
+
+    Public Overloads Function Download_File(ByVal sSource As String, ByVal sWorking_Directory As String, ByVal sDestination As String) As Boolean
+
+
+        Dim ftpi() As FTPFile
 
         If ftp.IsConnected And Not (ftp.IsTransferring) Then
             If ftp.ServerDirectory <> sWorking_Directory Then
@@ -67,6 +73,13 @@ Public Class MuVi2_FTP
             End If
             ftp.ChangeWorkingDirectory(sWorking_Directory)
         End If
+
+        ftpi = ftp.GetFileInfos(String.Concat(sWorking_Directory, sSource))
+        If ftpi.Length > 0 Then
+            pbar.Maximum = ftpi(0).Size
+        End If
+
+        mm.Add(String.Format("Transferring fil:e {0}", sSource))
 
         ftp.DownloadFile(sDestination, sSource)
         Return True
@@ -129,14 +142,17 @@ Public Class MuVi2_FTP
                 Select Case UCase(objSettings.Overwrite_Mode(sSettings_File_Name))
                     Case "OVERWRITE"
                         ftp.UploadFile(sSource, sDestination)
-
                     Case "SKIP"
                         mm.Add(String.Format("{0} exists in the clipstore. It has not been re-transferred", sDestination))
                         bSuccess = False
                     Case "ASK"
                         Response = MessageBox.Show(String.Format("{0} exists in the clipstore. Do you wish to overwrite?", sDestination), "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
                         If Response = DialogResult.Yes Then
-                            ftp.UploadFile(sSource, sDestination)
+                            Try
+                                ftp.UploadFile(sSource, sDestination)
+                            Catch ex As Exception
+                                mm.Add(ex.Message)
+                            End Try
                         Else
                             mm.Add(String.Format("{0} exists in the clipstore. It has not been re-transferred", sDestination))
                             bSuccess = False
@@ -148,6 +164,7 @@ Public Class MuVi2_FTP
             Else
                 ftp.UploadFile(sSource, sDestination)
             End If
+
             Return bSuccess
         Else
             Return False
@@ -162,18 +179,11 @@ Public Class MuVi2_FTP
         End If
 
     End Sub
-
+  
     Private Sub Starting_Upload(ByVal sender As Object, ByVal e As FTPFileTransferEventArgs)
 
         mm.Add(String.Format("Transferring file {0} to clipstore folder {1}", e.RemoteFileName, e.RemoteDirectory))
         pbar.Maximum = e.LocalFileSize
-        pbar.Parent.Update()
-
-    End Sub
-    Private Sub Starting_Download(ByVal sender As Object, ByVal e As FTPFileTransferEventArgs)
-
-        mm.Add(String.Format("Transferring file {0} from clipstore folder {1}", e.RemoteFileName, e.RemoteDirectory))
-        pbar.Maximum = e.RemoteFileSize
         pbar.Parent.Update()
 
     End Sub

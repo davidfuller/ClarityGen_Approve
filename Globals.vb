@@ -20,7 +20,7 @@
 
     Friend COLOUR_LIGHT As Color = Color.FromArgb(255, 255, 255)
     Friend COLOUR_DARK As Color = Color.FromArgb(240, 240, 240)
-    Friend COLOUR_HIGHLIGHT As Color = Color.FromArgb(173, 173, 255)
+    Friend COLOUR_HIGHLIGHT As Color = Color.FromArgb(200, 200, 200)
 
     Friend COLOUR_HIDDEN_LIGHT As Color = Color.FromArgb(255, 255, 185)
     Friend COLOUR_HIDDEN_DARK As Color = Color.FromArgb(255, 255, 165)

@@ -70,7 +70,7 @@
     <ApplicationIcon>Resources\button-ok.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="edtFTPnet">
+    <Reference Include="edtFTPnet, Version=2.2.1.0, Culture=neutral, PublicKeyToken=4b0c991f43097782">
       <HintPath>..\..\..\FTP Library\edtftpnet-2.2.1\bin\edtFTPnet.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
