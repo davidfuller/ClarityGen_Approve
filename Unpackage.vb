@@ -222,7 +222,7 @@ Public Class Unpackage
         Dim fi As FileInfo
 
         objFTP = New MuVi2_FTP(mm, ProgressBar1)
-        objFTP.Connect()
+        objFTP.Connect(False)
 
         For Each sFile In sFiles
             If sFile <> "" Then

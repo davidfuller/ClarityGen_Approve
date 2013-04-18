@@ -164,7 +164,7 @@ Public Class Archive_Restore
         Dim bConnected As Boolean
 
         objFTP = New MuVi2_FTP(mm, ProgressBar1)
-        bConnected = objFTP.Connect()
+        bConnected = objFTP.Connect(False)
 
         bTotally_Successful = True
 
@@ -282,7 +282,7 @@ Public Class Archive_Restore
 
     End Function
 
-    Friend Function Transfer_File_From_Clarity(sFilename As File_Details, sLocal_Folder As String, ProgressBar1 As ProgressBar) As Boolean
+    Friend Function Transfer_File_From_Clarity(sFilename As File_Details, sPackage_Folder As String, ProgressBar1 As ProgressBar) As Boolean
         Dim objFTP As MuVi2_FTP
         Dim bConnected As Boolean
         Dim sSource As String
@@ -290,45 +290,59 @@ Public Class Archive_Restore
         Dim sFTP_Folder As String
         Dim fi As FileInfo
         Dim bSuccess As Boolean
+        Dim sClip_Folder As String
 
-        objFTP = New MuVi2_FTP(mm, ProgressBar1)
-        bConnected = objFTP.Connect()
+        sClip_Folder = String.Concat(Fix_Folder_End(sPackage_Folder, Media_Type.Still), objSettings.Job_Clips_Subfolder(sSettings_File_Name))
 
-        bSuccess = True
+        If Create_Folder_If_Not_Present(sClip_Folder) Then
+            objFTP = New MuVi2_FTP(mm, ProgressBar1)
+            bConnected = objFTP.Connect(False)
 
-        If bConnected Then
-            If Not sFilename Is Nothing Then
-                If File_Type(sFilename.Filename) = Media_Type.Clip Then
-                    sDestination = String.Concat(sLocal_Folder, Clip_Base_Filename(sFilename.Filename))
-                    sSource = Path.GetFileName(sDestination)
-                    sFTP_Folder = Clipstore_Folder_From_PC_Filename(sDestination)
-                    fi = New FileInfo(sDestination)
-                    If Create_Folder_If_Not_Present(fi.DirectoryName) Then
-                        Try
-                            sFilename.Success = objFTP.Download_File(sSource, sFTP_Folder, sDestination)
-                        Catch ex As Exception
+            bSuccess = True
+
+            If bConnected Then
+                If Not sFilename Is Nothing Then
+                    If File_Type(sFilename.Filename) = Media_Type.Clip Then
+                        sDestination = String.Concat(sClip_Folder, Clip_Base_Filename(sFilename.Filename))
+                        sSource = Path.GetFileName(sDestination)
+                        sFTP_Folder = Clipstore_Folder_From_PC_Filename(String.Concat(objSettings.Emulated_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sFilename.Filename)))
+                        fi = New FileInfo(sDestination)
+                        If Create_Folder_If_Not_Present(fi.DirectoryName) Then
+                            Try
+                                sFilename.Success = objFTP.Download_File(sSource, sFTP_Folder, sDestination)
+                            Catch ex As Exception
+                                bSuccess = False
+                                mm.Add(ex.Message)
+                            End Try
+                        Else
+                            mm.Add(String.Concat("Failed to create folder for: ", sDestination))
                             bSuccess = False
-                            mm.Add(ex.Message)
-                        End Try
+                        End If
                     Else
-                        mm.Add(String.Concat("Failed to create folder for: ", sDestination))
+                        mm.Add(String.Concat("Unable to package stills: ", sFilename.Filename))
                         bSuccess = False
                     End If
                 Else
-                    mm.Add(String.Concat("Unable to package stills: ", sFilename.Filename))
-                    bSuccess = False
-                End If
-                Else
                     bSuccess = False
                 End If
 
-            objFTP.Disconnect()
-            ProgressBar1.Value = ProgressBar1.Minimum
+                objFTP.Disconnect()
+                ProgressBar1.Value = ProgressBar1.Minimum
 
-            Return bSuccess
+                Return bSuccess
+            Else
+                Return False
+            End If
         Else
+            mm.Add(String.Concat("Failed to create folder: ", sClip_Folder))
+            MessageBox.Show(String.Concat("Failed to create folder: ", sClip_Folder), "Folder Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return False
         End If
+
+
+
+
+        
 
     End Function
 
@@ -337,87 +351,77 @@ Public Class Archive_Restore
 
     Friend Function Copy_Emulated_Clips_To_Package(sFilenames() As File_Details, sPackage_Folder As String, sBasename As String, objReceipt As Receipt) As Boolean
 
-        Dim sClip_Folder As String
-        
-        sClip_Folder = String.Concat(Fix_Folder_End(sPackage_Folder, Media_Type.Still), objSettings.Job_Clips_Subfolder(sSettings_File_Name))
 
-        If Create_Folder_If_Not_Present(sClip_Folder) Then
-            For i = 0 To sFilenames.GetUpperBound(0)
-                Copy_Windows_Files(sFilenames(i), sClip_Folder, sBasename, objReceipt)
-            Next
-            Return True
-        Else
-            mm.Add(String.Concat("Failed to create folder: ", sClip_Folder))
-            MessageBox.Show(String.Concat("Failed to create folder: ", sClip_Folder), "Folder Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Return False
-        End If
+        For i = 0 To sFilenames.GetUpperBound(0)
+            Copy_Windows_Files(sFilenames(i), sPackage_Folder, sBasename, objReceipt)
+        Next
+        Return True
+        
 
     End Function
 
     Friend Function Copy_Clipstore_Clips_To_Package(sFilenames() As File_Details, sPackage_Folder As String, sBasename As String, objReceipt As Receipt, ProgressBar1 As ProgressBar) As Boolean
 
+       
+        For i = 0 To sFilenames.GetUpperBound(0)
+            If File_Type(sFilenames(i).Filename) = Media_Type.Clip Then
+                If Transfer_File_From_Clarity(sFilenames(i), sPackage_Folder, ProgressBar1) Then
+                    mm.Add(String.Concat("Copied clip: ", sFilenames(i).Filename))
+                    objReceipt.Add(String.Format("Media filename: {0} First Use: {1}", sFilenames(i).Filename, sFilenames(i).First_Use.ToShortDateString))
+                    sFilenames(i).Success = True
+                End If
+            Else
+                Copy_Windows_Files(sFilenames(i), sPackage_Folder, sBasename, objReceipt)
+            End If
+        Next
+        Return True
+        
+    End Function
+
+    Private Sub Copy_Windows_Files(sFilename As File_Details, sPackage_Folder As String, sBaseName As String, objReceipt As Receipt)
+
+        Dim sSource As String
+        Dim sDest As String
+        Dim fi As FileInfo
         Dim sClip_Folder As String
 
         sClip_Folder = String.Concat(Fix_Folder_End(sPackage_Folder, Media_Type.Still), objSettings.Job_Clips_Subfolder(sSettings_File_Name))
 
         If Create_Folder_If_Not_Present(sClip_Folder) Then
-            For i = 0 To sFilenames.GetUpperBound(0)
-                If File_Type(sFilenames(i).Filename) = Media_Type.Clip Then
-                    If Transfer_File_From_Clarity(sFilenames(i), sPackage_Folder, ProgressBar1) Then
-                        mm.Add(String.Concat("Copied clip: ", sFilenames(i).Filename))
-                        objReceipt.Add(String.Format("Media filename: {0} First Use: {1}", sFilenames(i).Filename, sFilenames(i).First_Use.ToShortDateString))
-                        sFilenames(i).Success = True
+            If Not sFilename Is Nothing Then
+                If File_Type(sFilename.Filename) = Media_Type.Clip Then
+                    sSource = String.Concat(objSettings.Emulated_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sFilename.Filename))
+                    sDest = String.Concat(sClip_Folder, Clip_Base_Filename(sFilename.Filename))
+                Else
+                    sSource = String.Concat(Remove_PIC(sFilename.Filename))
+                    sDest = String.Concat(Still_Dest_Filename(sFilename.Filename, sBaseName))
+                End If
+
+                fi = New FileInfo(sDest)
+                If Create_Folder_If_Not_Present(fi.DirectoryName) Then
+                    fi = New FileInfo(sSource)
+                    If fi.Exists Then
+                        Try
+                            fi.CopyTo(sDest, True)
+                            mm.Add(String.Concat("Copying clip: ", sSource))
+                            objReceipt.Add(String.Format("Media filename: {0} First Use: {1}", sFilename.Filename, sFilename.First_Use.ToShortDateString))
+                            sFilename.Success = True
+                        Catch ex As Exception
+                            mm.Add(String.Concat("Could not copy clip: ", sSource, " Error: ", ex.ToString))
+                            sFilename.Success = False
+                        End Try
+                    Else
+                        mm.Add(String.Concat("Unable to find: ", sSource))
+                        sFilename.Success = False
                     End If
                 Else
-                    Copy_Windows_Files(sFilenames(i), sClip_Folder, sBasename, objReceipt)
+                    mm.Add(String.Concat("Failed to create folder for: ", sDest))
+                    sFilename.Success = False
                 End If
-            Next
-            Return True
+            End If
         Else
             mm.Add(String.Concat("Failed to create folder: ", sClip_Folder))
             MessageBox.Show(String.Concat("Failed to create folder: ", sClip_Folder), "Folder Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Return False
-        End If
-
-
-    End Function
-
-    Private Sub Copy_Windows_Files(sFilename As File_Details, sClip_Folder As String, sBaseName As String, objReceipt As Receipt)
-
-        Dim sSource As String
-        Dim sDest As String
-        Dim fi As FileInfo
-
-        If Not sFilename Is Nothing Then
-            If File_Type(sFilename.Filename) = Media_Type.Clip Then
-                sSource = String.Concat(objSettings.Emulated_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sFilename.Filename))
-                sDest = String.Concat(sClip_Folder, Clip_Base_Filename(sFilename.Filename))
-            Else
-                sSource = String.Concat(Remove_PIC(sFilename.Filename))
-                sDest = String.Concat(Still_Dest_Filename(sFilename.Filename, sBaseName))
-            End If
-
-            fi = New FileInfo(sDest)
-            If Create_Folder_If_Not_Present(fi.DirectoryName) Then
-                fi = New FileInfo(sSource)
-                If fi.Exists Then
-                    Try
-                        fi.CopyTo(sDest, True)
-                        mm.Add(String.Concat("Copying clip: ", sSource))
-                        objReceipt.Add(String.Format("Media filename: {0} First Use: {1}", sFilename.Filename, sFilename.First_Use.ToShortDateString))
-                        sFilename.Success = True
-                    Catch ex As Exception
-                        mm.Add(String.Concat("Could not copy clip: ", sSource, " Error: ", ex.ToString))
-                        sFilename.Success = False
-                    End Try
-                Else
-                    mm.Add(String.Concat("Unable to find: ", sSource))
-                    sFilename.Success = False
-                End If
-            Else
-                mm.Add(String.Concat("Failed to create folder for: ", sDest))
-                sFilename.Success = False
-            End If
         End If
 
     End Sub

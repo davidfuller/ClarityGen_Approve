@@ -8,14 +8,18 @@
 
     End Sub
 
-    Friend Sub Set_Colour(bHD As Boolean)
+    Friend Sub Set_Colour(bHD As Boolean, bClipstore_Scan As Boolean)
 
         Dim dr As DataGridViewRow
         Dim bUnavailable As Boolean
         Dim bHidden As Boolean
 
+
         For Each dr In dg.Rows
-            If bHD Then
+            If bClipstore_Scan Then
+                bUnavailable = Not (dr.Cells("On_Clarity_Clipstore").Value)
+                bHidden = dr.Cells("Ignore_HD").Value
+            ElseIf bHD Then
                 bUnavailable = dr.Cells("Missing").Value Or dr.Cells("Archived").Value
                 bHidden = dr.Cells("Ignore_HD").Value
             Else
@@ -59,7 +63,7 @@
                     dr.DefaultCellStyle.SelectionForeColor = Color.Black
                     dr.DefaultCellStyle.SelectionBackColor = COLOUR_HIGHLIGHT
                 End If
-                
+
             End If
 
         Next

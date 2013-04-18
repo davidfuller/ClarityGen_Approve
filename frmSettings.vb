@@ -69,6 +69,7 @@ Public Class frmSettings
         Me.txtPackaged_Jobs_Archive_Folder.Text = ds.Archived_Pacakged_Jobs_Folder(sFilename)
         Me.txtLocal_Job_Folder.Text = ds.Local_Job_Folder(sSettings_File_Name)
         Me.txtNetwork_Job_Folder.Text = ds.Network_Job_Folder(sSettings_File_Name)
+        Me.chkClipstore_Scan.Checked = ds.Clipstore_Scan(sSettings_File_Name)
 
         Me.txtExample.Text = String.Concat(ds.Package_Folder(sFilename), ds.Package_Base, ".zip")
 

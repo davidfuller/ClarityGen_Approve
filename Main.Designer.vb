@@ -23,7 +23,7 @@ Partial Class Main
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -70,6 +70,7 @@ Partial Class Main
         Me.Gemini_Media_LocationsTableAdapter = New CGA.mm_phase_5DataSetTableAdapters.Gemini_Media_LocationsTableAdapter()
         Me.Gemini_Media_LocationsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Clip_History = New System.Windows.Forms.BindingSource(Me.components)
+        Me.cmdSend_Clarity = New System.Windows.Forms.Button()
         Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Title = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -94,6 +95,7 @@ Partial Class Main
         Me.Ignore_HD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Ignore_SD = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Clarity = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.On_Clarity_Clipstore = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Package = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Packaged = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Package_Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -127,7 +129,6 @@ Partial Class Main
         Me.DataGridViewCheckBoxColumn8 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.DataGridViewTextBoxColumn28 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Use_USA_Menu_BG = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.cmdSend_Clarity = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.Gemini_MediaDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gemini_MediaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -279,14 +280,14 @@ Partial Class Main
         '
         Me.Gemini_MediaDataGridView.AllowUserToAddRows = False
         Me.Gemini_MediaDataGridView.AllowUserToDeleteRows = False
-        DataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.Gemini_MediaDataGridView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Gemini_MediaDataGridView.AutoGenerateColumns = False
         Me.Gemini_MediaDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.Gemini_MediaDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.DataGridViewTextBoxColumn2, Me.Title, Me.Filename, Me.Location_ID, Me.DataGridViewTextBoxColumn6, Me.DataGridViewCheckBoxColumn1, Me.DataGridViewCheckBoxColumn2, Me.DataGridViewCheckBoxColumn3, Me.DataGridViewCheckBoxColumn4, Me.DataGridViewCheckBoxColumn5, Me.DataGridViewCheckBoxColumn6, Me.First_Use, Me.DataGridViewTextBoxColumn8, Me.DataGridViewCheckBoxColumn7, Me.DataGridViewTextBoxColumn9, Me.DataGridViewTextBoxColumn10, Me.DataGridViewTextBoxColumn11, Me.DataGridViewTextBoxColumn12, Me.DataGridViewTextBoxColumn13, Me.Delivery_Date, Me.Ignore_HD, Me.Ignore_SD, Me.Clarity, Me.Package, Me.Packaged, Me.Package_Date, Me.Package_Filename, Me.Packaged_SD, Me.Package_Date_SD, Me.Package_Filename_SD, Me.Archive, Me.Archived, Me.Archived_Date, Me.Restore_Date, Me.Missing, Me.Archive_SD, Me.Archived_SD, Me.Archived_Date_SD, Me.Restore_Date_SD, Me.Missing_SD, Me.DataGridViewTextBoxColumn15, Me.DataGridViewTextBoxColumn16, Me.DataGridViewTextBoxColumn17, Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20, Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn23, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn25, Me.DataGridViewTextBoxColumn26, Me.DataGridViewTextBoxColumn27, Me.DataGridViewCheckBoxColumn8, Me.DataGridViewTextBoxColumn28, Me.Use_USA_Menu_BG})
+        Me.Gemini_MediaDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.DataGridViewTextBoxColumn2, Me.Title, Me.Filename, Me.Location_ID, Me.DataGridViewTextBoxColumn6, Me.DataGridViewCheckBoxColumn1, Me.DataGridViewCheckBoxColumn2, Me.DataGridViewCheckBoxColumn3, Me.DataGridViewCheckBoxColumn4, Me.DataGridViewCheckBoxColumn5, Me.DataGridViewCheckBoxColumn6, Me.First_Use, Me.DataGridViewTextBoxColumn8, Me.DataGridViewCheckBoxColumn7, Me.DataGridViewTextBoxColumn9, Me.DataGridViewTextBoxColumn10, Me.DataGridViewTextBoxColumn11, Me.DataGridViewTextBoxColumn12, Me.DataGridViewTextBoxColumn13, Me.Delivery_Date, Me.Ignore_HD, Me.Ignore_SD, Me.Clarity, Me.On_Clarity_Clipstore, Me.Package, Me.Packaged, Me.Package_Date, Me.Package_Filename, Me.Packaged_SD, Me.Package_Date_SD, Me.Package_Filename_SD, Me.Archive, Me.Archived, Me.Archived_Date, Me.Restore_Date, Me.Missing, Me.Archive_SD, Me.Archived_SD, Me.Archived_Date_SD, Me.Restore_Date_SD, Me.Missing_SD, Me.DataGridViewTextBoxColumn15, Me.DataGridViewTextBoxColumn16, Me.DataGridViewTextBoxColumn17, Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20, Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn23, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn25, Me.DataGridViewTextBoxColumn26, Me.DataGridViewTextBoxColumn27, Me.DataGridViewCheckBoxColumn8, Me.DataGridViewTextBoxColumn28, Me.Use_USA_Menu_BG})
         Me.Gemini_MediaDataGridView.DataSource = Me.Gemini_MediaBindingSource
         Me.Gemini_MediaDataGridView.Location = New System.Drawing.Point(12, 83)
         Me.Gemini_MediaDataGridView.MultiSelect = False
@@ -500,6 +501,16 @@ Partial Class Main
         Me.BindingSource_Clip_History.DataMember = "Clip_History"
         Me.BindingSource_Clip_History.DataSource = Me.Mm_phase_5DataSet
         '
+        'cmdSend_Clarity
+        '
+        Me.cmdSend_Clarity.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdSend_Clarity.Location = New System.Drawing.Point(956, 380)
+        Me.cmdSend_Clarity.Name = "cmdSend_Clarity"
+        Me.cmdSend_Clarity.Size = New System.Drawing.Size(75, 23)
+        Me.cmdSend_Clarity.TabIndex = 24
+        Me.cmdSend_Clarity.Text = "To Clarity"
+        Me.cmdSend_Clarity.UseVisualStyleBackColor = True
+        '
         'ID
         '
         Me.ID.DataPropertyName = "ID"
@@ -667,6 +678,12 @@ Partial Class Main
         Me.Clarity.HeaderText = "Send to Clarity"
         Me.Clarity.Name = "Clarity"
         Me.Clarity.Width = 60
+        '
+        'On_Clarity_Clipstore
+        '
+        Me.On_Clarity_Clipstore.DataPropertyName = "On_Clarity_Clipstore"
+        Me.On_Clarity_Clipstore.HeaderText = "Clipstore"
+        Me.On_Clarity_Clipstore.Name = "On_Clarity_Clipstore"
         '
         'Package
         '
@@ -894,16 +911,6 @@ Partial Class Main
         Me.Use_USA_Menu_BG.Name = "Use_USA_Menu_BG"
         Me.Use_USA_Menu_BG.Visible = False
         '
-        'cmdSend_Clarity
-        '
-        Me.cmdSend_Clarity.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdSend_Clarity.Location = New System.Drawing.Point(956, 380)
-        Me.cmdSend_Clarity.Name = "cmdSend_Clarity"
-        Me.cmdSend_Clarity.Size = New System.Drawing.Size(75, 23)
-        Me.cmdSend_Clarity.TabIndex = 24
-        Me.cmdSend_Clarity.Text = "To Clarity"
-        Me.cmdSend_Clarity.UseVisualStyleBackColor = True
-        '
         'Main
         '
         Me.AcceptButton = Me.cmdSearch
@@ -996,6 +1003,7 @@ Partial Class Main
     Friend WithEvents BindingSource_Clip_History As System.Windows.Forms.BindingSource
     Friend WithEvents Clip_HistoryTableAdapter As CGA.mm_phase_5DataSetTableAdapters.Clip_HistoryTableAdapter
     Friend WithEvents SaveToExcelToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents cmdSend_Clarity As System.Windows.Forms.Button
     Friend WithEvents ID As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Title As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -1020,6 +1028,7 @@ Partial Class Main
     Friend WithEvents Ignore_HD As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Ignore_SD As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Clarity As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents On_Clarity_Clipstore As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Package As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Packaged As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Package_Date As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -1053,6 +1062,5 @@ Partial Class Main
     Friend WithEvents DataGridViewCheckBoxColumn8 As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn28 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Use_USA_Menu_BG As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents cmdSend_Clarity As System.Windows.Forms.Button
 
 End Class

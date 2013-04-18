@@ -244,7 +244,7 @@ Public Class Main
             Gemini_MediaDataGridView.DataSource = dv
 
             dg = New Data_Grid_MuVi2(Gemini_MediaDataGridView)
-            dg.Set_Colour(Not (cmbHD.SelectedIndex = 1))
+            dg.Set_Colour(Not (cmbHD.SelectedIndex = 1), objSettings.Clipstore_Scan(sSettings_File_Name))
         Catch ex As Exception
             mm.Add("Problem connecting to media database")
         End Try
@@ -775,12 +775,19 @@ Public Class Main
         Dim Formats() As Boolean
         Dim i As Int32
         Dim iID As Int32
+        Dim bClarity_Scan As Boolean
+        Dim sClipstore_Filename As String
+        Dim sFTP_Folder As String
+        Dim bExists As Boolean
+        Dim objFTP As MuVi2_FTP
 
         Dim dtMedia As mm_phase_5DataSet.Gemini_MediaDataTable
         Dim drMedia() As mm_phase_5DataSet.Gemini_MediaRow
 
         dtMedia = New mm_phase_5DataSet.Gemini_MediaDataTable
         Gemini_MediaTableAdapter.Fill(dtMedia)
+        bClarity_Scan = objSettings.Clipstore_Scan(sSettings_File_Name)
+        objFTP = New MuVi2_FTP(mm, ProgressBar1)
 
         Deselect_All_Rows()
         lProgress = 0
@@ -808,22 +815,35 @@ Public Class Main
 
                     If File_Type(sClarity_Filename) = Media_Type.Clip Then
                         sReal_Filename = String.Concat(objSettings.Emulated_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
-                    Else
-                        sReal_Filename = String.Concat(Remove_PIC(sClarity_Filename))
-                    End If
-
-                    If Not File.Exists(sReal_Filename) Then
-                        If bHD And File_Type(sClarity_Filename) = Media_Type.Clip Then
-                            sArchive_Filename = String.Concat(objSettings.HD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
-                            Update_Scan(drMedia(0), False, File.Exists(sArchive_Filename), bHD)
-                        ElseIf Not bHD And File_Type(sClarity_Filename) = Media_Type.Clip Then
-                            sArchive_Filename = String.Concat(objSettings.SD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
-                            Update_Scan(drMedia(0), False, File.Exists(sArchive_Filename), bHD)
+                        If bClarity_Scan Then
+                            sClipstore_Filename = Path.GetFileName(sReal_Filename)
+                            sFTP_Folder = Clipstore_Folder_From_PC_Filename(sReal_Filename)
+                            objFTP.Connect(True)
+                            bExists = objFTP.File_Exists(sFTP_Folder, sClipstore_Filename)
+                            objFTP.Disconnect()
                         Else
-                            Update_Scan(drMedia(0), False, False, bHD)
+                            bExists = File.Exists(sReal_Filename)
                         End If
                     Else
-                        Update_Scan(drMedia(0), True, False, bHD)
+                        sReal_Filename = String.Concat(Remove_PIC(sClarity_Filename))
+                        If bClarity_Scan Then
+                            sReal_Filename = sReal_Filename.Replace(objSettings.Local_Job_Folder(sSettings_File_Name), objSettings.Network_Job_Folder(sSettings_File_Name))
+                        End If
+                        bExists = File.Exists(sReal_Filename)
+                    End If
+
+                    If Not bExists Then
+                        If bHD And File_Type(sClarity_Filename) = Media_Type.Clip And Not bClarity_Scan Then
+                            sArchive_Filename = String.Concat(objSettings.HD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
+                            Update_Scan(drMedia(0), False, File.Exists(sArchive_Filename), bHD, bClarity_Scan)
+                        ElseIf Not bHD And File_Type(sClarity_Filename) = Media_Type.Clip And Not bClarity_Scan Then
+                            sArchive_Filename = String.Concat(objSettings.SD_Archived_Clips_Folder(sSettings_File_Name), Clip_Base_Filename(sClarity_Filename))
+                            Update_Scan(drMedia(0), False, File.Exists(sArchive_Filename), bHD, bClarity_Scan)
+                        Else
+                            Update_Scan(drMedia(0), False, False, bHD, bClarity_Scan)
+                        End If
+                    Else
+                        Update_Scan(drMedia(0), True, False, bHD, bClarity_Scan)
                     End If
                 Next
             End If
@@ -902,7 +922,7 @@ Public Class Main
         Scan()
 
     End Sub
-    Private Sub Update_Scan(ByRef drMedia As mm_phase_5DataSet.Gemini_MediaRow, bFound As Boolean, bArchived As Boolean, bHD As Boolean)
+    Private Sub Update_Scan(ByRef drMedia As mm_phase_5DataSet.Gemini_MediaRow, bFound As Boolean, bArchived As Boolean, bHD As Boolean, bClarity_Scan As Boolean)
 
         Dim bPrevious_Archived As Boolean
         Dim bPrevious_Missing As Boolean
@@ -921,28 +941,30 @@ Public Class Main
         bPrevious_Missing = drMedia(sMissing_Column)
 
         drMedia.BeginEdit()
-        If bFound Then
-            drMedia(sArchive_Column) = False
-            drMedia(sMissing_Column) = False
-            If bPrevious_Archived Or bPrevious_Missing Then
-                objHistory.Add_To_History(drMedia.ID, "File in current folder")
-            End If
-        ElseIf bArchived Then
-            drMedia(sArchive_Column) = True
-            drMedia(sMissing_Column) = False
-            If Not bPrevious_Archived Then
-                objHistory.Add_To_History(drMedia.ID, "File moved to archive")
-            End If
+        If bClarity_Scan Then
+            drMedia("On_Clarity_Clipstore") = bFound
         Else
-            drMedia(sArchive_Column) = False
-            drMedia(sMissing_Column) = True
-            If Not bPrevious_Missing Then
-                objHistory.Add_To_History(drMedia.ID, "File detected as missing")
+            If bFound Then
+                drMedia(sArchive_Column) = False
+                drMedia(sMissing_Column) = False
+                If bPrevious_Archived Or bPrevious_Missing Then
+                    objHistory.Add_To_History(drMedia.ID, "File in current folder")
+                End If
+            ElseIf bArchived Then
+                drMedia(sArchive_Column) = True
+                drMedia(sMissing_Column) = False
+                If Not bPrevious_Archived Then
+                    objHistory.Add_To_History(drMedia.ID, "File moved to archive")
+                End If
+            Else
+                drMedia(sArchive_Column) = False
+                drMedia(sMissing_Column) = True
+                If Not bPrevious_Missing Then
+                    objHistory.Add_To_History(drMedia.ID, "File detected as missing")
+                End If
             End If
         End If
         drMedia.EndEdit()
-
-
 
     End Sub
     Private Sub Update_Scan_Old(bFound As Boolean, bArchived As Boolean, bHD As Boolean, dr As DataGridViewRow)

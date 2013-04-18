@@ -84,6 +84,7 @@
         dr.Packaged_Job_Archived_Folder = f.txtPackaged_Jobs_Archive_Folder.Text
         dr.Local_Job_Path = f.txtLocal_Job_Folder.Text
         dr.Network_Job_Path = f.txtNetwork_Job_Folder.Text
+        dr.Clipstore_Scan = f.chkClipstore_Scan.Checked
 
         dt.AddSettingsRow(dr)
         ds.WriteXml(sFilename)
@@ -762,5 +763,16 @@
         End Set
 
     End Property
+    Friend Property Clipstore_Scan(sFilename As String) As Boolean
+        Get
+            Try
+                Return drZero(sFilename).Clipstore_Scan
+            Catch ex As Exception
+                Return False
+            End Try
+        End Get
+        Set(value As Boolean)
 
+        End Set
+    End Property
 End Class

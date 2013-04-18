@@ -5,6 +5,7 @@ Public Class MuVi2_FTP
     Dim objSettings As Settings_MuVi2
     Dim mm As mMessage
     Dim pbar As ProgressBar
+    Dim bMessage_Supress As Boolean
 
     Public Sub New(ByVal mMess As mMessage, ByVal progress As ProgressBar)
 
@@ -13,14 +14,15 @@ Public Class MuVi2_FTP
         ftp.ConnectMode = FTPConnectMode.ACTIVE
         AddHandler ftp.BytesTransferred, New BytesTransferredHandler(AddressOf Transferring)
         AddHandler ftp.Uploading, New FTPFileTransferEventHandler(AddressOf Starting_Upload)
-        AddHandler ftp.Connected, New FTPConnectionEventHandler(AddressOf Me.Connected)
+        AddHandler ftp.Connected, New FTPConnectionEventHandler(AddressOf Connected)
+        AddHandler ftp.Downloading, New FTPFileTransferEventHandler(AddressOf Starting_Download)
 
         mm = mMess
         pbar = progress
 
     End Sub
 
-    Public Function Connect() As Boolean
+    Public Function Connect(bSuppress_Message As Boolean) As Boolean
 
         Dim bSuccess As Boolean
 
@@ -31,6 +33,8 @@ Public Class MuVi2_FTP
         ftp.Timeout = objSettings.FTP_Timeout_ms(sSettings_File_Name)
         ftp.ServerPort = objSettings.FTP_Port_Number(sSettings_File_Name)
         ftp.TransferType = FTPTransferType.BINARY
+
+        bMessage_Supress = bSuppress_Message
 
         bSuccess = True
         If Not ftp.IsConnected Then
@@ -49,7 +53,7 @@ Public Class MuVi2_FTP
 
     Private Sub Connected(ByVal sender As Object, ByVal e As FTPConnectionEventArgs)
 
-        mm.Add(String.Format("Connected to server at: {0}", e.ServerAddress))
+        If Not bMessage_Supress Then mm.Add(String.Format("Connected to server at: {0}", e.ServerAddress))
 
     End Sub
     Public Function Download_File(ByVal sSource As String, ByVal sWorking_Directory As String, ByVal sDestination As String) As Boolean
@@ -68,7 +72,29 @@ Public Class MuVi2_FTP
         Return True
 
     End Function
+    Public Function File_Exists(sFolder As String, sFilename As String) As Boolean
 
+        Dim sFiles() As String
+
+        If ftp.IsConnected And Not (ftp.IsTransferring) Then
+            If ftp.ServerDirectory <> sFolder Then
+                If Not ftp.DirectoryExists(sFolder) Then
+                    Return False
+                End If
+                ftp.ChangeWorkingDirectory(sFolder)
+            End If
+
+            sFiles = ftp.GetFiles()
+            For Each sFile In sFiles
+                If sFile.Equals(sFilename, StringComparison.CurrentCultureIgnoreCase) Then
+                    Return True
+                End If
+            Next
+        End If
+
+        Return False
+
+    End Function
 
     Public Overloads Function Transfer_File(ByVal sSource As String, ByVal sWorking_Directory As String, ByVal sDestination As String) As Boolean
 
@@ -144,7 +170,13 @@ Public Class MuVi2_FTP
         pbar.Parent.Update()
 
     End Sub
+    Private Sub Starting_Download(ByVal sender As Object, ByVal e As FTPFileTransferEventArgs)
 
+        mm.Add(String.Format("Transferring file {0} from clipstore folder {1}", e.RemoteFileName, e.RemoteDirectory))
+        pbar.Maximum = e.RemoteFileSize
+        pbar.Parent.Update()
+
+    End Sub
 
     Public Sub Disconnect()
 

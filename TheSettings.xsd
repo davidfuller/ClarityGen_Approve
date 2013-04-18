@@ -73,6 +73,7 @@
               <xs:element name="Packaged_Job_Archived_Folder" msprop:Generator_ColumnVarNameInTable="columnPackaged_Job_Archived_Folder" msprop:Generator_ColumnPropNameInRow="Packaged_Job_Archived_Folder" msprop:Generator_ColumnPropNameInTable="Packaged_Job_Archived_FolderColumn" msprop:Generator_UserColumnName="Packaged_Job_Archived_Folder" type="xs:string" minOccurs="0" />
               <xs:element name="Local_Job_Path" msprop:Generator_ColumnVarNameInTable="columnLocal_Job_Path" msprop:Generator_ColumnPropNameInRow="Local_Job_Path" msprop:Generator_ColumnPropNameInTable="Local_Job_PathColumn" msprop:Generator_UserColumnName="Local_Job_Path" type="xs:string" minOccurs="0" />
               <xs:element name="Network_Job_Path" msprop:Generator_ColumnVarNameInTable="columnNetwork_Job_Path" msprop:Generator_ColumnPropNameInRow="Network_Job_Path" msprop:Generator_ColumnPropNameInTable="Network_Job_PathColumn" msprop:Generator_UserColumnName="Network_Job_Path" type="xs:string" minOccurs="0" />
+              <xs:element name="Clipstore_Scan" msprop:Generator_ColumnVarNameInTable="columnClipstore_Scan" msprop:Generator_ColumnPropNameInRow="Clipstore_Scan" msprop:Generator_ColumnPropNameInTable="Clipstore_ScanColumn" msprop:Generator_UserColumnName="Clipstore_Scan" type="xs:boolean" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
