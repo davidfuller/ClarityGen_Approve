@@ -7,6 +7,7 @@ Public Class Main
     Dim objClarity As Clarity
     Private dt As New mm_phase_5DataSet.Gemini_Media_LocationsDataTable
     Private objHistory As History
+    Private fHistory As frmHistory
 
 
     Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
@@ -390,6 +391,7 @@ Public Class Main
             Folder_Stuff = mmdb.Find(iLocation_ID, bHD)
             sFilename = String.Concat(Folder_Stuff.Clarity_Prefix, Folder_Stuff.Folder_Name, Remove_PPV(sClip))
             Me.txtClip_Filename.Text = sFilename
+            Show_History()
         End If
 
     End Sub
@@ -1417,5 +1419,44 @@ Public Class Main
         iScroll = Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex
         ReQuery()
         Gemini_MediaDataGridView.FirstDisplayedScrollingRowIndex = iScroll
+    End Sub
+
+    Friend Sub Show_History()
+
+        Dim sFile As File_Details
+
+        If chkHistory.Checked And bHistory Then
+            If Gemini_MediaDataGridView.SelectedRows.Count > 0 Then
+                sFile = New File_Details
+                sFile.ID = Gemini_MediaDataGridView.SelectedRows(0).Cells("ID").Value
+                sFile.Filename = Gemini_MediaDataGridView.SelectedRows(0).Cells("Filename").Value
+                If fHistory Is Nothing Then
+                    fHistory = New frmHistory
+                ElseIf fHistory.IsDisposed Then
+                    fHistory = New frmHistory
+                End If
+                fHistory.Show()
+                fHistory.Show_Clip(sFile)
+            Else
+                fHistory.Hide()
+                fHistory = Nothing
+            End If
+        Else
+            chkHistory.Checked = False
+            If Not fHistory Is Nothing Then
+                fHistory.Hide()
+                fHistory = Nothing
+            End If
+        End If
+
+
+
+    End Sub
+
+    Private Sub chkHistory_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHistory.CheckedChanged
+
+        bHistory = chkHistory.Checked
+        Show_History()
+
     End Sub
 End Class

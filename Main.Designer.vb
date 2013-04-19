@@ -23,7 +23,7 @@ Partial Class Main
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -127,6 +127,7 @@ Partial Class Main
         Me.Gemini_Media_LocationsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.BindingSource_Clip_History = New System.Windows.Forms.BindingSource(Me.components)
         Me.cmdSend_Clarity = New System.Windows.Forms.Button()
+        Me.chkHistory = New System.Windows.Forms.CheckBox()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.Gemini_MediaDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gemini_MediaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -272,8 +273,8 @@ Partial Class Main
         '
         Me.Gemini_MediaDataGridView.AllowUserToAddRows = False
         Me.Gemini_MediaDataGridView.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.Gemini_MediaDataGridView.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.Gemini_MediaDataGridView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -898,12 +899,24 @@ Partial Class Main
         Me.cmdSend_Clarity.Text = "To Clarity"
         Me.cmdSend_Clarity.UseVisualStyleBackColor = True
         '
+        'chkHistory
+        '
+        Me.chkHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkHistory.AutoSize = True
+        Me.chkHistory.Location = New System.Drawing.Point(455, 29)
+        Me.chkHistory.Name = "chkHistory"
+        Me.chkHistory.Size = New System.Drawing.Size(88, 17)
+        Me.chkHistory.TabIndex = 25
+        Me.chkHistory.Text = "Show History"
+        Me.chkHistory.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AcceptButton = Me.cmdSearch
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1132, 581)
+        Me.Controls.Add(Me.chkHistory)
         Me.Controls.Add(Me.cmdSend_Clarity)
         Me.Controls.Add(Me.cmbFilter)
         Me.Controls.Add(Me.cmbHD)
@@ -1047,5 +1060,6 @@ Partial Class Main
     Friend WithEvents DataGridViewCheckBoxColumn8 As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn28 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Use_USA_Menu_BG As System.Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents chkHistory As System.Windows.Forms.CheckBox
 
 End Class

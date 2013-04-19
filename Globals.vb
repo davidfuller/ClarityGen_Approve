@@ -4,6 +4,7 @@
     Friend mm As mMessage
 
     Public bPackaging_Only As Boolean
+    Public bHistory As Boolean
 
     Public Const CLE_JOB_LOAD As Integer = 2801
     Public Const CLE_FIELD_UPDATES As Integer = 2802

@@ -105,6 +105,12 @@
     <Compile Include="Clarity.vb" />
     <Compile Include="Data_Grid_MuVi2.vb" />
     <Compile Include="Excel_Save.vb" />
+    <Compile Include="frmHistory.Designer.vb">
+      <DependentUpon>frmHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSettings.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +172,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmHistory.resx">
+      <DependentUpon>frmHistory.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.vb</DependentUpon>
     </EmbeddedResource>
