@@ -86,6 +86,11 @@
         dr.Network_Job_Path = f.txtNetwork_Job_Folder.Text
         dr.Clipstore_Scan = f.chkClipstore_Scan.Checked
         dr.Clarity_Packaging_View = f.chkClarity_Packaging_View.Checked
+        Try
+            dr.Transfer_Buffer_Size = Integer.Parse(f.txtTransfer_Buffer_Size.Text)
+        Catch
+            dr.Transfer_Buffer_Size = 65535
+        End Try
 
         dt.AddSettingsRow(dr)
         ds.WriteXml(sFilename)
@@ -789,4 +794,19 @@
 
         End Set
     End Property
+
+    Friend Property Transfer_Buffer_Size(sFilename As String) As Int32
+        Get
+            Try
+                Return drZero(sFilename).Transfer_Buffer_Size
+            Catch ex As Exception
+                Return 65535
+            End Try
+        End Get
+        Set(value As Int32)
+
+        End Set
+
+    End Property
+
 End Class

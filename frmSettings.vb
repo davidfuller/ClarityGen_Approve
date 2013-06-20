@@ -71,6 +71,7 @@ Public Class frmSettings
         Me.txtNetwork_Job_Folder.Text = ds.Network_Job_Folder(sSettings_File_Name)
         Me.chkClipstore_Scan.Checked = ds.Clipstore_Scan(sSettings_File_Name)
         Me.chkClarity_Packaging_View.Checked = ds.Clarity_Packaging_View(sSettings_File_Name)
+        Me.txtTransfer_Buffer_Size.Text = ds.Transfer_Buffer_Size(sSettings_File_Name).ToString
 
         Me.txtExample.Text = String.Concat(ds.Package_Folder(sFilename), ds.Package_Base, ".zip")
 

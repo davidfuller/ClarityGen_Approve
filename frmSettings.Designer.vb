@@ -82,6 +82,7 @@ Partial Class frmSettings
         Me.txtHD_Archived_Clips = New System.Windows.Forms.TextBox()
         Me.Label37 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.chkClarity_Packaging_View = New System.Windows.Forms.CheckBox()
         Me.chkMove_Packaged_Job = New System.Windows.Forms.CheckBox()
         Me.cmdArchived_Jobs_Path = New System.Windows.Forms.Button()
         Me.txtPackaged_Jobs_Archive_Folder = New System.Windows.Forms.TextBox()
@@ -163,7 +164,8 @@ Partial Class frmSettings
         Me.cmdLoad_Profile = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkClarity_Packaging_View = New System.Windows.Forms.CheckBox()
+        Me.txtTransfer_Buffer_Size = New System.Windows.Forms.TextBox()
+        Me.Label44 = New System.Windows.Forms.Label()
         Me.tabSettings.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.udStill_Field_Number, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -802,6 +804,18 @@ Partial Class frmSettings
         Me.TabPage2.Text = "Packaging"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'chkClarity_Packaging_View
+        '
+        Me.chkClarity_Packaging_View.AutoSize = True
+        Me.chkClarity_Packaging_View.Checked = True
+        Me.chkClarity_Packaging_View.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkClarity_Packaging_View.Location = New System.Drawing.Point(9, 289)
+        Me.chkClarity_Packaging_View.Name = "chkClarity_Packaging_View"
+        Me.chkClarity_Packaging_View.Size = New System.Drawing.Size(134, 17)
+        Me.chkClarity_Packaging_View.TabIndex = 18
+        Me.chkClarity_Packaging_View.Text = "Clarity Packaging View"
+        Me.chkClarity_Packaging_View.UseVisualStyleBackColor = True
+        '
         'chkMove_Packaged_Job
         '
         Me.chkMove_Packaged_Job.AutoSize = True
@@ -1340,6 +1354,8 @@ Partial Class frmSettings
         '
         'TabPage4
         '
+        Me.TabPage4.Controls.Add(Me.txtTransfer_Buffer_Size)
+        Me.TabPage4.Controls.Add(Me.Label44)
         Me.TabPage4.Controls.Add(Me.chkClipstore_Scan)
         Me.TabPage4.Controls.Add(Me.cmdBrowse_Network_Job)
         Me.TabPage4.Controls.Add(Me.cmdBrowse_Local_Job)
@@ -1583,17 +1599,21 @@ Partial Class frmSettings
         Me.cmdLoad_Profile.Text = "Load Profile"
         Me.cmdLoad_Profile.UseVisualStyleBackColor = True
         '
-        'chkClarity_Packaging_View
+        'txtTransfer_Buffer_Size
         '
-        Me.chkClarity_Packaging_View.AutoSize = True
-        Me.chkClarity_Packaging_View.Checked = True
-        Me.chkClarity_Packaging_View.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkClarity_Packaging_View.Location = New System.Drawing.Point(9, 289)
-        Me.chkClarity_Packaging_View.Name = "chkClarity_Packaging_View"
-        Me.chkClarity_Packaging_View.Size = New System.Drawing.Size(134, 17)
-        Me.chkClarity_Packaging_View.TabIndex = 18
-        Me.chkClarity_Packaging_View.Text = "Clarity Packaging View"
-        Me.chkClarity_Packaging_View.UseVisualStyleBackColor = True
+        Me.txtTransfer_Buffer_Size.Location = New System.Drawing.Point(390, 67)
+        Me.txtTransfer_Buffer_Size.Name = "txtTransfer_Buffer_Size"
+        Me.txtTransfer_Buffer_Size.Size = New System.Drawing.Size(132, 20)
+        Me.txtTransfer_Buffer_Size.TabIndex = 23
+        '
+        'Label44
+        '
+        Me.Label44.AutoSize = True
+        Me.Label44.Location = New System.Drawing.Point(284, 70)
+        Me.Label44.Name = "Label44"
+        Me.Label44.Size = New System.Drawing.Size(100, 13)
+        Me.Label44.TabIndex = 24
+        Me.Label44.Text = "Transfer Buffer Size"
         '
         'frmSettings
         '
@@ -1773,5 +1793,7 @@ Partial Class frmSettings
     Friend WithEvents chkPackage_From_Clipstore As System.Windows.Forms.CheckBox
     Friend WithEvents chkClipstore_Scan As System.Windows.Forms.CheckBox
     Friend WithEvents chkClarity_Packaging_View As System.Windows.Forms.CheckBox
+    Friend WithEvents txtTransfer_Buffer_Size As System.Windows.Forms.TextBox
+    Friend WithEvents Label44 As System.Windows.Forms.Label
 
 End Class

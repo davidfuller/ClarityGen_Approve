@@ -34,6 +34,8 @@ Public Class MuVi2_FTP
         ftp.Timeout = objSettings.FTP_Timeout_ms(sSettings_File_Name)
         ftp.ServerPort = objSettings.FTP_Port_Number(sSettings_File_Name)
         ftp.TransferType = FTPTransferType.BINARY
+        ftp.TransferBufferSize = objSettings.Transfer_Buffer_Size(sSettings_File_Name)
+        mm.Add(ftp.TransferBufferSize.ToString)
 
 
         bMessage_Supress = bSuppress_Message

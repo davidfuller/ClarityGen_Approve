@@ -75,6 +75,7 @@
               <xs:element name="Network_Job_Path" msprop:Generator_ColumnVarNameInTable="columnNetwork_Job_Path" msprop:Generator_ColumnPropNameInRow="Network_Job_Path" msprop:Generator_ColumnPropNameInTable="Network_Job_PathColumn" msprop:Generator_UserColumnName="Network_Job_Path" type="xs:string" minOccurs="0" />
               <xs:element name="Clipstore_Scan" msprop:Generator_ColumnVarNameInTable="columnClipstore_Scan" msprop:Generator_ColumnPropNameInRow="Clipstore_Scan" msprop:Generator_ColumnPropNameInTable="Clipstore_ScanColumn" msprop:Generator_UserColumnName="Clipstore_Scan" type="xs:boolean" minOccurs="0" />
               <xs:element name="Clarity_Packaging_View" msprop:Generator_ColumnVarNameInTable="columnClarity_Packaging_View" msprop:Generator_ColumnPropNameInRow="Clarity_Packaging_View" msprop:Generator_ColumnPropNameInTable="Clarity_Packaging_ViewColumn" msprop:Generator_UserColumnName="Clarity_Packaging_View" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Transfer_Buffer_Size" msprop:Generator_ColumnVarNameInTable="columnTransfer_Buffer_Size" msprop:Generator_ColumnPropNameInRow="Transfer_Buffer_Size" msprop:Generator_ColumnPropNameInTable="Transfer_Buffer_SizeColumn" msprop:Generator_UserColumnName="Transfer_Buffer_Size" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
