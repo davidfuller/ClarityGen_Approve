@@ -587,6 +587,53 @@ FROM            Gemini_Media</CommandText>
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataTable1TableAdapter" GeneratorDataComponentClassName="DataTable1TableAdapter" Name="DataTable1" UserDataComponentName="DataTable1TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="mm_phase_5_ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        cl_Job.*, cl_Page.*, cl_PageMediaJoin.*, cl_Media.*, cl_PageHistory.*, cl_MediaHistory.*
+FROM            (cl_MediaHistory RIGHT OUTER JOIN
+                         (cl_Job LEFT OUTER JOIN
+                         (cl_PageHistory RIGHT OUTER JOIN
+                         ((cl_PageMediaJoin LEFT OUTER JOIN
+                         cl_Media ON cl_PageMediaJoin.MediaID = cl_Media.ID) RIGHT OUTER JOIN
+                         cl_Page ON cl_PageMediaJoin.PageID = cl_Page.ID) ON cl_PageHistory.PageID = cl_Page.ID) ON cl_Job.ID = cl_Page.JobID) ON cl_MediaHistory.ID = cl_Media.ID)</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="cl_Job.ID" DataSetColumn="cl_Job_ID" />
+              <Mapping SourceColumn="JobName" DataSetColumn="JobName" />
+              <Mapping SourceColumn="Current" DataSetColumn="Current" />
+              <Mapping SourceColumn="cl_Page.ID" DataSetColumn="cl_Page_ID" />
+              <Mapping SourceColumn="PageNumber" DataSetColumn="PageNumber" />
+              <Mapping SourceColumn="PageName" DataSetColumn="PageName" />
+              <Mapping SourceColumn="cl_Page.DiscoveryDate" DataSetColumn="cl_Page_DiscoveryDate" />
+              <Mapping SourceColumn="cl_Page.Deleted" DataSetColumn="cl_Page_Deleted" />
+              <Mapping SourceColumn="cl_Page.DeleteDate" DataSetColumn="cl_Page_DeleteDate" />
+              <Mapping SourceColumn="JobID" DataSetColumn="JobID" />
+              <Mapping SourceColumn="cl_PageMediaJoin.PageID" DataSetColumn="cl_PageMediaJoin_PageID" />
+              <Mapping SourceColumn="cl_PageMediaJoin.MediaID" DataSetColumn="cl_PageMediaJoin_MediaID" />
+              <Mapping SourceColumn="cl_Media.ID" DataSetColumn="cl_Media_ID" />
+              <Mapping SourceColumn="Type" DataSetColumn="Type" />
+              <Mapping SourceColumn="Filename" DataSetColumn="Filename" />
+              <Mapping SourceColumn="cl_Media.DiscoveryDate" DataSetColumn="cl_Media_DiscoveryDate" />
+              <Mapping SourceColumn="cl_Media.Deleted" DataSetColumn="cl_Media_Deleted" />
+              <Mapping SourceColumn="cl_Media.DeleteDate" DataSetColumn="cl_Media_DeleteDate" />
+              <Mapping SourceColumn="cl_PageHistory.ID" DataSetColumn="cl_PageHistory_ID" />
+              <Mapping SourceColumn="cl_PageHistory.PageID" DataSetColumn="cl_PageHistory_PageID" />
+              <Mapping SourceColumn="cl_PageHistory.MessageDate" DataSetColumn="cl_PageHistory_MessageDate" />
+              <Mapping SourceColumn="cl_PageHistory.Message" DataSetColumn="cl_PageHistory_Message" />
+              <Mapping SourceColumn="cl_MediaHistory.ID" DataSetColumn="cl_MediaHistory_ID" />
+              <Mapping SourceColumn="cl_MediaHistory.MediaID" DataSetColumn="cl_MediaHistory_MediaID" />
+              <Mapping SourceColumn="cl_MediaHistory.MessageDate" DataSetColumn="cl_MediaHistory_MessageDate" />
+              <Mapping SourceColumn="cl_MediaHistory.Message" DataSetColumn="cl_MediaHistory_Message" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -805,6 +852,74 @@ FROM            Gemini_Media</CommandText>
               <xs:element name="Media_ID" msprop:Generator_ColumnVarNameInTable="columnMedia_ID" msprop:Generator_ColumnPropNameInRow="Media_ID" msprop:Generator_ColumnPropNameInTable="Media_IDColumn" msprop:Generator_UserColumnName="Media_ID" type="xs:int" minOccurs="0" />
               <xs:element name="Added" msprop:Generator_ColumnVarNameInTable="columnAdded" msprop:Generator_ColumnPropNameInRow="Added" msprop:Generator_ColumnPropNameInTable="AddedColumn" msprop:Generator_UserColumnName="Added" type="xs:dateTime" minOccurs="0" />
               <xs:element name="Message" msprop:Generator_ColumnVarNameInTable="columnMessage" msprop:Generator_ColumnPropNameInRow="Message" msprop:Generator_ColumnPropNameInTable="MessageColumn" msprop:Generator_UserColumnName="Message" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowClassName="DataTable1Row">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="cl_Job_ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msdata:Caption="cl_Job.ID" msprop:Generator_ColumnVarNameInTable="columncl_Job_ID" msprop:Generator_ColumnPropNameInRow="cl_Job_ID" msprop:Generator_ColumnPropNameInTable="cl_Job_IDColumn" msprop:Generator_UserColumnName="cl_Job_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="JobName" msprop:Generator_ColumnVarNameInTable="columnJobName" msprop:Generator_ColumnPropNameInRow="JobName" msprop:Generator_ColumnPropNameInTable="JobNameColumn" msprop:Generator_UserColumnName="JobName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Current" msprop:Generator_ColumnVarNameInTable="columnCurrent" msprop:Generator_ColumnPropNameInRow="Current" msprop:Generator_ColumnPropNameInTable="CurrentColumn" msprop:Generator_UserColumnName="Current" type="xs:boolean" minOccurs="0" />
+              <xs:element name="cl_Page_ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msdata:Caption="cl_Page.ID" msprop:Generator_ColumnVarNameInTable="columncl_Page_ID" msprop:Generator_ColumnPropNameInRow="cl_Page_ID" msprop:Generator_ColumnPropNameInTable="cl_Page_IDColumn" msprop:Generator_UserColumnName="cl_Page_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="PageNumber" msprop:Generator_ColumnVarNameInTable="columnPageNumber" msprop:Generator_ColumnPropNameInRow="PageNumber" msprop:Generator_ColumnPropNameInTable="PageNumberColumn" msprop:Generator_UserColumnName="PageNumber" type="xs:int" minOccurs="0" />
+              <xs:element name="PageName" msprop:Generator_ColumnVarNameInTable="columnPageName" msprop:Generator_ColumnPropNameInRow="PageName" msprop:Generator_ColumnPropNameInTable="PageNameColumn" msprop:Generator_UserColumnName="PageName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cl_Page_DiscoveryDate" msdata:Caption="cl_Page.DiscoveryDate" msprop:Generator_ColumnVarNameInTable="columncl_Page_DiscoveryDate" msprop:Generator_ColumnPropNameInRow="cl_Page_DiscoveryDate" msprop:Generator_ColumnPropNameInTable="cl_Page_DiscoveryDateColumn" msprop:Generator_UserColumnName="cl_Page_DiscoveryDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="cl_Page_Deleted" msdata:Caption="cl_Page.Deleted" msprop:Generator_ColumnVarNameInTable="columncl_Page_Deleted" msprop:Generator_ColumnPropNameInRow="cl_Page_Deleted" msprop:Generator_ColumnPropNameInTable="cl_Page_DeletedColumn" msprop:Generator_UserColumnName="cl_Page_Deleted" type="xs:boolean" minOccurs="0" />
+              <xs:element name="cl_Page_DeleteDate" msdata:Caption="cl_Page.DeleteDate" msprop:Generator_ColumnVarNameInTable="columncl_Page_DeleteDate" msprop:Generator_ColumnPropNameInRow="cl_Page_DeleteDate" msprop:Generator_ColumnPropNameInTable="cl_Page_DeleteDateColumn" msprop:Generator_UserColumnName="cl_Page_DeleteDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="JobID" msprop:Generator_ColumnVarNameInTable="columnJobID" msprop:Generator_ColumnPropNameInRow="JobID" msprop:Generator_ColumnPropNameInTable="JobIDColumn" msprop:Generator_UserColumnName="JobID" type="xs:int" minOccurs="0" />
+              <xs:element name="cl_PageMediaJoin_PageID" msdata:Caption="cl_PageMediaJoin.PageID" msprop:Generator_ColumnVarNameInTable="columncl_PageMediaJoin_PageID" msprop:Generator_ColumnPropNameInRow="cl_PageMediaJoin_PageID" msprop:Generator_ColumnPropNameInTable="cl_PageMediaJoin_PageIDColumn" msprop:Generator_UserColumnName="cl_PageMediaJoin_PageID" type="xs:int" minOccurs="0" />
+              <xs:element name="cl_PageMediaJoin_MediaID" msdata:Caption="cl_PageMediaJoin.MediaID" msprop:Generator_ColumnVarNameInTable="columncl_PageMediaJoin_MediaID" msprop:Generator_ColumnPropNameInRow="cl_PageMediaJoin_MediaID" msprop:Generator_ColumnPropNameInTable="cl_PageMediaJoin_MediaIDColumn" msprop:Generator_UserColumnName="cl_PageMediaJoin_MediaID" type="xs:int" minOccurs="0" />
+              <xs:element name="cl_Media_ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msdata:Caption="cl_Media.ID" msprop:Generator_ColumnVarNameInTable="columncl_Media_ID" msprop:Generator_ColumnPropNameInRow="cl_Media_ID" msprop:Generator_ColumnPropNameInTable="cl_Media_IDColumn" msprop:Generator_UserColumnName="cl_Media_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="Type" msprop:Generator_ColumnVarNameInTable="columnType" msprop:Generator_ColumnPropNameInRow="Type" msprop:Generator_ColumnPropNameInTable="TypeColumn" msprop:Generator_UserColumnName="Type" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Filename" msprop:Generator_ColumnVarNameInTable="columnFilename" msprop:Generator_ColumnPropNameInRow="Filename" msprop:Generator_ColumnPropNameInTable="FilenameColumn" msprop:Generator_UserColumnName="Filename" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cl_Media_DiscoveryDate" msdata:Caption="cl_Media.DiscoveryDate" msprop:Generator_ColumnVarNameInTable="columncl_Media_DiscoveryDate" msprop:Generator_ColumnPropNameInRow="cl_Media_DiscoveryDate" msprop:Generator_ColumnPropNameInTable="cl_Media_DiscoveryDateColumn" msprop:Generator_UserColumnName="cl_Media_DiscoveryDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="cl_Media_Deleted" msdata:Caption="cl_Media.Deleted" msprop:Generator_ColumnVarNameInTable="columncl_Media_Deleted" msprop:Generator_ColumnPropNameInRow="cl_Media_Deleted" msprop:Generator_ColumnPropNameInTable="cl_Media_DeletedColumn" msprop:Generator_UserColumnName="cl_Media_Deleted" type="xs:boolean" minOccurs="0" />
+              <xs:element name="cl_Media_DeleteDate" msdata:Caption="cl_Media.DeleteDate" msprop:Generator_ColumnVarNameInTable="columncl_Media_DeleteDate" msprop:Generator_ColumnPropNameInRow="cl_Media_DeleteDate" msprop:Generator_ColumnPropNameInTable="cl_Media_DeleteDateColumn" msprop:Generator_UserColumnName="cl_Media_DeleteDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="cl_PageHistory_ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msdata:Caption="cl_PageHistory.ID" msprop:Generator_ColumnVarNameInTable="columncl_PageHistory_ID" msprop:Generator_ColumnPropNameInRow="cl_PageHistory_ID" msprop:Generator_ColumnPropNameInTable="cl_PageHistory_IDColumn" msprop:Generator_UserColumnName="cl_PageHistory_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="cl_PageHistory_PageID" msdata:Caption="cl_PageHistory.PageID" msprop:Generator_ColumnVarNameInTable="columncl_PageHistory_PageID" msprop:Generator_ColumnPropNameInRow="cl_PageHistory_PageID" msprop:Generator_ColumnPropNameInTable="cl_PageHistory_PageIDColumn" msprop:Generator_UserColumnName="cl_PageHistory_PageID" type="xs:int" minOccurs="0" />
+              <xs:element name="cl_PageHistory_MessageDate" msdata:Caption="cl_PageHistory.MessageDate" msprop:Generator_ColumnVarNameInTable="columncl_PageHistory_MessageDate" msprop:Generator_ColumnPropNameInRow="cl_PageHistory_MessageDate" msprop:Generator_ColumnPropNameInTable="cl_PageHistory_MessageDateColumn" msprop:Generator_UserColumnName="cl_PageHistory_MessageDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="cl_PageHistory_Message" msdata:Caption="cl_PageHistory.Message" msprop:Generator_ColumnVarNameInTable="columncl_PageHistory_Message" msprop:Generator_ColumnPropNameInRow="cl_PageHistory_Message" msprop:Generator_ColumnPropNameInTable="cl_PageHistory_MessageColumn" msprop:Generator_UserColumnName="cl_PageHistory_Message" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cl_MediaHistory_ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msdata:Caption="cl_MediaHistory.ID" msprop:Generator_ColumnVarNameInTable="columncl_MediaHistory_ID" msprop:Generator_ColumnPropNameInRow="cl_MediaHistory_ID" msprop:Generator_ColumnPropNameInTable="cl_MediaHistory_IDColumn" msprop:Generator_UserColumnName="cl_MediaHistory_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="cl_MediaHistory_MediaID" msdata:Caption="cl_MediaHistory.MediaID" msprop:Generator_ColumnVarNameInTable="columncl_MediaHistory_MediaID" msprop:Generator_ColumnPropNameInRow="cl_MediaHistory_MediaID" msprop:Generator_ColumnPropNameInTable="cl_MediaHistory_MediaIDColumn" msprop:Generator_UserColumnName="cl_MediaHistory_MediaID" type="xs:int" minOccurs="0" />
+              <xs:element name="cl_MediaHistory_MessageDate" msdata:Caption="cl_MediaHistory.MessageDate" msprop:Generator_ColumnVarNameInTable="columncl_MediaHistory_MessageDate" msprop:Generator_ColumnPropNameInRow="cl_MediaHistory_MessageDate" msprop:Generator_ColumnPropNameInTable="cl_MediaHistory_MessageDateColumn" msprop:Generator_UserColumnName="cl_MediaHistory_MessageDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="cl_MediaHistory_Message" msdata:Caption="cl_MediaHistory.Message" msprop:Generator_ColumnVarNameInTable="columncl_MediaHistory_Message" msprop:Generator_ColumnPropNameInRow="cl_MediaHistory_Message" msprop:Generator_ColumnPropNameInTable="cl_MediaHistory_MessageColumn" msprop:Generator_UserColumnName="cl_MediaHistory_Message" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />

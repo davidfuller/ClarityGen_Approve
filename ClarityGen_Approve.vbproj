@@ -156,6 +156,7 @@
     <Compile Include="Receipt.vb" />
     <Compile Include="Settings.vb" />
     <Compile Include="Settings_MuVi2.vb" />
+    <Compile Include="Specials.vb" />
     <Compile Include="TheSettings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
