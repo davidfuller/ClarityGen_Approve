@@ -587,7 +587,7 @@ FROM            Gemini_Media</CommandText>
             </Mappings>
             <Sources />
           </TableAdapter>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataTable1TableAdapter" GeneratorDataComponentClassName="DataTable1TableAdapter" Name="DataTable1" UserDataComponentName="DataTable1TableAdapter">
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="SpecialTableAdapter" GeneratorDataComponentClassName="SpecialTableAdapter" Name="Special" UserDataComponentName="SpecialTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="mm_phase_5_ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
@@ -861,7 +861,7 @@ FROM            (cl_MediaHistory RIGHT OUTER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowClassName="DataTable1Row">
+        <xs:element name="Special" msprop:Generator_TableClassName="SpecialDataTable" msprop:Generator_TableVarName="tableSpecial" msprop:Generator_TablePropName="Special" msprop:Generator_RowDeletingName="SpecialRowDeleting" msprop:Generator_UserTableName="Special" msprop:Generator_RowChangingName="SpecialRowChanging" msprop:Generator_RowEvHandlerName="SpecialRowChangeEventHandler" msprop:Generator_RowDeletedName="SpecialRowDeleted" msprop:Generator_RowEvArgName="SpecialRowChangeEvent" msprop:Generator_RowChangedName="SpecialRowChanged" msprop:Generator_RowClassName="SpecialRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="cl_Job_ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msdata:Caption="cl_Job.ID" msprop:Generator_ColumnVarNameInTable="columncl_Job_ID" msprop:Generator_ColumnPropNameInRow="cl_Job_ID" msprop:Generator_ColumnPropNameInTable="cl_Job_IDColumn" msprop:Generator_UserColumnName="cl_Job_ID" type="xs:int" minOccurs="0" />
