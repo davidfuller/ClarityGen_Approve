@@ -57,6 +57,7 @@ Public Class Clarity
 
         If iReturn = 0 Then
             Message_Add(String.Concat("Clarity Connected at hostname: ", objClarity.Hostname.ToString, " - Port: ", objClarity.PortNumber.ToString))
+
         Else
             Message_Add(String.Concat("Cannot connect to Clarity at hostname: ", objClarity.Hostname.ToString, " - Port: ", objClarity.PortNumber.ToString))
         End If
@@ -65,7 +66,33 @@ Public Class Clarity
 
     End Function
 
+    Friend Function Currently_Loaded_Job(ByRef iReturn As Int32) As String
 
+        Dim sPath As String
+        Dim sName As String
+        Dim iNum As Integer
+        Dim cMode As JobPageMode
+        Dim sCurrent As String
+
+        iNum = 0
+        sPath = ""
+        sName = ""
+        cMode = JobPageMode.JobModeInternalTimecode
+
+        iReturn = objClarity.AskJobInfo(sPath, sName, iNum, cMode)
+        If iReturn = 0 Then
+            If sPath <> "" And sName <> "" Then
+                sCurrent = String.Concat(sPath, "\", sName)
+            Else
+                sCurrent = String.Concat(sPath, sName)
+            End If
+        Else
+            sCurrent = ""
+        End If
+
+        Return sCurrent
+
+    End Function
 
     Friend Overloads Function Connect_Feedback() As Boolean
 
@@ -138,29 +165,13 @@ Public Class Clarity
 
     Friend Overloads Function Is_Job_Loaded(ByVal sFilename As String) As Boolean
 
-        Dim sPath As String
-        Dim sName As String
-        Dim iNum As Integer
-        Dim cMode As JobPageMode
         Dim bConnected As Boolean
         Dim sCurrent As String
 
-
-        sPath = ""
-        sName = ""
-        iNum = 0
-        cMode = JobPageMode.JobModeInternalTimecode
-
-        iReturn = objClarity.AskJobInfo(sPath, sName, iNum, cMode)
+        sCurrent = Currently_Loaded_Job(iReturn)
+        
         If iReturn = 0 Then
-            If sPath <> "" And sName <> "" Then
-                sCurrent = String.Concat(sPath, "\", sName)
-            Else
-                sCurrent = String.Concat(sPath, sName)
-            End If
-
             bConnected = sCurrent = sFilename
-
             If bConnected Then
                 mml.Add(String.Concat("Job already loaded: ", sFilename))
             Else
@@ -190,7 +201,7 @@ Public Class Clarity
     Friend Overloads Function Load_Job() As Boolean
 
         Return Load_Job(objSettings.Clarity_Job_Filename(sSettings_File_Name))
-        
+
     End Function
 
     Friend Overloads Function Load_Job(ByVal sJobName As String) As Boolean
@@ -254,7 +265,7 @@ Public Class Clarity
 
     Private Sub objFeedback_JobLoaded(ByVal JobPath As String, ByVal JobName As String) Handles objFeedback.JobLoaded
 
-        bJob_Loaded = True
+        bJob_loaded = True
         sJob_Name = String.Concat(JobPath, "\", JobName)
 
     End Sub
@@ -266,7 +277,7 @@ Public Class Clarity
 
         End Set
     End Property
-   
+
     Friend Property Loaded As Boolean
         Get
             Return bJob_loaded
@@ -288,10 +299,10 @@ Public Class Clarity
     Friend Overloads Function Update_Page(ByVal sContent As String) As Boolean
 
         Dim iPageNo As Integer
-        
+
 
         iPageNo = objSettings.Page_Number(sSettings_File_Name)
-        
+
         Return Update_Page(iPageNo, sContent)
 
 
@@ -426,7 +437,7 @@ Public Class Clarity
     Friend Function Stop_Playout() As Boolean
 
         iReturn = objClarity.StopPage(objSettings.Channel_Number(sSettings_File_Name))
-       
+
         If iReturn = 0 Then
             mml.Add(String.Concat("Playout stopped on channel: ", objSettings.Channel_Number(sSettings_File_Name)))
         Else
@@ -440,7 +451,7 @@ Public Class Clarity
     Friend Function Take_Offline() As Boolean
 
         iReturn = objClarity.SaveJob
-       
+
         Return iReturn = 0
 
     End Function
