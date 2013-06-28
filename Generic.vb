@@ -298,6 +298,18 @@ Module Generic
 
     End Function
 
+    Friend Function dbConnection() As OleDb.OleDbConnection
+
+        Dim sConnection As String
+        Dim objSettings As Settings_MuVi2
+
+        objSettings = New Settings_MuVi2
+
+        sConnection = objSettings.Data_Connection_String(sSettings_File_Name)
+        Return New OleDb.OleDbConnection(sConnection)
+
+    End Function
+
 End Module
 Public Class Format_Details
 
